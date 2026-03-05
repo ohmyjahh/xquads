@@ -1,0 +1,20 @@
+[
+  {
+    "slug": "sow",
+    "name": "Plataforma SOW",
+    "path": "/Users/rafa/Desktop/SOW",
+    "stack": ["Next.js", "Supabase", "Prisma"]
+  },
+  {
+    "slug": "crm-next",
+    "name": "CRM Studio Criativo",
+    "path": "/Users/rafa/crm-next",
+    "stack": ["Next.js", "Supabase", "Shadcn"]
+  },
+  {
+    "slug": "aios-core",
+    "name": "AIOS Core Framework",
+    "path": "/Users/rafa/aios-core",
+    "stack": ["Node.js", "TypeScript"]
+  }
+]
