@@ -9,6 +9,19 @@ export interface SquadAgent {
   name: string;
   title: string;
   activationCommand: string;
+  squadSlug: string;
+  icon: string;
+  role: string;
+  identity: string;
+  focus: string;
+  style: string;
+  tone: string;
+  greeting: string;
+  whenToUse: string;
+  archetype: string;
+  realPerson: boolean;
+  born: string;
+  died: string;
 }
 
 export interface SquadTask {
@@ -50,10 +63,22 @@ export interface Squad {
 
 const SQUADS_PATH = path.join(AIOS_CORE_PATH, 'squads');
 
-function parseAgentFile(squadDir: string, filename: string, slashPrefix: string): SquadAgent {
+function parseAgentFile(squadDir: string, filename: string, slashPrefix: string, squadSlug: string): SquadAgent {
   const id = filename.replace(/\.md$/, '');
   let name = id;
   let title = id;
+  let icon = '';
+  let role = '';
+  let identity = '';
+  let focus = '';
+  let style = '';
+  let tone = '';
+  let greeting = '';
+  let whenToUse = '';
+  let archetype = '';
+  let realPerson = false;
+  let born = '';
+  let died = '';
 
   const filePath = path.join(squadDir, 'agents', filename);
   if (fs.existsSync(filePath)) {
@@ -64,9 +89,35 @@ function parseAgentFile(squadDir: string, filename: string, slashPrefix: string)
         name = titleMatch[1].trim();
         title = name;
       }
-      const nameMatch = content.match(/name:\s*["']?(.+?)["']?\s*$/m);
-      if (nameMatch) {
-        name = nameMatch[1].trim();
+
+      const yamlBlock = content.match(/```ya?ml\n([\s\S]*?)```/);
+      if (yamlBlock) {
+        const data = YAML.parse(yamlBlock[1]);
+        if (data?.agent) {
+          name = data.agent.name || name;
+          title = data.agent.title || title;
+          icon = data.agent.icon || '';
+          whenToUse = data.agent.whenToUse || '';
+        }
+        if (data?.persona_profile) {
+          archetype = data.persona_profile.archetype || '';
+          realPerson = data.persona_profile.real_person === true;
+          born = data.persona_profile.born || '';
+          died = data.persona_profile.died || '';
+          if (data.persona_profile.communication) {
+            tone = data.persona_profile.communication.tone || '';
+            greeting = data.persona_profile.communication.greeting || '';
+          }
+        }
+        if (data?.persona) {
+          role = data.persona.role || '';
+          identity = data.persona.identity || '';
+          style = data.persona.style || '';
+          focus = data.persona.focus || '';
+        }
+      } else {
+        const nameMatch = content.match(/name:\s*["']?(.+?)["']?\s*$/m);
+        if (nameMatch) name = nameMatch[1].trim();
       }
     } catch {
       // use defaults
@@ -79,6 +130,19 @@ function parseAgentFile(squadDir: string, filename: string, slashPrefix: string)
     name,
     title,
     activationCommand: `/${slashPrefix}:agents:${id}`,
+    squadSlug,
+    icon,
+    role,
+    identity,
+    focus,
+    style,
+    tone,
+    greeting,
+    whenToUse,
+    archetype,
+    realPerson,
+    born,
+    died,
   };
 }
 
@@ -141,7 +205,7 @@ export function parseSquads(): Squad[] {
         const workflowFiles: string[] = components.workflows || [];
         const checklistFiles: string[] = components.checklists || [];
 
-        const agents = agentFiles.map((f: string) => parseAgentFile(squadDir, f, slashPrefix));
+        const agents = agentFiles.map((f: string) => parseAgentFile(squadDir, f, slashPrefix, dir));
 
         const tasks: SquadTask[] = taskFiles.map((f: string) => ({
           filename: f,
@@ -190,4 +254,12 @@ export function parseSquads(): Squad[] {
 export function parseSquadBySlug(slug: string): Squad | null {
   const squads = parseSquads();
   return squads.find((s) => s.slug === slug) || null;
+}
+
+export function findAgent(squadSlug: string, agentId: string): { agent: SquadAgent; squad: Squad } | null {
+  const squad = parseSquadBySlug(squadSlug);
+  if (!squad) return null;
+  const agent = squad.agents.find((a) => a.id === agentId);
+  if (!agent) return null;
+  return { agent, squad };
 }

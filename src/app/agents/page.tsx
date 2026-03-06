@@ -28,7 +28,7 @@ export default function AgentsPage() {
   return (
     <div className="space-y-8">
       <p className="text-sm text-[#888]">
-        {totalAgents} agentes distribuidos em {squads.length} squads. Passe o mouse na foto para trocar.
+        {totalAgents} agentes distribuidos em {squads.length} squads. Clique no card para ver a bio.
       </p>
 
       {squads.map((squad) => (
@@ -47,22 +47,23 @@ export default function AgentsPage() {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
             {squad.agents.map((agent) => (
-              <Card
-                key={agent.id}
-                className="border-[#2A2A2E] bg-[#1A1A1D] hover:border-[#EA8049]/20 transition-colors"
-                style={{ borderLeftColor: SQUAD_COLORS[squad.slug] || '#666', borderLeftWidth: '3px' }}
-              >
-                <CardContent className="p-3 flex items-start gap-3">
-                  <AgentAvatar agentId={agent.id} size={40} />
-                  <div className="min-w-0 flex-1 space-y-1.5">
-                    <div>
-                      <p className="text-sm font-medium text-[#eee]">{agent.name}</p>
-                      <p className="text-[11px] text-[#666]">@{agent.id}</p>
+              <Link key={agent.id} href={`/agents/${squad.slug}/${agent.id}`}>
+                <Card
+                  className="border-[#2A2A2E] bg-[#1A1A1D] hover:border-[#EA8049]/30 hover:bg-[#1E1E21] transition-all cursor-pointer h-full"
+                  style={{ borderLeftColor: SQUAD_COLORS[squad.slug] || '#666', borderLeftWidth: '3px' }}
+                >
+                  <CardContent className="p-3 flex items-start gap-3">
+                    <AgentAvatar agentId={agent.id} size={40} />
+                    <div className="min-w-0 flex-1 space-y-1.5">
+                      <div>
+                        <p className="text-sm font-medium text-[#eee]">{agent.name}</p>
+                        <p className="text-[11px] text-[#666]">@{agent.id}</p>
+                      </div>
+                      <CopyButton text={agent.activationCommand} />
                     </div>
-                    <CopyButton text={agent.activationCommand} />
-                  </div>
-                </CardContent>
-              </Card>
+                  </CardContent>
+                </Card>
+              </Link>
             ))}
           </div>
         </div>

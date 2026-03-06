@@ -7,6 +7,7 @@ import { CopyButton } from './copy-button';
 import { AgentAvatar } from '@/components/agents/agent-avatar';
 import type { Squad } from '@/lib/parsers/squad-parser';
 import { Users, ListChecks, GitBranch, Route, ChevronRight } from 'lucide-react';
+import Link from 'next/link';
 
 type Tab = 'agents' | 'workflows' | 'tasks' | 'routing';
 
@@ -96,24 +97,26 @@ export function SquadDetail({ squad }: { squad: Squad }) {
       {activeTab === 'agents' && (
         <div className="space-y-2">
           <p className="text-xs text-[#888] mb-4">
-            Clique no comando para copiar e cole no Claude Code para ativar o agente.
+            Clique no card para ver a bio do agente, ou copie o comando para ativar no Claude Code.
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
             {squad.agents.map((agent) => (
-              <Card key={agent.id} className="border-[#2A2A2E] bg-[#1A1A1D] hover:border-[#EA8049]/20 transition-colors"
-                style={{ borderLeftColor: color, borderLeftWidth: '3px' }}
-              >
-                <CardContent className="p-3 flex items-start gap-3">
-                  <AgentAvatar agentId={agent.id} size={40} />
-                  <div className="min-w-0 flex-1 space-y-1.5">
-                    <div>
-                      <p className="text-sm font-medium text-[#eee]">{agent.name}</p>
-                      <p className="text-[11px] text-[#666]">@{agent.id}</p>
+              <Link key={agent.id} href={`/agents/${squad.slug}/${agent.id}`}>
+                <Card className="border-[#2A2A2E] bg-[#1A1A1D] hover:border-[#EA8049]/30 hover:bg-[#1E1E21] transition-all cursor-pointer h-full"
+                  style={{ borderLeftColor: color, borderLeftWidth: '3px' }}
+                >
+                  <CardContent className="p-3 flex items-start gap-3">
+                    <AgentAvatar agentId={agent.id} size={40} />
+                    <div className="min-w-0 flex-1 space-y-1.5">
+                      <div>
+                        <p className="text-sm font-medium text-[#eee]">{agent.name}</p>
+                        <p className="text-[11px] text-[#666]">@{agent.id}</p>
+                      </div>
+                      <CopyButton text={agent.activationCommand} />
                     </div>
-                    <CopyButton text={agent.activationCommand} />
-                  </div>
-                </CardContent>
-              </Card>
+                  </CardContent>
+                </Card>
+              </Link>
             ))}
           </div>
         </div>
