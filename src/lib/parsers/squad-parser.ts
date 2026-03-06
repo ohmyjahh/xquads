@@ -63,6 +63,11 @@ export interface Squad {
 
 const SQUADS_PATH = path.join(AIOS_CORE_PATH, 'squads');
 
+function extractRegex(content: string, pattern: RegExp): string {
+  const m = content.match(pattern);
+  return m ? m[1].trim().replace(/^["']|["']$/g, '') : '';
+}
+
 function parseAgentFile(squadDir: string, filename: string, slashPrefix: string, squadSlug: string): SquadAgent {
   const id = filename.replace(/\.md$/, '');
   let name = id;
@@ -90,34 +95,56 @@ function parseAgentFile(squadDir: string, filename: string, slashPrefix: string,
         title = name;
       }
 
+      let parsed = false;
       const yamlBlock = content.match(/```ya?ml\n([\s\S]*?)```/);
       if (yamlBlock) {
-        const data = YAML.parse(yamlBlock[1]);
-        if (data?.agent) {
-          name = data.agent.name || name;
-          title = data.agent.title || title;
-          icon = data.agent.icon || '';
-          whenToUse = data.agent.whenToUse || '';
-        }
-        if (data?.persona_profile) {
-          archetype = data.persona_profile.archetype || '';
-          realPerson = data.persona_profile.real_person === true;
-          born = data.persona_profile.born || '';
-          died = data.persona_profile.died || '';
-          if (data.persona_profile.communication) {
-            tone = data.persona_profile.communication.tone || '';
-            greeting = data.persona_profile.communication.greeting || '';
+        try {
+          const data = YAML.parse(yamlBlock[1]);
+          if (data?.agent) {
+            name = data.agent.name || name;
+            title = data.agent.title || title;
+            icon = data.agent.icon || '';
+            whenToUse = data.agent.whenToUse || '';
           }
+          if (data?.persona_profile) {
+            archetype = data.persona_profile.archetype || '';
+            realPerson = data.persona_profile.real_person === true;
+            born = data.persona_profile.born || '';
+            died = data.persona_profile.died || '';
+            if (data.persona_profile.communication) {
+              tone = data.persona_profile.communication.tone || '';
+              greeting = data.persona_profile.communication.greeting || '';
+            }
+          }
+          if (data?.persona) {
+            role = data.persona.role || '';
+            identity = data.persona.identity || '';
+            style = data.persona.style || '';
+            focus = data.persona.focus || '';
+          }
+          parsed = true;
+        } catch {
+          // YAML parse failed, fall through to regex
         }
-        if (data?.persona) {
-          role = data.persona.role || '';
-          identity = data.persona.identity || '';
-          style = data.persona.style || '';
-          focus = data.persona.focus || '';
-        }
-      } else {
-        const nameMatch = content.match(/name:\s*["']?(.+?)["']?\s*$/m);
-        if (nameMatch) name = nameMatch[1].trim();
+      }
+
+      if (!parsed) {
+        // Regex fallback for broken YAML
+        const raw = yamlBlock ? yamlBlock[1] : content;
+        name = extractRegex(raw, /^\s*name:\s*["']?(.+?)["']?\s*$/m) || name;
+        title = extractRegex(raw, /^\s*title:\s*["']?(.+?)["']?\s*$/m) || title;
+        icon = extractRegex(raw, /^\s*icon:\s*["']?(.+?)["']?\s*$/m) || icon;
+        role = extractRegex(raw, /^\s*role:\s*["']?(.+?)["']?\s*$/m) || role;
+        identity = extractRegex(raw, /^\s*identity:\s*["']?(.+?)["']?\s*$/m) || identity;
+        focus = extractRegex(raw, /^\s*focus:\s*["']?(.+?)["']?\s*$/m) || focus;
+        style = extractRegex(raw, /^\s*style:\s*["']?(.+?)["']?\s*$/m) || style;
+        tone = extractRegex(raw, /^\s*tone:\s*["']?(.+?)["']?\s*$/m) || tone;
+        greeting = extractRegex(raw, /^\s*greeting:\s*["']?(.+?)["']?\s*$/m) || greeting;
+        whenToUse = extractRegex(raw, /^\s*whenToUse:\s*["']?(.+?)["']?\s*$/m) || whenToUse;
+        archetype = extractRegex(raw, /^\s*archetype:\s*["']?(.+?)["']?\s*$/m) || archetype;
+        born = extractRegex(raw, /^\s*born:\s*["']?(.+?)["']?\s*$/m) || born;
+        died = extractRegex(raw, /^\s*died:\s*["']?(.+?)["']?\s*$/m) || died;
+        realPerson = /real_person:\s*true/i.test(raw);
       }
     } catch {
       // use defaults

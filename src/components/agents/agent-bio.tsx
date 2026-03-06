@@ -4,8 +4,9 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { CopyButton } from '@/components/squads/copy-button';
 import { AgentAvatar } from './agent-avatar';
+import { AGENT_BIOS_PT } from '@/lib/data/agent-bios-pt';
 import type { SquadAgent } from '@/lib/parsers/squad-parser';
-import { Sparkles, Target, MessageCircle, User, Calendar } from 'lucide-react';
+import { BookOpen, Target, MessageCircle, Sparkles, Calendar } from 'lucide-react';
 
 interface AgentBioProps {
   agent: SquadAgent;
@@ -14,6 +15,8 @@ interface AgentBioProps {
 }
 
 export function AgentBio({ agent, squadName, squadColor }: AgentBioProps) {
+  const bio = AGENT_BIOS_PT[agent.id];
+
   return (
     <div className="space-y-5">
       {/* Hero Card */}
@@ -26,7 +29,7 @@ export function AgentBio({ agent, squadName, squadColor }: AgentBioProps) {
               <div className="flex items-start justify-between gap-3">
                 <div>
                   <h1 className="text-2xl font-bold text-white">{agent.name}</h1>
-                  <p className="text-sm text-[#888] mt-0.5">{agent.title}</p>
+                  <p className="text-sm text-[#888] mt-0.5">{agent.role || agent.title}</p>
                 </div>
                 {agent.icon && (
                   <span className="text-3xl shrink-0">{agent.icon}</span>
@@ -50,7 +53,7 @@ export function AgentBio({ agent, squadName, squadColor }: AgentBioProps) {
                   </Badge>
                 )}
                 {agent.realPerson && (
-                  <Badge variant="secondary" className="bg-[#262629] text-[#888] text-xs border border-[#2A2A2E]">
+                  <Badge variant="secondary" className="bg-[#F07652]/10 text-[#F07652] text-xs border border-[#F07652]/20">
                     Pessoa Real
                   </Badge>
                 )}
@@ -59,7 +62,7 @@ export function AgentBio({ agent, squadName, squadColor }: AgentBioProps) {
                 <div className="flex items-center gap-1.5 text-xs text-[#666] pt-0.5">
                   <Calendar className="h-3 w-3" />
                   {agent.born && <span>{agent.born}</span>}
-                  {agent.born && agent.died && <span>-</span>}
+                  {agent.born && agent.died && <span> — </span>}
                   {agent.died && <span>{agent.died}</span>}
                 </div>
               )}
@@ -71,49 +74,45 @@ export function AgentBio({ agent, squadName, squadColor }: AgentBioProps) {
         </CardContent>
       </Card>
 
-      {/* Bio / Identity */}
-      {agent.identity && (
+      {/* Bio em Portugues */}
+      {bio && (
+        <Card className="border-[#2A2A2E] bg-[#1A1A1D]">
+          <CardContent className="p-5">
+            <div className="flex items-center gap-2 mb-4">
+              <BookOpen className="h-4 w-4 text-[#EA8049]" />
+              <h2 className="text-sm font-semibold text-white">Biografia</h2>
+            </div>
+            <div className="space-y-3">
+              {bio.split('\n\n').map((paragraph, i) => (
+                <p key={i} className="text-sm text-[#ccc] leading-relaxed">
+                  {paragraph}
+                </p>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Especialidades */}
+      {agent.focus && (
         <Card className="border-[#2A2A2E] bg-[#1A1A1D]">
           <CardContent className="p-5">
             <div className="flex items-center gap-2 mb-3">
-              <User className="h-4 w-4 text-[#EA8049]" />
-              <h2 className="text-sm font-semibold text-white">Sobre</h2>
+              <Target className="h-4 w-4 text-[#8B5CF6]" />
+              <h2 className="text-sm font-semibold text-white">Especialidades</h2>
             </div>
-            <p className="text-sm text-[#ccc] leading-relaxed">{agent.identity}</p>
+            <div className="flex flex-wrap gap-1.5">
+              {agent.focus.split(',').map((f) => (
+                <Badge key={f.trim()} variant="secondary" className="bg-[#262629] text-[#aaa] text-xs border border-[#2A2A2E] py-1">
+                  {f.trim()}
+                </Badge>
+              ))}
+            </div>
           </CardContent>
         </Card>
       )}
 
-      {/* Role & Focus */}
-      {(agent.role || agent.focus) && (
-        <Card className="border-[#2A2A2E] bg-[#1A1A1D]">
-          <CardContent className="p-5 space-y-4">
-            {agent.role && (
-              <div>
-                <div className="flex items-center gap-2 mb-2">
-                  <Target className="h-4 w-4 text-[#8B5CF6]" />
-                  <h2 className="text-sm font-semibold text-white">Funcao</h2>
-                </div>
-                <p className="text-sm text-[#ccc]">{agent.role}</p>
-              </div>
-            )}
-            {agent.focus && (
-              <div>
-                <p className="text-xs font-medium text-[#888] uppercase tracking-wider mb-2">Especialidades</p>
-                <div className="flex flex-wrap gap-1.5">
-                  {agent.focus.split(',').map((f) => (
-                    <Badge key={f.trim()} variant="secondary" className="bg-[#262629] text-[#aaa] text-xs border border-[#2A2A2E]">
-                      {f.trim()}
-                    </Badge>
-                  ))}
-                </div>
-              </div>
-            )}
-          </CardContent>
-        </Card>
-      )}
-
-      {/* When to Use */}
+      {/* Quando Usar */}
       {agent.whenToUse && (
         <Card className="border-[#2A2A2E] bg-[#1A1A1D]">
           <CardContent className="p-5">
@@ -126,32 +125,17 @@ export function AgentBio({ agent, squadName, squadColor }: AgentBioProps) {
         </Card>
       )}
 
-      {/* Style & Communication */}
-      {(agent.style || agent.tone || agent.greeting) && (
+      {/* Saudacao */}
+      {agent.greeting && (
         <Card className="border-[#2A2A2E] bg-[#1A1A1D]">
-          <CardContent className="p-5 space-y-4">
-            <div className="flex items-center gap-2 mb-1">
+          <CardContent className="p-5">
+            <div className="flex items-center gap-2 mb-3">
               <MessageCircle className="h-4 w-4 text-[#06B6D4]" />
-              <h2 className="text-sm font-semibold text-white">Estilo de Comunicacao</h2>
+              <h2 className="text-sm font-semibold text-white">Saudacao do Agente</h2>
             </div>
-            {agent.tone && (
-              <div>
-                <p className="text-xs font-medium text-[#888] uppercase tracking-wider mb-1.5">Tom</p>
-                <p className="text-sm text-[#ccc]">{agent.tone}</p>
-              </div>
-            )}
-            {agent.style && (
-              <div>
-                <p className="text-xs font-medium text-[#888] uppercase tracking-wider mb-1.5">Estilo</p>
-                <p className="text-sm text-[#ccc] leading-relaxed">{agent.style}</p>
-              </div>
-            )}
-            {agent.greeting && (
-              <div className="rounded-xl bg-[#262629] border border-[#2A2A2E] p-4">
-                <p className="text-xs font-medium text-[#888] uppercase tracking-wider mb-2">Saudacao</p>
-                <p className="text-sm text-[#ccc] leading-relaxed italic">&ldquo;{agent.greeting}&rdquo;</p>
-              </div>
-            )}
+            <div className="rounded-xl bg-[#262629] border border-[#2A2A2E] p-4">
+              <p className="text-sm text-[#ccc] leading-relaxed italic">&ldquo;{agent.greeting}&rdquo;</p>
+            </div>
           </CardContent>
         </Card>
       )}
