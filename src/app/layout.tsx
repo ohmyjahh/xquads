@@ -16,8 +16,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "AIOS Dashboard",
-  description: "Painel de gerenciamento Synkra AIOS",
+  title: "Xquads — As maiores mentes trabalhando para voce",
+  description: "Squads de agentes IA especializados. As maiores referencias do mundo transformadas em agentes prontos para trabalhar no seu projeto.",
 };
 
 export default function RootLayout({

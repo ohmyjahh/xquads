@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { parseAgents } from '@/lib/parsers/agent-parser';
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export async function GET() {
   const agents = parseAgents();

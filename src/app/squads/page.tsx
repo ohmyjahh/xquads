@@ -2,7 +2,7 @@ import { parseSquads } from '@/lib/parsers/squad-parser';
 import { SquadCard } from '@/components/squads/squad-card';
 import { Card, CardContent } from '@/components/ui/card';
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export default function SquadsPage() {
   const squads = parseSquads();

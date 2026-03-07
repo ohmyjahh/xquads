@@ -1,166 +1,142 @@
 import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { parseSquads } from '@/lib/parsers/squad-parser';
-import { parseWorkflows } from '@/lib/parsers/workflow-parser';
-import { parseStories } from '@/lib/parsers/story-parser';
-import { getProjects } from '@/lib/config.server';
-import fs from 'fs';
 import Link from 'next/link';
+import { Users, Workflow, ListChecks, Shield, Sparkles, Brain, Target, Zap, ArrowRight } from 'lucide-react';
 
-export const dynamic = 'force-dynamic';
-
-const SQUAD_COLORS: Record<string, string> = {
-  'brand-squad': '#E91E63',
-  'copy-squad': '#FF9800',
-  'hormozi-squad': '#F44336',
-  'traffic-masters': '#3B82F6',
-  'design-squad': '#8B5CF6',
-  'storytelling': '#06B6D4',
-  'advisory-board': '#6B7280',
-  'cybersecurity': '#10B981',
-  'movement': '#F97316',
-  'data-squad': '#6366F1',
-  'c-level-squad': '#92400E',
-};
+export const revalidate = 60;
 
 export default function HomePage() {
   const squads = parseSquads();
-  const workflows = parseWorkflows();
-  const PROJECTS = getProjects();
-
   const totalAgents = squads.reduce((acc, s) => acc + s.agents.length, 0);
-  const totalSquadWorkflows = squads.reduce((acc, s) => acc + s.workflows.length, 0);
-
-  let totalStories = 0;
-  let storiesInProgress = 0;
-  let storiesDone = 0;
-  const projectData: Array<{
-    slug: string;
-    name: string;
-    exists: boolean;
-    storyCount: number;
-    doneCount: number;
-    inProgressCount: number;
-  }> = [];
-
-  for (const p of PROJECTS) {
-    const exists = fs.existsSync(p.path);
-    if (!exists) {
-      projectData.push({ slug: p.slug, name: p.name, exists, storyCount: 0, doneCount: 0, inProgressCount: 0 });
-      continue;
-    }
-    const stories = parseStories(p.path);
-    const done = stories.filter((s) => s.status === 'Done').length;
-    const inProg = stories.filter((s) => s.status === 'InProgress').length;
-    totalStories += stories.length;
-    storiesDone += done;
-    storiesInProgress += inProg;
-    projectData.push({
-      slug: p.slug,
-      name: p.name,
-      exists,
-      storyCount: stories.length,
-      doneCount: done,
-      inProgressCount: inProg,
-    });
-  }
-
-  const stats = [
-    { label: 'Squads', value: squads.length, color: 'text-[#F07652]', href: '/squads' },
-    { label: 'Agentes', value: totalAgents, color: 'text-[#3BA856]', href: '/squads' },
-    { label: 'Projetos', value: PROJECTS.length, color: 'text-[#eee]', href: '/projects' },
-    { label: 'Workflows', value: workflows.length + totalSquadWorkflows, color: 'text-[#8B5CF6]', href: '/workflows' },
-    { label: 'Em Progresso', value: storiesInProgress, color: 'text-[#FBBF24]', href: null },
-    { label: 'Concluidas', value: storiesDone, color: 'text-[#3BA856]', href: null },
-  ];
+  const totalWorkflows = squads.reduce((acc, s) => acc + s.workflows.length, 0);
+  const totalTasks = squads.reduce((acc, s) => acc + s.tasks.length, 0);
 
   return (
-    <div className="space-y-8">
-      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
-        {stats.map((stat) => {
-          const content = (
-            <Card className="border-[#2A2A2E] bg-[#1A1A1D] hover:border-[#EA8049]/30 transition-all duration-200 hover:shadow-lg hover:shadow-[#EA8049]/5">
-              <CardContent className="p-4 text-center">
-                <p className={`text-3xl font-bold ${stat.color}`}>{stat.value}</p>
-                <p className="text-xs text-[#888] mt-1">{stat.label}</p>
-              </CardContent>
-            </Card>
-          );
-          return stat.href ? (
-            <Link key={stat.label} href={stat.href}>{content}</Link>
-          ) : (
-            <div key={stat.label}>{content}</div>
-          );
-        })}
+    <div className="max-w-4xl mx-auto space-y-12 py-4">
+      {/* Hero */}
+      <div className="text-center space-y-4">
+        <div className="inline-flex items-center gap-2 rounded-full bg-[#EA8049]/10 border border-[#EA8049]/20 px-4 py-1.5 text-xs font-medium text-[#EA8049]">
+          <Sparkles className="h-3.5 w-3.5" />
+          Squads de Agentes IA Especializados
+        </div>
+        <h1 className="text-4xl sm:text-5xl font-bold text-white tracking-tight">
+          X<span className="text-[#EA8049]">quads</span>
+        </h1>
+        <p className="text-lg text-[#888] max-w-2xl mx-auto leading-relaxed">
+          As maiores mentes trabalhando para voce
+        </p>
       </div>
 
-      {/* Squads */}
-      <div>
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-semibold text-white">Squads</h3>
-          <Link href="/squads" className="text-xs text-[#F07652] hover:text-[#EA8049] transition-colors font-medium">
-            Ver todos &rarr;
-          </Link>
+      {/* Stats compactos */}
+      <div className="grid grid-cols-4 gap-3">
+        {[
+          { icon: Shield, label: 'Squads', value: squads.length, color: '#F07652' },
+          { icon: Users, label: 'Agentes', value: totalAgents, color: '#3BA856' },
+          { icon: Workflow, label: 'Workflows', value: totalWorkflows, color: '#8B5CF6' },
+          { icon: ListChecks, label: 'Tasks', value: totalTasks, color: '#FBBF24' },
+        ].map((s) => (
+          <Card key={s.label} className="border-[#2A2A2E] bg-[#1A1A1D]">
+            <CardContent className="p-4 flex items-center gap-3">
+              <s.icon className="h-5 w-5 shrink-0" style={{ color: s.color }} />
+              <div>
+                <p className="text-xl font-bold text-white">{s.value}</p>
+                <p className="text-[11px] text-[#666]">{s.label}</p>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+
+      {/* O que e o Xquads */}
+      <div className="space-y-4">
+        <h2 className="text-xl font-semibold text-white">O que e o Xquads?</h2>
+        <div className="space-y-3 text-sm text-[#bbb] leading-relaxed">
+          <p>
+            O <span className="text-white font-medium">Xquads</span> e um sistema de inteligencia artificial
+            que organiza agentes especializados em squads tematicos. Cada squad reune as maiores referencias
+            de uma area — copywriters lendarios, estrategistas de trafego, mestres de storytelling, consultores
+            de branding, especialistas em cybersecurity e muito mais — todos transformados em agentes de IA
+            prontos para trabalhar no seu projeto.
+          </p>
+          <p>
+            Em vez de usar uma IA generica que sabe um pouco de tudo, voce ativa o especialista certo
+            para cada situacao. Precisa de uma oferta irresistivel? O squad do Hormozi entra em acao.
+            Precisa de copy que converte? Gary Halbert, Eugene Schwartz e David Ogilvy estao a um comando de distancia.
+            Quer construir um movimento? O squad de Movement cria a arquitetura completa.
+          </p>
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-3">
-          {squads.map((squad) => (
-            <Link key={squad.slug} href={`/squads/${squad.slug}`}>
-              <Card
-                className="border-[#2A2A2E] bg-[#1A1A1D] hover:border-[#EA8049]/30 transition-all duration-200 cursor-pointer hover:shadow-lg hover:shadow-black/20"
-                style={{ borderTopColor: SQUAD_COLORS[squad.slug] || '#666', borderTopWidth: '3px' }}
-              >
-                <CardContent className="p-4 text-center">
-                  <p className="text-sm font-semibold text-[#eee] truncate">{squad.shortTitle}</p>
-                  <p className="text-xs text-[#888] mt-1">{squad.agents.length} agentes</p>
-                </CardContent>
-              </Card>
-            </Link>
+      </div>
+
+      {/* Por que criamos */}
+      <div className="space-y-4">
+        <h2 className="text-xl font-semibold text-white">Por que criamos isso?</h2>
+        <div className="space-y-3 text-sm text-[#bbb] leading-relaxed">
+          <p>
+            A maioria das ferramentas de IA trata todos os problemas da mesma forma — com um modelo generico
+            que nao entende o contexto do seu negocio. Nos acreditamos que a IA so se torna realmente poderosa
+            quando ela e <span className="text-white font-medium">especializada, contextualizada e organizada</span>.
+          </p>
+          <p>
+            Criamos o Xquads porque vimos que empreendedores e equipes precisam de mais do que respostas
+            genericas. Eles precisam de consultores virtuais que pensem como os melhores do mundo em cada
+            disciplina — com frameworks reais, metodologias comprovadas e a profundidade de quem dedicou
+            a vida inteira a um campo.
+          </p>
+        </div>
+      </div>
+
+      {/* Pilares */}
+      <div className="space-y-5">
+        <h2 className="text-xl font-semibold text-white">Como funciona</h2>
+        <div className="grid gap-4 sm:grid-cols-3">
+          {[
+            {
+              icon: Brain,
+              color: '#EA8049',
+              title: 'Agentes Especializados',
+              desc: 'Cada agente e uma persona de IA treinada com o conhecimento, estilo e frameworks de uma referencia real. Nao e um chatbot generico — e um especialista com personalidade, metodologia e foco definidos.',
+            },
+            {
+              icon: Target,
+              color: '#8B5CF6',
+              title: 'Workflows Inteligentes',
+              desc: 'Workflows conectam agentes em sequencias logicas. Um workflow de criacao de oferta, por exemplo, passa pelo estrategista, copywriter e especialista em pricing automaticamente, cada um contribuindo com sua expertise.',
+            },
+            {
+              icon: Zap,
+              color: '#FBBF24',
+              title: 'Tasks Executaveis',
+              desc: 'Tasks sao acoes concretas que os agentes executam — criar uma oferta, auditar um negocio, gerar hooks, montar um lancamento. Cada task tem inputs, outputs e criterios de qualidade definidos.',
+            },
+          ].map((pillar) => (
+            <Card key={pillar.title} className="border-[#2A2A2E] bg-[#1A1A1D]">
+              <CardContent className="p-5 space-y-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded-lg" style={{ backgroundColor: `${pillar.color}15` }}>
+                  <pillar.icon className="h-5 w-5" style={{ color: pillar.color }} />
+                </div>
+                <h3 className="text-sm font-semibold text-white">{pillar.title}</h3>
+                <p className="text-xs text-[#888] leading-relaxed">{pillar.desc}</p>
+              </CardContent>
+            </Card>
           ))}
         </div>
       </div>
 
-      {/* Projetos */}
-      <div>
-        <h3 className="text-lg font-semibold text-white mb-4">Projetos</h3>
-        <div className="space-y-2">
-          {projectData.map((p) => {
-            const progress = p.storyCount > 0 ? Math.round((p.doneCount / p.storyCount) * 100) : 0;
-            return (
-              <Link key={p.slug} href={`/projects/${p.slug}`}>
-                <Card className="border-[#2A2A2E] bg-[#1A1A1D] hover:border-[#EA8049]/30 transition-all duration-200 cursor-pointer">
-                  <CardContent className="flex items-center gap-4 p-4">
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2">
-                        <h4 className="font-medium text-[#eee] truncate">{p.name}</h4>
-                        {!p.exists && (
-                          <Badge variant="secondary" className="bg-red-900/30 text-red-400 text-xs shrink-0 border border-red-800/30">
-                            Nao Encontrado
-                          </Badge>
-                        )}
-                      </div>
-                      <p className="text-xs text-[#888] mt-0.5">
-                        {p.storyCount} historias &middot;{' '}
-                        <span className="text-[#FBBF24]">{p.inProgressCount} em progresso</span> &middot;{' '}
-                        <span className="text-[#3BA856]">{p.doneCount} concluidas</span>
-                      </p>
-                    </div>
-                    <div className="flex items-center gap-3 shrink-0">
-                      <div className="w-32 h-2 rounded-full bg-[#262629] overflow-hidden">
-                        <div
-                          className="h-full rounded-full bg-[#3BA856] transition-all"
-                          style={{ width: `${progress}%` }}
-                        />
-                      </div>
-                      <span className="text-sm font-medium text-[#888] w-10 text-right">
-                        {progress}%
-                      </span>
-                    </div>
-                  </CardContent>
-                </Card>
-              </Link>
-            );
-          })}
-        </div>
+      {/* CTA */}
+      <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2 pb-4">
+        <Link
+          href="/squads"
+          className="inline-flex items-center gap-2 rounded-lg bg-[#EA8049] px-6 py-2.5 text-sm font-semibold text-white hover:bg-[#d0703f] transition-colors"
+        >
+          Explorar Squads
+          <ArrowRight className="h-4 w-4" />
+        </Link>
+        <Link
+          href="/agents"
+          className="inline-flex items-center gap-2 rounded-lg bg-[#1E1E21] border border-[#2A2A2E] px-6 py-2.5 text-sm font-medium text-[#ccc] hover:border-[#EA8049]/30 hover:text-white transition-colors"
+        >
+          Ver Agentes
+        </Link>
       </div>
     </div>
   );

@@ -63,6 +63,11 @@ export interface Squad {
 
 const SQUADS_PATH = path.join(AIOS_CORE_PATH, 'squads');
 
+// In-memory cache to avoid re-reading ~200 files on every request
+let _cachedSquads: Squad[] | null = null;
+let _cacheTimestamp = 0;
+const CACHE_TTL_MS = 60_000; // 1 minute
+
 function extractRegex(content: string, pattern: RegExp): string {
   const m = content.match(pattern);
   return m ? m[1].trim().replace(/^["']|["']$/g, '') : '';
@@ -209,6 +214,11 @@ function parseWorkflowFile(squadDir: string, filename: string): SquadWorkflow | 
 }
 
 export function parseSquads(): Squad[] {
+  const now = Date.now();
+  if (_cachedSquads && now - _cacheTimestamp < CACHE_TTL_MS) {
+    return _cachedSquads;
+  }
+
   if (!fs.existsSync(SQUADS_PATH)) return [];
 
   const dirs = fs.readdirSync(SQUADS_PATH).filter((d) => {
@@ -216,7 +226,7 @@ export function parseSquads(): Squad[] {
     return fs.existsSync(manifestPath);
   });
 
-  return dirs
+  const result = dirs
     .map((dir) => {
       try {
         const squadDir = path.join(SQUADS_PATH, dir);
@@ -276,6 +286,10 @@ export function parseSquads(): Squad[] {
     })
     .filter((s): s is Squad => s !== null)
     .sort((a, b) => a.shortTitle.localeCompare(b.shortTitle));
+
+  _cachedSquads = result;
+  _cacheTimestamp = now;
+  return result;
 }
 
 export function parseSquadBySlug(slug: string): Squad | null {

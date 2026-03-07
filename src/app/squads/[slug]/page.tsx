@@ -3,7 +3,7 @@ import { SquadDetail } from '@/components/squads/squad-detail';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export default async function SquadDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;

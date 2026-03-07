@@ -5,7 +5,7 @@ import { CopyButton } from '@/components/squads/copy-button';
 import { AgentAvatar } from '@/components/agents/agent-avatar';
 import Link from 'next/link';
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 const SQUAD_COLORS: Record<string, string> = {
   'brand-squad': '#E91E63',

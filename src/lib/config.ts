@@ -5,7 +5,9 @@ export interface ProjectConfig {
   stack: string[];
 }
 
-export const AIOS_CORE_PATH = '/Users/rafa/aios-core';
+import path from 'path';
+
+export const AIOS_CORE_PATH = process.env.AIOS_CORE_PATH || path.join(process.cwd(), '.');
 export const AIOS_AGENTS_PATH = `${AIOS_CORE_PATH}/.aios-core/development/agents`;
 export const AIOS_WORKFLOWS_PATH = `${AIOS_CORE_PATH}/.aios-core/development/workflows`;
 export const AIOS_PERSONAS_PATH = `${AIOS_CORE_PATH}/docs/agents/persona-definitions.yaml`;

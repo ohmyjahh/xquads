@@ -3,14 +3,13 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
-import { Home, Users, FolderKanban, GitBranch, Shield } from 'lucide-react';
+import { Home, Users, Shield, Download } from 'lucide-react';
 
 const NAV_ITEMS = [
   { href: '/', label: 'Inicio', icon: Home },
   { href: '/squads', label: 'Squads', icon: Shield },
   { href: '/agents', label: 'Agentes', icon: Users },
-  { href: '/projects', label: 'Projetos', icon: FolderKanban },
-  { href: '/workflows', label: 'Workflows', icon: GitBranch },
+  { href: '/downloads', label: 'Downloads', icon: Download },
 ];
 
 export function Sidebar() {
@@ -20,11 +19,11 @@ export function Sidebar() {
     <aside className="flex h-screen w-56 flex-col bg-[#141416] border-r border-[#262629]">
       <div className="flex items-center gap-2.5 px-5 py-5">
         <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-[#EA8049] to-[#c5603a]">
-          <span className="text-sm font-bold text-white">A</span>
+          <span className="text-sm font-bold text-white">X</span>
         </div>
         <div>
-          <h1 className="text-sm font-bold text-white tracking-tight">AIOS</h1>
-          <p className="text-[10px] text-[#666] leading-none">Dashboard</p>
+          <h1 className="text-sm font-bold text-white tracking-tight">Xquads</h1>
+          <p className="text-[10px] text-[#666] leading-none">As maiores mentes para voce</p>
         </div>
       </div>
 
@@ -54,7 +53,7 @@ export function Sidebar() {
       </nav>
 
       <div className="px-5 py-4">
-        <p className="text-[10px] text-[#444]">Synkra AIOS v4.0</p>
+        <p className="text-[10px] text-[#444]">Xquads by Synkra</p>
       </div>
     </aside>
   );
