@@ -4,13 +4,15 @@ import { useState, useRef, useEffect } from 'react';
 import { Camera, User } from 'lucide-react';
 import Image from 'next/image';
 
+const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || '';
+
 export function AgentAvatar({ agentId, size = 40 }: { agentId: string; size?: number }) {
   const [photoUrl, setPhotoUrl] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    fetch(`/api/agents/photo/${agentId}`)
+    fetch(`${BASE_PATH}/api/agents/photo/${agentId}`)
       .then((res) => res.json())
       .then((data) => {
         if (data.url) setPhotoUrl(data.url + '?t=' + Date.now());
@@ -28,7 +30,7 @@ export function AgentAvatar({ agentId, size = 40 }: { agentId: string; size?: nu
     formData.append('agentId', agentId);
 
     try {
-      const res = await fetch('/api/agents/upload', { method: 'POST', body: formData });
+      const res = await fetch(`${BASE_PATH}/api/agents/upload`, { method: 'POST', body: formData });
       const data = await res.json();
       if (data.url) setPhotoUrl(data.url + '?t=' + Date.now());
     } catch {
