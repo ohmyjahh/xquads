@@ -28,7 +28,7 @@ export default function HomePage() {
       </div>
 
       {/* Stats compactos */}
-      <div className="grid grid-cols-4 gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         {[
           { icon: Shield, label: 'Squads', value: squads.length, color: '#F07652' },
           { icon: Users, label: 'Agentes', value: totalAgents, color: '#3BA856' },

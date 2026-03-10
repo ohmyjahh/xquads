@@ -42,14 +42,14 @@ export function SquadDetail({ squad }: { squad: Squad }) {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-start justify-between">
+      <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
         <div className="space-y-2">
           <div className="flex items-center gap-3">
             <div className="h-1 w-8 rounded-full" style={{ backgroundColor: color }} />
-            <h1 className="text-2xl font-bold text-white">{squad.shortTitle}</h1>
+            <h1 className="text-xl md:text-2xl font-bold text-white">{squad.shortTitle}</h1>
             <Badge variant="secondary" className="bg-[#262629] text-[#888] border border-[#2A2A2E]">v{squad.version}</Badge>
           </div>
-          <p className="text-[#888] max-w-2xl">{squad.description}</p>
+          <p className="text-sm text-[#888] max-w-2xl">{squad.description}</p>
           <div className="flex flex-wrap gap-1.5 pt-1">
             {squad.tags.map((tag) => (
               <Badge key={tag} variant="secondary" className="bg-[#262629] text-[#666] text-xs border border-[#2A2A2E]">
@@ -58,24 +58,24 @@ export function SquadDetail({ squad }: { squad: Squad }) {
             ))}
           </div>
         </div>
-        <div className="grid grid-cols-3 gap-3 text-center">
-          <div className="rounded-xl bg-[#1A1A1D] border border-[#2A2A2E] px-5 py-3">
-            <p className="text-2xl font-bold text-[#F07652]">{squad.agents.length}</p>
+        <div className="grid grid-cols-3 gap-2 md:gap-3 text-center shrink-0">
+          <div className="rounded-xl bg-[#1A1A1D] border border-[#2A2A2E] px-3 md:px-5 py-3">
+            <p className="text-xl md:text-2xl font-bold text-[#F07652]">{squad.agents.length}</p>
             <p className="text-[10px] text-[#888] uppercase tracking-wider">Agentes</p>
           </div>
-          <div className="rounded-xl bg-[#1A1A1D] border border-[#2A2A2E] px-5 py-3">
-            <p className="text-2xl font-bold text-[#8B5CF6]">{squad.tasks.length}</p>
+          <div className="rounded-xl bg-[#1A1A1D] border border-[#2A2A2E] px-3 md:px-5 py-3">
+            <p className="text-xl md:text-2xl font-bold text-[#8B5CF6]">{squad.tasks.length}</p>
             <p className="text-[10px] text-[#888] uppercase tracking-wider">Tarefas</p>
           </div>
-          <div className="rounded-xl bg-[#1A1A1D] border border-[#2A2A2E] px-5 py-3">
-            <p className="text-2xl font-bold text-[#FBBF24]">{squad.workflows.length}</p>
+          <div className="rounded-xl bg-[#1A1A1D] border border-[#2A2A2E] px-3 md:px-5 py-3">
+            <p className="text-xl md:text-2xl font-bold text-[#FBBF24]">{squad.workflows.length}</p>
             <p className="text-[10px] text-[#888] uppercase tracking-wider">Workflows</p>
           </div>
         </div>
       </div>
 
       {/* Tabs */}
-      <div className="flex gap-1 border-b border-[#2A2A2E] pb-px">
+      <div className="flex gap-1 border-b border-[#2A2A2E] pb-px overflow-x-auto">
         {tabs.map((tab) => (
           <button
             key={tab.id}
