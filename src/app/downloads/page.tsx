@@ -1,8 +1,9 @@
-import { Card, CardContent } from '@/components/ui/card';
-import { Download, Github, Package, Terminal, FolderOpen, CheckCircle2, ArrowRight, Copy } from 'lucide-react';
-import Link from 'next/link';
+'use client';
 
-export const revalidate = 3600;
+import { useState } from 'react';
+import { Card, CardContent } from '@/components/ui/card';
+import { Download, Github, Package, Terminal, FolderOpen, CheckCircle2, ArrowRight } from 'lucide-react';
+import { LeadForm } from '@/components/downloads/lead-form';
 
 const INSTALL_STEPS_SQUADS = [
   { step: 1, text: 'Clique no botao abaixo para baixar o arquivo ZIP' },
@@ -19,8 +20,18 @@ const INSTALL_STEPS_REPO = [
 ];
 
 export default function DownloadsPage() {
+  const [showForm, setShowForm] = useState(false);
+
   return (
     <div className="space-y-8 max-w-4xl mx-auto">
+      {showForm && (
+        <LeadForm
+          onClose={() => setShowForm(false)}
+          downloadUrl="/downloads/aios-squads.zip"
+          downloadName="aios-squads"
+        />
+      )}
+
       <div>
         <h1 className="text-2xl font-bold text-white">Downloads</h1>
         <p className="text-sm text-[#888] mt-1">
@@ -81,14 +92,13 @@ export default function DownloadsPage() {
               </div>
 
               <div className="mt-6 flex flex-wrap gap-3">
-                <a
-                  href="/downloads/aios-squads.zip"
-                  download
+                <button
+                  onClick={() => setShowForm(true)}
                   className="inline-flex items-center gap-2 rounded-lg bg-[#EA8049] px-5 py-2.5 text-sm font-semibold text-white hover:bg-[#d0703f] transition-colors"
                 >
                   <Download className="h-4 w-4" />
                   Baixar Squads (ZIP)
-                </a>
+                </button>
                 <a
                   href="https://github.com/ohmyjahh/xquads-squads"
                   target="_blank"
