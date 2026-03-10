@@ -11,14 +11,13 @@ export async function POST(req: NextRequest) {
     const webhookUrl = process.env.GOOGLE_SHEETS_WEBHOOK;
 
     if (webhookUrl) {
-      // Fire-and-forget — nunca bloqueia o download
-      fetch(webhookUrl, {
+      await fetch(webhookUrl, {
         method: 'POST',
-        headers: { 'Content-Type': 'text/plain' }, // Apps Script lê melhor assim
+        headers: { 'Content-Type': 'text/plain' },
         body: JSON.stringify({
           email,
           phone,
-          download: downloadName ?? 'aios-squads',
+          download: downloadName ?? 'xquads',
           date: new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' }),
         }),
       }).catch((err) => console.error('Webhook error:', err));
