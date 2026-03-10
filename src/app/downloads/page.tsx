@@ -27,7 +27,7 @@ export default function DownloadsPage() {
       {showForm && (
         <LeadForm
           onClose={() => setShowForm(false)}
-          downloadUrl="/downloads/aios-squads.zip"
+          downloadUrl={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/downloads/aios-squads.zip`}
           downloadName="aios-squads"
         />
       )}
