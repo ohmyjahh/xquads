@@ -19,16 +19,46 @@ const INSTALL_STEPS_REPO = [
   { step: 4, cmd: 'npx aios-core install', desc: 'Execute o instalador do AIOS' },
 ];
 
+type ActiveForm = 'zip' | 'github-xquads' | 'github-aios-core' | null;
+
+function openUrl(url: string) {
+  window.open(url, '_blank', 'noopener,noreferrer');
+}
+
+function triggerDownload(url: string) {
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = '';
+  a.click();
+}
+
 export default function DownloadsPage() {
-  const [showForm, setShowForm] = useState(false);
+  const [activeForm, setActiveForm] = useState<ActiveForm>(null);
 
   return (
     <div className="space-y-8 max-w-4xl mx-auto">
-      {showForm && (
+      {activeForm === 'zip' && (
         <LeadForm
-          onClose={() => setShowForm(false)}
-          downloadUrl="/xquads/downloads/xquads.zip"
-          downloadName="xquads"
+          onClose={() => setActiveForm(null)}
+          source="xquads-zip"
+          type="download"
+          onSuccess={() => triggerDownload('/xquads/downloads/xquads.zip')}
+        />
+      )}
+      {activeForm === 'github-xquads' && (
+        <LeadForm
+          onClose={() => setActiveForm(null)}
+          source="github-xquads-squads"
+          type="github"
+          onSuccess={() => openUrl('https://github.com/ohmyjahh/xquads-squads')}
+        />
+      )}
+      {activeForm === 'github-aios-core' && (
+        <LeadForm
+          onClose={() => setActiveForm(null)}
+          source="github-aios-core"
+          type="github"
+          onSuccess={() => openUrl('https://github.com/SynkraAI/aios-core')}
         />
       )}
 
@@ -93,21 +123,19 @@ export default function DownloadsPage() {
 
               <div className="mt-6 flex flex-wrap gap-3">
                 <button
-                  onClick={() => setShowForm(true)}
+                  onClick={() => setActiveForm('zip')}
                   className="inline-flex items-center gap-2 rounded-lg bg-[#EA8049] px-5 py-2.5 text-sm font-semibold text-white hover:bg-[#d0703f] transition-colors"
                 >
                   <Download className="h-4 w-4" />
                   Baixar Xquads (ZIP)
                 </button>
-                <a
-                  href="https://github.com/ohmyjahh/xquads-squads"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <button
+                  onClick={() => setActiveForm('github-xquads')}
                   className="inline-flex items-center gap-2 rounded-lg bg-[#1E1E21] border border-[#2A2A2E] px-5 py-2.5 text-sm font-medium text-[#ccc] hover:border-[#EA8049]/30 hover:text-white transition-colors"
                 >
                   <Github className="h-4 w-4" />
                   Ver no GitHub
-                </a>
+                </button>
               </div>
             </div>
           </div>
@@ -167,15 +195,13 @@ export default function DownloadsPage() {
               </div>
 
               <div className="mt-6">
-                <a
-                  href="https://github.com/SynkraAI/aios-core"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <button
+                  onClick={() => setActiveForm('github-aios-core')}
                   className="inline-flex items-center gap-2 rounded-lg bg-[#8B5CF6] px-5 py-2.5 text-sm font-semibold text-white hover:bg-[#7C3AED] transition-colors"
                 >
                   <Github className="h-4 w-4" />
                   Acessar Repositorio no GitHub
-                </a>
+                </button>
               </div>
             </div>
           </div>
