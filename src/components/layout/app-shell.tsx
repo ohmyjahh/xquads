@@ -1,11 +1,26 @@
 'use client';
 
 import { useState } from 'react';
+import { usePathname } from 'next/navigation';
 import { Sidebar } from './sidebar';
 import { Header } from './header';
 
+const STANDALONE_ROUTES = ['/carrossel', '/instagram'];
+
 export function AppShell({ children }: { children: React.ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const pathname = usePathname();
+
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+  const cleanPath = pathname.replace(basePath, '') || '/';
+
+  if (STANDALONE_ROUTES.includes(cleanPath)) {
+    return (
+      <div className="min-h-screen bg-[#121214]">
+        <main className="p-4 md:p-6">{children}</main>
+      </div>
+    );
+  }
 
   return (
     <div className="flex h-screen bg-[#121214]">
