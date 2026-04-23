@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 import { Sidebar } from './sidebar';
 import { Header } from './header';
 
-const STANDALONE_ROUTES = ['/carrossel', '/instagram', '/idvisual'];
+const STANDALONE_ROUTES = ['/carrossel', '/instagram', '/idvisual', '/arrow'];
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
