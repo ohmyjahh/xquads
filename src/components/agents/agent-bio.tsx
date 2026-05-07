@@ -76,7 +76,11 @@ export function AgentBio({ agent, squadName, squadColor }: AgentBioProps) {
                 </div>
               )}
               <div className="pt-2">
-                <CopyButton text={agent.activationCommand} className="bg-[#F07652]/10 text-[#F07652] border border-[#F07652]/20" />
+                <CopyButton
+                  text={agent.activationCommand}
+                  source={`agent-${agent.id}`}
+                  className="bg-[#F07652]/10 text-[#F07652] border border-[#F07652]/20"
+                />
               </div>
             </div>
           </div>

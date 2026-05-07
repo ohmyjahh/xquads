@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
 import { Copy, Check, Layers } from "lucide-react";
+import { useCopyWithLead } from "@/hooks/use-copy-with-lead";
+import { LeadForm } from "@/components/downloads/lead-form";
 
 const PROMPT = `Analise os prints que estou enviando. Sao slides de um carrossel de Instagram de referencia. Quero que voce extraia o padrao visual e de conteudo e crie uma predefinicao completa — um documento tecnico que serve como blueprint para recriar esse estilo em qualquer tema.
 
@@ -102,16 +103,20 @@ Se voce conhece os estilos abaixo, adicione uma tabela comparativa:
 7. **Formato do arquivo:** Markdown (.md), mesmo formato dos exemplos.`;
 
 export default function CarrosselPage() {
-  const [copied, setCopied] = useState(false);
+  const { copied, showLeadForm, leadSource, copy, closeLeadForm } = useCopyWithLead("prompt-carrossel");
 
-  const handleCopy = async () => {
-    await navigator.clipboard.writeText(PROMPT);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2500);
-  };
+  const handleCopy = () => copy(PROMPT);
 
   return (
     <div className="max-w-3xl mx-auto py-8 px-4 space-y-8">
+      {showLeadForm && (
+        <LeadForm
+          onClose={closeLeadForm}
+          source={leadSource}
+          type="copy"
+          onSuccess={closeLeadForm}
+        />
+      )}
       {/* Header */}
       <div className="text-center space-y-3">
         <div className="inline-flex items-center gap-2 rounded-full bg-[#EA8049]/10 border border-[#EA8049]/20 px-4 py-1.5 text-xs font-medium text-[#EA8049]">

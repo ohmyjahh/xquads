@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
 import { Copy, Check, Palette } from "lucide-react";
+import { useCopyWithLead } from "@/hooks/use-copy-with-lead";
+import { LeadForm } from "@/components/downloads/lead-form";
 
 const PROMPT = `# BRIEFING: Identidade Visual — "a Fundação"
 
@@ -86,16 +87,20 @@ Entregue **um único artifact HTML** estruturado como brand book navegável, com
 Antes do código, escreva 3-4 parágrafos de **rationale criativo** explicando as decisões (direção tipográfica, significado da paleta, conceito do símbolo). Depois entregue o artifact HTML completo.`;
 
 export default function IdVisualPage() {
-  const [copied, setCopied] = useState(false);
+  const { copied, showLeadForm, leadSource, copy, closeLeadForm } = useCopyWithLead("prompt-idvisual");
 
-  const handleCopy = async () => {
-    await navigator.clipboard.writeText(PROMPT);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2500);
-  };
+  const handleCopy = () => copy(PROMPT);
 
   return (
     <div className="max-w-3xl mx-auto py-8 px-4 space-y-8">
+      {showLeadForm && (
+        <LeadForm
+          onClose={closeLeadForm}
+          source={leadSource}
+          type="copy"
+          onSuccess={closeLeadForm}
+        />
+      )}
       {/* Header */}
       <div className="text-center space-y-3">
         <div className="inline-flex items-center gap-2 rounded-full bg-[#F5F0E8]/10 border border-[#F5F0E8]/20 px-4 py-1.5 text-xs font-medium text-[#F5F0E8]">

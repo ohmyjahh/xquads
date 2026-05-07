@@ -112,7 +112,7 @@ export function SquadDetail({ squad }: { squad: Squad }) {
                         <p className="text-sm font-medium text-[#eee]">{agent.name}</p>
                         <p className="text-[11px] text-[#666]">@{agent.id}</p>
                       </div>
-                      <CopyButton text={agent.activationCommand} />
+                      <CopyButton text={agent.activationCommand} source={`squad-${squad.slug}-agent-${agent.id}`} />
                     </div>
                   </CardContent>
                 </Card>
@@ -145,7 +145,7 @@ export function SquadDetail({ squad }: { squad: Squad }) {
                         </Badge>
                       )}
                       {wf.trigger && (
-                        <CopyButton text={wf.trigger} className="bg-[#F07652]/10 text-[#F07652] border border-[#F07652]/20" />
+                        <CopyButton text={wf.trigger} source={`squad-${squad.slug}-workflow-${wf.id}`} className="bg-[#F07652]/10 text-[#F07652] border border-[#F07652]/20" />
                       )}
                     </div>
                   </div>
@@ -196,7 +196,7 @@ export function SquadDetail({ squad }: { squad: Squad }) {
                     <p className="text-sm text-[#eee] truncate">{task.name}</p>
                     <p className="text-[10px] text-[#666] font-mono">{task.filename}</p>
                   </div>
-                  <CopyButton text={`*${task.id}`} />
+                  <CopyButton text={`*${task.id}`} source={`squad-${squad.slug}-task-${task.id}`} />
                 </CardContent>
               </Card>
             ))}
@@ -226,12 +226,14 @@ export function SquadDetail({ squad }: { squad: Squad }) {
                     <td className="py-2.5 px-4">
                       <CopyButton
                         text={`/${squad.slashPrefix}:agents:${val.primary}`}
+                        source={`squad-${squad.slug}-route-${key}-primary`}
                         className="bg-[#F07652]/10 text-[#F07652] border border-[#F07652]/20"
                       />
                     </td>
                     <td className="py-2.5 px-4">
                       <CopyButton
                         text={`/${squad.slashPrefix}:agents:${val.secondary}`}
+                        source={`squad-${squad.slug}-route-${key}-secondary`}
                         className="bg-[#262629] text-[#888] border border-[#2A2A2E]"
                       />
                     </td>

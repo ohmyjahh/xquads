@@ -13,6 +13,8 @@ import {
   AlertTriangle,
   Info,
 } from "lucide-react";
+import { useCopyWithLead } from "@/hooks/use-copy-with-lead";
+import { LeadForm } from "@/components/downloads/lead-form";
 
 const MCP_URL = "https://mcp.facebook.com/ads";
 
@@ -81,21 +83,30 @@ const STEPS = [
 export default function McpMetaPage() {
   const [copiedUrl, setCopiedUrl] = useState(false);
   const [copiedPromptIdx, setCopiedPromptIdx] = useState<number | null>(null);
+  const { showLeadForm, leadSource, copy, closeLeadForm } = useCopyWithLead("mcpmeta-url");
 
   const copyUrl = async () => {
-    await navigator.clipboard.writeText(MCP_URL);
+    await copy(MCP_URL, "mcpmeta-url");
     setCopiedUrl(true);
     setTimeout(() => setCopiedUrl(false), 2500);
   };
 
   const copyPrompt = async (text: string, idx: number) => {
-    await navigator.clipboard.writeText(text);
+    await copy(text, `mcpmeta-prompt-${idx}`);
     setCopiedPromptIdx(idx);
     setTimeout(() => setCopiedPromptIdx(null), 2000);
   };
 
   return (
     <div className="max-w-3xl mx-auto py-8 px-4 space-y-10">
+      {showLeadForm && (
+        <LeadForm
+          onClose={closeLeadForm}
+          source={leadSource}
+          type="copy"
+          onSuccess={closeLeadForm}
+        />
+      )}
       {/* Header */}
       <div className="text-center space-y-3">
         <div className="inline-flex items-center gap-2 rounded-full bg-[#1877F2]/10 border border-[#1877F2]/20 px-4 py-1.5 text-xs font-medium text-[#1877F2]">

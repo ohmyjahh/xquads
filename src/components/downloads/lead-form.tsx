@@ -1,12 +1,13 @@
 'use client';
 
 import { useState } from 'react';
-import { Download, Github, X, Loader2, CheckCircle2 } from 'lucide-react';
+import { Download, Github, X, Loader2, CheckCircle2, Copy } from 'lucide-react';
+import { markLeadCaptured } from '@/hooks/use-copy-with-lead';
 
 interface LeadFormProps {
   onClose: () => void;
   source: string;
-  type: 'download' | 'github';
+  type: 'download' | 'github' | 'copy';
   /** Chamado após lead salvo — execute o download ou redirecionamento aqui */
   onSuccess: () => void;
 }
@@ -19,6 +20,7 @@ export function LeadForm({ onClose, source, type, onSuccess }: LeadFormProps) {
   const [error, setError] = useState('');
 
   const isGithub = type === 'github';
+  const isCopy = type === 'copy';
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -35,6 +37,7 @@ export function LeadForm({ onClose, source, type, onSuccess }: LeadFormProps) {
 
       if (!res.ok) throw new Error('Erro ao salvar dados');
 
+      markLeadCaptured();
       setDone(true);
       setTimeout(() => onSuccess(), 800);
     } catch {
@@ -44,8 +47,8 @@ export function LeadForm({ onClose, source, type, onSuccess }: LeadFormProps) {
     }
   };
 
-  const accentColor = isGithub ? '#8B5CF6' : '#EA8049';
-  const accentHex = isGithub ? '#8B5CF6' : '#EA8049';
+  const accentColor = isGithub ? '#8B5CF6' : isCopy ? '#3BA856' : '#EA8049';
+  const accentHex = accentColor;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
@@ -66,21 +69,32 @@ export function LeadForm({ onClose, source, type, onSuccess }: LeadFormProps) {
                   className="flex h-10 w-10 items-center justify-center rounded-xl"
                   style={{ backgroundColor: `${accentHex}1A` }}
                 >
-                  {isGithub
-                    ? <Github className="h-5 w-5" style={{ color: accentColor }} />
-                    : <Download className="h-5 w-5" style={{ color: accentColor }} />
-                  }
+                  {isGithub ? (
+                    <Github className="h-5 w-5" style={{ color: accentColor }} />
+                  ) : isCopy ? (
+                    <Copy className="h-5 w-5" style={{ color: accentColor }} />
+                  ) : (
+                    <Download className="h-5 w-5" style={{ color: accentColor }} />
+                  )}
                 </div>
                 <div>
-                  <h2 className="text-base font-semibold text-white">Quase lá!</h2>
+                  <h2 className="text-base font-semibold text-white">
+                    {isCopy ? 'Conteúdo copiado!' : 'Quase lá!'}
+                  </h2>
                   <p className="text-xs text-[#666]">
-                    {isGithub ? 'Preencha para acessar o repositório' : 'Preencha para liberar o download'}
+                    {isGithub
+                      ? 'Preencha para acessar o repositório'
+                      : isCopy
+                      ? 'Já está no seu clipboard — só falta seu contato'
+                      : 'Preencha para liberar o download'}
                   </p>
                 </div>
               </div>
 
               <p className="text-sm text-[#888] mt-4 mb-5">
-                Deixa seu e-mail e telefone — a gente pode te avisar quando sair novidades nos squads.
+                {isCopy
+                  ? 'Deixa seu e-mail e telefone — a gente te avisa quando sair novidades, novos prompts e ferramentas.'
+                  : 'Deixa seu e-mail e telefone — a gente pode te avisar quando sair novidades nos squads.'}
               </p>
 
               <form onSubmit={handleSubmit} className="space-y-3">
@@ -125,6 +139,8 @@ export function LeadForm({ onClose, source, type, onSuccess }: LeadFormProps) {
                     <><Loader2 className="h-4 w-4 animate-spin" /> Salvando...</>
                   ) : isGithub ? (
                     <><Github className="h-4 w-4" /> Acessar GitHub</>
+                  ) : isCopy ? (
+                    <><CheckCircle2 className="h-4 w-4" /> Confirmar</>
                   ) : (
                     <><Download className="h-4 w-4" /> Liberar Download</>
                   )}
@@ -144,13 +160,14 @@ export function LeadForm({ onClose, source, type, onSuccess }: LeadFormProps) {
               </div>
               <div>
                 <h2 className="text-lg font-semibold text-white">
-                  {isGithub ? 'Redirecionando...' : 'Download iniciando!'}
+                  {isGithub ? 'Redirecionando...' : isCopy ? 'Tudo certo!' : 'Download iniciando!'}
                 </h2>
                 <p className="text-sm text-[#888] mt-1">
                   {isGithub
                     ? 'Você será levado ao repositório. Obrigado!'
-                    : 'O arquivo vai baixar automaticamente. Obrigado!'
-                  }
+                    : isCopy
+                    ? 'Obrigado! Te avisamos quando tiver novidades.'
+                    : 'O arquivo vai baixar automaticamente. Obrigado!'}
                 </p>
               </div>
               <button

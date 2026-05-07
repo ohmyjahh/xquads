@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
 import { Copy, Check, ScanEye } from "lucide-react";
+import { useCopyWithLead } from "@/hooks/use-copy-with-lead";
+import { LeadForm } from "@/components/downloads/lead-form";
 
 const PROMPT = `Atue como um especialista em análise visual e visão computacional.
 
@@ -34,16 +35,20 @@ Após a análise, você deve gerar a sua resposta exclusivamente no formato JSON
 Regra estrita: Retorne apenas o bloco JSON válido. Se não houver personagens na imagem, retorne a lista "personagens" vazia [].`;
 
 export default function ImagemGPTPage() {
-  const [copied, setCopied] = useState(false);
+  const { copied, showLeadForm, leadSource, copy, closeLeadForm } = useCopyWithLead("prompt-imagemgpt");
 
-  const handleCopy = async () => {
-    await navigator.clipboard.writeText(PROMPT);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2500);
-  };
+  const handleCopy = () => copy(PROMPT);
 
   return (
     <div className="max-w-3xl mx-auto py-8 px-4 space-y-8">
+      {showLeadForm && (
+        <LeadForm
+          onClose={closeLeadForm}
+          source={leadSource}
+          type="copy"
+          onSuccess={closeLeadForm}
+        />
+      )}
       {/* Header */}
       <div className="text-center space-y-3">
         <div className="inline-flex items-center gap-2 rounded-full bg-[#EA8049]/10 border border-[#EA8049]/20 px-4 py-1.5 text-xs font-medium text-[#EA8049]">

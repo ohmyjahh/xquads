@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
 import { Copy, Check, BarChart3 } from "lucide-react";
+import { useCopyWithLead } from "@/hooks/use-copy-with-lead";
+import { LeadForm } from "@/components/downloads/lead-form";
 
 const PROMPT = `Acesse o Windsor.ai e conecte-se aos dados do meu perfil do Instagram. Com base nos dados disponiveis, gere um relatorio estrategico completo seguindo esta estrutura:
 
@@ -35,16 +36,20 @@ Com base nos 3 videos de maior engajamento identificados na secao 4, escreva um 
 Seja objetivo, baseie cada afirmacao nos dados do Windsor. Onde nao houver dados suficientes, indique a lacuna em vez de especular.`;
 
 export default function InstaPage() {
-  const [copied, setCopied] = useState(false);
+  const { copied, showLeadForm, leadSource, copy, closeLeadForm } = useCopyWithLead("prompt-insta");
 
-  const handleCopy = async () => {
-    await navigator.clipboard.writeText(PROMPT);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2500);
-  };
+  const handleCopy = () => copy(PROMPT);
 
   return (
     <div className="max-w-3xl mx-auto py-8 px-4 space-y-8">
+      {showLeadForm && (
+        <LeadForm
+          onClose={closeLeadForm}
+          source={leadSource}
+          type="copy"
+          onSuccess={closeLeadForm}
+        />
+      )}
       {/* Header */}
       <div className="text-center space-y-3">
         <div className="inline-flex items-center gap-2 rounded-full bg-[#E1306C]/10 border border-[#E1306C]/20 px-4 py-1.5 text-xs font-medium text-[#E1306C]">

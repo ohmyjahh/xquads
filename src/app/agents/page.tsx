@@ -59,7 +59,7 @@ export default function AgentsPage() {
                         <p className="text-sm font-medium text-[#eee]">{agent.name}</p>
                         <p className="text-[11px] text-[#666]">@{agent.id}</p>
                       </div>
-                      <CopyButton text={agent.activationCommand} />
+                      <CopyButton text={agent.activationCommand} source={`agent-list-${agent.id}`} />
                     </div>
                   </CardContent>
                 </Card>

@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
 import { Copy, Check, Users } from "lucide-react";
+import { useCopyWithLead } from "@/hooks/use-copy-with-lead";
+import { LeadForm } from "@/components/downloads/lead-form";
 
 const PROMPT = `---
 name: conselho-5-agentes
@@ -267,16 +268,20 @@ Posso expandir e mostrar o diálogo entre os 5 agentes na íntegra. É só pedir
 - Em português brasileiro por padrão. Se o usuário escrever em outro idioma, adapte.`;
 
 export default function ArrowPage() {
-  const [copied, setCopied] = useState(false);
+  const { copied, showLeadForm, leadSource, copy, closeLeadForm } = useCopyWithLead("prompt-arrow");
 
-  const handleCopy = async () => {
-    await navigator.clipboard.writeText(PROMPT);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2500);
-  };
+  const handleCopy = () => copy(PROMPT);
 
   return (
     <div className="max-w-3xl mx-auto py-8 px-4 space-y-8">
+      {showLeadForm && (
+        <LeadForm
+          onClose={closeLeadForm}
+          source={leadSource}
+          type="copy"
+          onSuccess={closeLeadForm}
+        />
+      )}
       {/* Header */}
       <div className="text-center space-y-3">
         <div className="inline-flex items-center gap-2 rounded-full bg-[#D4A24C]/10 border border-[#D4A24C]/20 px-4 py-1.5 text-xs font-medium text-[#D4A24C]">
