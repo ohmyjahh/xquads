@@ -7,6 +7,17 @@ interface LeadPayload {
   downloadName?: string;
 }
 
+function normalizePhoneBR(raw: string): string {
+  const digits = raw.replace(/\D/g, '');
+  // Numero brasileiro nacional tem 10 (fixo) ou 11 (celular) digitos.
+  // Com prefixo pais 55, fica 12 ou 13. Se ja >= 12 e comeca com 55, ja tem prefixo.
+  // Caso contrario, prepend 55 (cobre DDD 55 de Santa Maria-RS que ficaria 11 digitos).
+  if (digits.length >= 12 && digits.startsWith('55')) {
+    return digits;
+  }
+  return `55${digits}`;
+}
+
 async function postToSheets(payload: LeadPayload) {
   const url = process.env.GOOGLE_SHEETS_WEBHOOK;
   if (!url) {
@@ -56,7 +67,12 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const payload: LeadPayload = { name, email, phone, downloadName };
+    const normalizedPhone = normalizePhoneBR(phone);
+    if (normalizedPhone.length < 12) {
+      return NextResponse.json({ error: 'Telefone invalido' }, { status: 400 });
+    }
+
+    const payload: LeadPayload = { name, email, phone: normalizedPhone, downloadName };
 
     const [sheetsResult, geneResult] = await Promise.allSettled([
       postToSheets(payload),

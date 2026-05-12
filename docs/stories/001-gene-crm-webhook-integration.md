@@ -1,12 +1,15 @@
 # Story 001 — Integração Webhook GENE CRM nos formulários Xquads
 
-**Status:** Ready for Review
+**Status:** Done
 **Criado:** 2026-05-11
 **Validado:** 2026-05-11
 **Implementado:** 2026-05-11
+**Deployado:** 2026-05-11
 **Autor:** @sm (River)
 **Validado por:** @po (Pax) — Score 9/10
 **Implementado por:** @dev (Dex)
+**QA por:** @qa (Quinn) — PASS
+**Deploy por:** @devops (Gage)
 **Prioridade:** Alta
 
 ---
@@ -193,6 +196,8 @@ GENE_WEBHOOK_URL=https://api.genecrm.com.br/webhook/leads/364d80eb-51fa-4fca-a66
   - Adicionar seção "Business Value" explícita em stories futuras
   - Considerar criar Epic guarda-chuva via `@pm *create-epic` quando houver mais integrações de CRM
 - **2026-05-11** — Implementado por @dev (Dex). Transição **Ready → Ready for Review**. Build OK + lint zero nos arquivos modificados. Pendências: teste E2E manual (depende de env var no Vercel), commit + push (aguardando autorização do usuário).
+- **2026-05-11** — Revisão @qa (Quinn): **PASS** com 2 concerns não-bloqueantes. CONCERN-001 (`.env.example` gitignored) corrigida no mesmo commit.
+- **2026-05-11** — Deploy @devops (Gage): push `d1573f9..770b655` em `main`, env var `GENE_WEBHOOK_URL` configurada em Production/Preview/Development, redeploy aplicado. Smoke tests em prod (xquads.vercel.app e sowsales.com.br/xquads) retornaram 200/400 conforme esperado. Contatos de teste confirmados no GENE com tag PROMPT pelo usuário. Transição **Ready for Review → Done**.
 
 ## QA Results
 
