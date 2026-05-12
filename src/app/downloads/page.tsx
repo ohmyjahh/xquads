@@ -21,15 +21,10 @@ const INSTALL_STEPS_REPO = [
 
 type ActiveForm = 'zip' | 'github-xquads' | 'github-aios-core' | null;
 
-function openUrl(url: string) {
-  window.open(url, '_blank', 'noopener,noreferrer');
-}
+const SALES_URL = 'https://www.raxo.com.br/xquads';
 
-function triggerDownload(url: string) {
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = '';
-  a.click();
+function redirectToSales() {
+  window.location.href = SALES_URL;
 }
 
 export default function DownloadsPage() {
@@ -42,7 +37,7 @@ export default function DownloadsPage() {
           onClose={() => setActiveForm(null)}
           source="xquads-zip"
           type="download"
-          onSuccess={() => triggerDownload('/xquads/downloads/xquads.zip')}
+          onSuccess={redirectToSales}
         />
       )}
       {activeForm === 'github-xquads' && (
@@ -50,7 +45,7 @@ export default function DownloadsPage() {
           onClose={() => setActiveForm(null)}
           source="github-xquads-squads"
           type="github"
-          onSuccess={() => openUrl('https://github.com/ohmyjahh/xquads-squads')}
+          onSuccess={redirectToSales}
         />
       )}
       {activeForm === 'github-aios-core' && (
@@ -58,7 +53,7 @@ export default function DownloadsPage() {
           onClose={() => setActiveForm(null)}
           source="github-aios-core"
           type="github"
-          onSuccess={() => openUrl('https://github.com/SynkraAI/aios-core')}
+          onSuccess={redirectToSales}
         />
       )}
 
