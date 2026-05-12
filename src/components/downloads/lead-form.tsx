@@ -13,6 +13,7 @@ interface LeadFormProps {
 }
 
 export function LeadForm({ onClose, source, type, onSuccess }: LeadFormProps) {
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [loading, setLoading] = useState(false);
@@ -32,7 +33,7 @@ export function LeadForm({ onClose, source, type, onSuccess }: LeadFormProps) {
       const res = await fetch(`${base}/api/leads`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, phone, downloadName: source }),
+        body: JSON.stringify({ name, email, phone, downloadName: source }),
       });
 
       if (!res.ok) throw new Error('Erro ao salvar dados');
@@ -98,6 +99,21 @@ export function LeadForm({ onClose, source, type, onSuccess }: LeadFormProps) {
               </p>
 
               <form onSubmit={handleSubmit} className="space-y-3">
+                <div>
+                  <label className="block text-xs font-medium text-[#888] mb-1.5">
+                    Nome completo <span style={{ color: accentColor }}>*</span>
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="Seu nome"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className="w-full rounded-lg bg-[#121214] border border-[#2A2A2E] px-4 py-2.5 text-sm text-white placeholder-[#444] focus:outline-none transition-colors"
+                    style={{ '--tw-ring-color': accentColor } as React.CSSProperties}
+                  />
+                </div>
+
                 <div>
                   <label className="block text-xs font-medium text-[#888] mb-1.5">
                     E-mail <span style={{ color: accentColor }}>*</span>
