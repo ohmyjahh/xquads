@@ -4,7 +4,7 @@ import { useState, useCallback } from 'react';
 
 const LEAD_STORAGE_KEY = 'xquads_lead_captured';
 
-function hasCapturedLead(): boolean {
+export function hasCapturedLead(): boolean {
   if (typeof window === 'undefined') return false;
   try {
     return localStorage.getItem(LEAD_STORAGE_KEY) === '1';
