@@ -21,39 +21,34 @@ const INSTALL_STEPS_REPO = [
 
 type ActiveForm = 'zip' | 'github-xquads' | 'github-aios-core' | null;
 
-const SALES_URL = 'https://www.raxo.com.br/xquads';
-
-function redirectToSales() {
-  window.location.href = SALES_URL;
-}
-
 export default function DownloadsPage() {
   const [activeForm, setActiveForm] = useState<ActiveForm>(null);
+  const closeForm = () => setActiveForm(null);
 
   return (
     <div className="space-y-8 max-w-4xl mx-auto">
       {activeForm === 'zip' && (
         <LeadForm
-          onClose={() => setActiveForm(null)}
+          onClose={closeForm}
           source="xquads-zip"
           type="download"
-          onSuccess={redirectToSales}
+          onSuccess={closeForm}
         />
       )}
       {activeForm === 'github-xquads' && (
         <LeadForm
-          onClose={() => setActiveForm(null)}
+          onClose={closeForm}
           source="github-xquads-squads"
           type="github"
-          onSuccess={redirectToSales}
+          onSuccess={closeForm}
         />
       )}
       {activeForm === 'github-aios-core' && (
         <LeadForm
-          onClose={() => setActiveForm(null)}
+          onClose={closeForm}
           source="github-aios-core"
           type="github"
-          onSuccess={redirectToSales}
+          onSuccess={closeForm}
         />
       )}
 

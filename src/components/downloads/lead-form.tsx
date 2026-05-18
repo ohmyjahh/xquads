@@ -4,6 +4,9 @@ import { useState } from 'react';
 import { Download, Github, X, Loader2, CheckCircle2, Copy } from 'lucide-react';
 import { markLeadCaptured } from '@/hooks/use-copy-with-lead';
 
+const REDIRECT_URL =
+  'https://www.raxo.com.br/xquads?utm_source=instagram&utm_medium=organico&utm_campaign=xquads-isca-nov25&utm_content=stories-divulgacao';
+
 interface LeadFormProps {
   onClose: () => void;
   source: string;
@@ -40,7 +43,12 @@ export function LeadForm({ onClose, source, type, onSuccess }: LeadFormProps) {
 
       markLeadCaptured();
       setDone(true);
-      setTimeout(() => onSuccess(), 800);
+      setTimeout(() => {
+        onSuccess();
+        setTimeout(() => {
+          window.location.href = REDIRECT_URL;
+        }, 1500);
+      }, 800);
     } catch {
       setError('Algo deu errado. Tente novamente.');
     } finally {
