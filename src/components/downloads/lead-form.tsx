@@ -5,7 +5,7 @@ import { Download, Github, X, Loader2, CheckCircle2, Copy } from 'lucide-react';
 import { markLeadCaptured } from '@/hooks/use-copy-with-lead';
 
 const REDIRECT_URL =
-  'https://www.raxo.com.br/xquads?utm_source=instagram&utm_medium=organico&utm_campaign=xquads-isca-nov25&utm_content=stories-divulgacao';
+  'https://www.raxo.com.br/vibecodingvsl?utm_source=instagram&utm_medium=organico&utm_campaign=xquads-isca-nov25&utm_content=stories-divulgacao';
 
 interface LeadFormProps {
   onClose: () => void;
