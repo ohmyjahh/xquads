@@ -3,6 +3,7 @@
 import { Copy, Check, Users } from "lucide-react";
 import { useCopyWithLead } from "@/hooks/use-copy-with-lead";
 import { LeadForm } from "@/components/downloads/lead-form";
+import { SalesCta } from "@/components/sales-cta";
 
 const PROMPT = `---
 name: conselho-5-agentes
@@ -350,6 +351,9 @@ export default function ArrowPage() {
           </pre>
         </div>
       </div>
+
+      {/* CTA */}
+      <SalesCta utmContent="arrow" />
 
       {/* Footer */}
       <p className="text-center text-xs text-[#555]">

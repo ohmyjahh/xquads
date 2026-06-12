@@ -3,6 +3,7 @@
 import { Copy, Check, ScanEye } from "lucide-react";
 import { useCopyWithLead } from "@/hooks/use-copy-with-lead";
 import { LeadForm } from "@/components/downloads/lead-form";
+import { SalesCta } from "@/components/sales-cta";
 
 const PROMPT = `Atue como um especialista em análise visual e visão computacional.
 
@@ -117,6 +118,9 @@ export default function ImagemGPTPage() {
           </pre>
         </div>
       </div>
+
+      {/* CTA */}
+      <SalesCta utmContent="imagemgpt" />
 
       {/* Footer */}
       <p className="text-center text-xs text-[#555]">

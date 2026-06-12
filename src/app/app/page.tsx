@@ -3,6 +3,7 @@
 import { Copy, Check, Blocks } from "lucide-react";
 import { useCopyWithLead } from "@/hooks/use-copy-with-lead";
 import { LeadForm } from "@/components/downloads/lead-form";
+import { SalesCta } from "@/components/sales-cta";
 
 const ACCENT = "#10B981";
 
@@ -308,6 +309,9 @@ export default function AppPage() {
           </pre>
         </div>
       </div>
+
+      {/* CTA */}
+      <SalesCta utmContent="app" />
 
       {/* Footer */}
       <p className="text-center text-xs text-[#555]">

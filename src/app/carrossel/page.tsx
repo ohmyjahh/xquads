@@ -3,6 +3,7 @@
 import { Copy, Check, Layers } from "lucide-react";
 import { useCopyWithLead } from "@/hooks/use-copy-with-lead";
 import { LeadForm } from "@/components/downloads/lead-form";
+import { SalesCta } from "@/components/sales-cta";
 
 const PROMPT = `Analise os prints que estou enviando. Sao slides de um carrossel de Instagram de referencia. Quero que voce extraia o padrao visual e de conteudo e crie uma predefinicao completa — um documento tecnico que serve como blueprint para recriar esse estilo em qualquer tema.
 
@@ -183,6 +184,9 @@ export default function CarrosselPage() {
           </pre>
         </div>
       </div>
+
+      {/* CTA */}
+      <SalesCta utmContent="carrossel" />
 
       {/* Footer */}
       <p className="text-center text-xs text-[#555]">

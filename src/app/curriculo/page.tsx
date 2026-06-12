@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Copy, Check, Briefcase, Stethoscope, Search, PenLine, UserCheck } from "lucide-react";
 import { useCopyWithLead } from "@/hooks/use-copy-with-lead";
 import { LeadForm } from "@/components/downloads/lead-form";
+import { SalesCta } from "@/components/sales-cta";
 
 const ACCENT = "#3B82F6";
 
@@ -305,6 +306,9 @@ export default function CurriculoPage() {
           </div>
         );
       })}
+
+      {/* CTA */}
+      <SalesCta utmContent="curriculo" />
 
       {/* Footer */}
       <p className="text-center text-xs text-[#555]">

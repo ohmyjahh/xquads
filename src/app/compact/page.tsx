@@ -3,6 +3,7 @@
 import { Copy, Check, Archive } from "lucide-react";
 import { useCopyWithLead } from "@/hooks/use-copy-with-lead";
 import { LeadForm } from "@/components/downloads/lead-form";
+import { SalesCta } from "@/components/sales-cta";
 
 const PROMPT = `---
 name: context-compressor
@@ -166,6 +167,9 @@ export default function CompactPage() {
           </pre>
         </div>
       </div>
+
+      {/* CTA */}
+      <SalesCta utmContent="compact" />
 
       {/* Footer */}
       <p className="text-center text-xs text-[#555]">

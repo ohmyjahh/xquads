@@ -2,6 +2,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { parseSquads } from '@/lib/parsers/squad-parser';
 import Link from 'next/link';
 import { Users, Workflow, ListChecks, Shield, Sparkles, Brain, Target, Zap, ArrowRight } from 'lucide-react';
+import { SalesCta } from '@/components/sales-cta';
 
 export const revalidate = 60;
 
@@ -138,6 +139,9 @@ export default function HomePage() {
           Ver Agentes
         </Link>
       </div>
+
+      {/* CTA Vendas */}
+      <SalesCta utmContent="home" />
     </div>
   );
 }

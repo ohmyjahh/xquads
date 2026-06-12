@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Copy, Check, Download, Flame, FileText } from "lucide-react";
 import { useCopyWithLead, hasCapturedLead } from "@/hooks/use-copy-with-lead";
 import { LeadForm } from "@/components/downloads/lead-form";
+import { SalesCta } from "@/components/sales-cta";
 
 const ACCENT = "#EC4899";
 const BLUEPRINT_URL = "/xquads/viral/blueprint-roteiro-viral-v2.md";
@@ -347,6 +348,9 @@ export default function ViralPage() {
           </ul>
         </div>
       </div>
+
+      {/* CTA */}
+      <SalesCta utmContent="viral" />
 
       {/* Footer */}
       <p className="text-center text-xs text-[#555]">

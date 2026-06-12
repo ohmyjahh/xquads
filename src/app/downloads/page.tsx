@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Download, Github, Package, Terminal, FolderOpen, CheckCircle2, ArrowRight } from 'lucide-react';
 import { LeadForm } from '@/components/downloads/lead-form';
+import { SalesCta } from '@/components/sales-cta';
 
 const INSTALL_STEPS_SQUADS = [
   { step: 1, text: 'Clique no botao abaixo para baixar o arquivo ZIP' },
@@ -197,6 +198,9 @@ export default function DownloadsPage() {
           </div>
         </CardContent>
       </Card>
+
+      {/* CTA Vendas */}
+      <SalesCta utmContent="downloads" />
     </div>
   );
 }

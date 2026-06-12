@@ -3,6 +3,7 @@
 import { Copy, Check, Sparkles } from "lucide-react";
 import { useCopyWithLead } from "@/hooks/use-copy-with-lead";
 import { LeadForm } from "@/components/downloads/lead-form";
+import { SalesCta } from "@/components/sales-cta";
 
 const PROMPT = `Using this portrait, create a comprehensive diagram-first personal color
 and style analysis. Structure the output as a visual reference card with
@@ -112,6 +113,9 @@ export default function EstiloPage() {
           </pre>
         </div>
       </div>
+
+      {/* CTA */}
+      <SalesCta utmContent="estilo" />
 
       {/* Footer */}
       <p className="text-center text-xs text-[#555]">

@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { useCopyWithLead } from "@/hooks/use-copy-with-lead";
 import { LeadForm } from "@/components/downloads/lead-form";
+import { SalesCta } from "@/components/sales-cta";
 
 const MCP_URL = "https://mcp.facebook.com/ads";
 
@@ -276,6 +277,9 @@ export default function McpMetaPage() {
           </p>
         </div>
       </div>
+
+      {/* CTA */}
+      <SalesCta utmContent="mcpmeta" />
 
       {/* Footer */}
       <p className="text-center text-xs text-[#555]">

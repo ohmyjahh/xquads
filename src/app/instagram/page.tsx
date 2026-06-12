@@ -3,6 +3,7 @@
 import { Copy, Check, Instagram } from "lucide-react";
 import { useCopyWithLead } from "@/hooks/use-copy-with-lead";
 import { LeadForm } from "@/components/downloads/lead-form";
+import { SalesCta } from "@/components/sales-cta";
 
 const PROMPT = `Voce e um estrategista senior de social media especializado em posicionamento digital, com experiencia em contas do nicho de [SEU NICHO — ex: IA, tecnologia, empreendedorismo]. Sua missao e fazer uma auditoria completa do meu Instagram e construir uma estrategia personalizada de crescimento e monetizacao.
 
@@ -138,6 +139,9 @@ export default function InstagramPage() {
           </pre>
         </div>
       </div>
+
+      {/* CTA */}
+      <SalesCta utmContent="instagram" />
 
       {/* Footer */}
       <p className="text-center text-xs text-[#555]">

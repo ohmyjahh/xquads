@@ -1,6 +1,7 @@
 import { parseSquads } from '@/lib/parsers/squad-parser';
 import { SquadCard } from '@/components/squads/squad-card';
 import { Card, CardContent } from '@/components/ui/card';
+import { SalesCta } from '@/components/sales-cta';
 
 export const revalidate = 60;
 
@@ -49,6 +50,9 @@ export default function SquadsPage() {
           <SquadCard key={squad.slug} squad={squad} />
         ))}
       </div>
+
+      {/* CTA Vendas */}
+      <SalesCta utmContent="squads" />
     </div>
   );
 }

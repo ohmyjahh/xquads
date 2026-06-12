@@ -4,6 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { CopyButton } from '@/components/squads/copy-button';
 import { AgentAvatar } from '@/components/agents/agent-avatar';
 import Link from 'next/link';
+import { SalesCta } from '@/components/sales-cta';
 
 export const revalidate = 60;
 
@@ -68,6 +69,9 @@ export default function AgentsPage() {
           </div>
         </div>
       ))}
+
+      {/* CTA Vendas */}
+      <SalesCta utmContent="agents" />
     </div>
   );
 }

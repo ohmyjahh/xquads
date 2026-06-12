@@ -3,6 +3,7 @@
 import { Copy, Check, BarChart3 } from "lucide-react";
 import { useCopyWithLead } from "@/hooks/use-copy-with-lead";
 import { LeadForm } from "@/components/downloads/lead-form";
+import { SalesCta } from "@/components/sales-cta";
 
 const PROMPT = `Acesse o Windsor.ai e conecte-se aos dados do meu perfil do Instagram. Com base nos dados disponiveis, gere um relatorio estrategico completo seguindo esta estrutura:
 
@@ -112,6 +113,9 @@ export default function InstaPage() {
           </pre>
         </div>
       </div>
+
+      {/* CTA */}
+      <SalesCta utmContent="insta" />
 
       {/* Footer */}
       <p className="text-center text-xs text-[#555]">

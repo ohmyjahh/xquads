@@ -3,6 +3,7 @@
 import { Copy, Check, Palette } from "lucide-react";
 import { useCopyWithLead } from "@/hooks/use-copy-with-lead";
 import { LeadForm } from "@/components/downloads/lead-form";
+import { SalesCta } from "@/components/sales-cta";
 
 const PROMPT = `# BRIEFING: Identidade Visual — "a Fundação"
 
@@ -165,6 +166,9 @@ export default function IdVisualPage() {
           </pre>
         </div>
       </div>
+
+      {/* CTA */}
+      <SalesCta utmContent="idvisual" />
 
       {/* Footer */}
       <p className="text-center text-xs text-[#555]">

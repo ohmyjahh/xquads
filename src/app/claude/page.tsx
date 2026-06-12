@@ -20,6 +20,7 @@ import {
   Layers,
   HelpCircle,
 } from "lucide-react";
+import { SalesCta } from "@/components/sales-cta";
 
 const SALES_URL =
   "https://www.raxo.com.br/vibecodingvsl?utm_source=instagram&utm_medium=organico&utm_campaign=xquads-isca-nov25&utm_content=guia-claude";
@@ -863,23 +864,7 @@ export default function ClaudeGuidePage() {
       </div>
 
       {/* ============ CTA FINAL ============ */}
-      <div className="rounded-2xl border border-[#D97757]/30 bg-gradient-to-br from-[#D97757]/15 via-[#1a1a1e] to-[#1a1a1e] p-6 sm:p-8 text-center space-y-4">
-        <h2 className="text-xl sm:text-2xl font-bold text-white leading-snug">
-          Quer aprender a criar projetos com IA na prática?
-        </h2>
-        <p className="text-sm text-[#999] max-w-lg mx-auto leading-relaxed">
-          Do zero ao primeiro sistema funcionando, mesmo sem nunca ter escrito
-          uma linha de código. Conheça o método que está formando a primeira
-          geração de criadores de projetos com IA do Brasil.
-        </p>
-        <a
-          href={SALES_URL}
-          className="inline-flex items-center gap-2 rounded-xl bg-[#D97757] hover:bg-[#c5603a] text-white text-base font-semibold px-8 py-4 transition-colors"
-        >
-          Conhecer agora
-          <ArrowRight className="h-5 w-5" />
-        </a>
-      </div>
+      <SalesCta utmContent="guia-claude" />
 
       {/* ============ FOOTER ============ */}
       <p className="text-center text-xs text-[#555]">
