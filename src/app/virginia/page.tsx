@@ -101,6 +101,29 @@ const FLOW_NODES = [
   },
 ];
 
+const STEPS = [
+  {
+    title: "Clone a sua voz no Eleven Labs",
+    desc: "Crie uma conta no Eleven Labs, vá em Voices e grave (ou envie) alguns minutos de áudio seu. Guarde o Voice ID gerado — é ele que dá a sua voz ao app.",
+  },
+  {
+    title: "Monte a base de conhecimento",
+    desc: "Escreva um arquivo com o seu jeito de falar, os assuntos que você domina e como você responde. É isso que faz o clone soar como você, e não como um robô genérico.",
+  },
+  {
+    title: "Pegue as chaves de API",
+    desc: "Crie as contas e copie as chaves: OpenAI (ChatGPT), Eleven Labs e Supabase (banco de dados). Você vai colar essas chaves na configuração do app.",
+  },
+  {
+    title: "Cole o prompt na IA que constrói apps",
+    desc: "Copie o prompt lá embaixo e cole no Lovable, v0, Claude ou ChatGPT. A IA devolve o código completo do app já com a arquitetura certa.",
+  },
+  {
+    title: "Conecte tudo e teste",
+    desc: "Coloque as chaves e a sua base de conhecimento no app, rode e faça a primeira pergunta. Você vai ouvir a resposta na sua própria voz.",
+  },
+];
+
 const TOOLS = [
   {
     icon: LayoutTemplate,
@@ -270,10 +293,38 @@ export default function VirginiaPage() {
         </div>
       </div>
 
+      {/* Passo a passo */}
+      <div className="space-y-4">
+        <div className="text-center space-y-1">
+          <h2 className="text-lg font-semibold text-white">Passo a passo</h2>
+          <p className="text-sm text-[#888]">
+            Do zero até ouvir a sua voz respondendo — em 5 passos.
+          </p>
+        </div>
+        <div className="space-y-3">
+          {STEPS.map((step, i) => (
+            <div
+              key={step.title}
+              className="flex gap-4 rounded-xl border border-[#2a2a2e] bg-[#1a1a1e] p-4"
+            >
+              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#EA8049] text-sm font-bold text-white">
+                {i + 1}
+              </div>
+              <div className="space-y-1">
+                <p className="text-sm font-semibold text-white">{step.title}</p>
+                <p className="text-xs text-[#888] leading-relaxed">
+                  {step.desc}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
       {/* Como usar o prompt */}
       <div className="rounded-xl border border-[#2a2a2e] bg-[#1a1a1e] p-5 space-y-3">
         <h2 className="text-sm font-semibold text-white uppercase tracking-wider">
-          Como usar
+          Como usar o prompt
         </h2>
         <ol className="text-sm text-[#999] space-y-2 list-decimal list-inside">
           <li>Copie o prompt abaixo clicando no botão</li>
