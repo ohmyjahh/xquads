@@ -1,6 +1,6 @@
 # Story 013: Página /orquestrador (Fable 5 Orquestrador + Sonnet 5 Executor)
 
-**Status:** InReview
+**Status:** Done
 **Épico:** Páginas isca Xquads
 **Criada por:** @sage (2026-07-10)
 
@@ -87,3 +87,5 @@ Isca de topo de funil sobre tema quente (anúncio Anthropic com milhões de view
 
 - 2026-07-10: Story criada (@sage)
 - 2026-07-10: Validada 10/10, GO. Draft -> Ready (@eden)
+- 2026-07-10: Implementada e QA PASS. Ready -> InReview (@kai/@vera)
+- 2026-07-10: Push autorizado pelo usuário, deploy Vercel. InReview -> Done (@holt)
