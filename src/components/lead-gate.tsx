@@ -17,6 +17,8 @@ interface LeadGateProps {
   contentNote?: string;
   /** Texto do botão */
   buttonLabel?: string;
+  /** Cor do texto do botão (use tom escuro quando o accent for claro) */
+  buttonTextColor?: string;
   /** Chamado após lead salvo com sucesso */
   onUnlock: () => void;
 }
@@ -28,6 +30,7 @@ export function LeadGate({
   description = "Insira seus dados para desbloquear o restante da página.",
   contentNote,
   buttonLabel = "Desbloquear",
+  buttonTextColor = "#ffffff",
   onUnlock,
 }: LeadGateProps) {
   const [name, setName] = useState("");
@@ -112,8 +115,8 @@ export function LeadGate({
         <button
           type="submit"
           disabled={loading}
-          className="w-full inline-flex items-center justify-center gap-2 rounded-lg text-white text-base font-semibold px-6 py-3.5 transition-opacity hover:opacity-90 disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer"
-          style={{ backgroundColor: accent }}
+          className="w-full inline-flex items-center justify-center gap-2 rounded-lg text-base font-semibold px-6 py-3.5 transition-opacity hover:opacity-90 disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer"
+          style={{ backgroundColor: accent, color: buttonTextColor }}
         >
           {loading ? (
             <>
