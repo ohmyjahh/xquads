@@ -37,14 +37,26 @@ nao conseguir confirmar as visualizacoes de um Reel, deixe ele de
 fora. Entregue so a lista de links, pronta pro proximo passo.`;
 
 const PROMPT_2 = `Agora quero que voce assista cada um dos videos da lista e faca a
-transcricao do roteiro de cada um.
+transcricao do roteiro de cada um. Crie um arquivo unico com todas
+as transcricoes.
+
+O caminho real e: baixar cada Reel, extrair o audio e rodar a
+transcricao (speech-to-text). As ferramentas essenciais:
+- yt-dlp: baixa cada Reel a partir do link
+- ffmpeg: extrai o audio do video baixado
+- whisper: transcreve o audio, roda local, funciona offline e sem
+  custo de API
+
+Antes de processar tudo, teste a pipeline completa com 1 Reel so
+(baixar, extrair o audio e transcrever) para validar. Se o primeiro
+sair certo, repita para todos.
 
 Transcreva a narracao falada palavra por palavra, exatamente como e
 dita. Nao resuma, nao corrija a linguagem e nao adicione nada.
 Preserve o jeito oral e informal da fala.
 
 Junte tudo num arquivo unico, com todas as transcricoes uma embaixo
-da outra, identificando de qual video e cada uma:
+da outra, neste formato:
 
 ---
 VIDEO [n] | [link]
@@ -436,9 +448,10 @@ export default function FrameworkViralPage() {
             <p className="text-[15px] text-[#aaa] leading-relaxed">
               O prompt 4 gera a sua própria skill. Se você não quiser fazer todo o
               processo, eu já fiz: a skill roteiro-viral é o framework RG-1,
-              construído pela engenharia reversa de 55 Reels de IA com mais de 40
-              mil views cada. Baixe na versão que você usa, ela gera o roteiro a
-              partir de um tema ou de prints.
+              construído pela engenharia reversa de 55 Reels de alto desempenho
+              com mais de 40 mil views cada, e funciona pra qualquer nicho. Baixe
+              na versão que você usa, digita um tema ou manda prints, e ela gera o
+              roteiro no padrão.
             </p>
             <div className="grid sm:grid-cols-2 gap-4">
               <SkillCard
