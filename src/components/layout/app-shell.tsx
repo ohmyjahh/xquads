@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 import { Sidebar } from './sidebar';
 import { Header } from './header';
 
-const STANDALONE_ROUTES = ['/carrossel', '/instagram', '/insta', '/idvisual', '/arrow', '/imagemgpt', '/compact', '/estilo', '/mcpmeta', '/curriculo', '/viral', '/app', '/claude', '/loop', '/fable', '/emprego', '/humano', '/mkt', '/virginia', '/skills', '/orquestrador', '/foto', '/estudogpt', '/familia', '/frameworkviral', '/logoanimada'];
+const STANDALONE_ROUTES = ['/carrossel', '/instagram', '/insta', '/idvisual', '/arrow', '/imagemgpt', '/compact', '/estilo', '/mcpmeta', '/curriculo', '/viral', '/app', '/claude', '/loop', '/fable', '/emprego', '/humano', '/mkt', '/virginia', '/skills', '/orquestrador', '/foto', '/estudogpt', '/familia', '/frameworkviral', '/logoanimada', '/vendasgpt'];
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
