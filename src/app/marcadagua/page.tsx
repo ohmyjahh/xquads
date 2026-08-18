@@ -145,47 +145,48 @@ export default function MarcaDaguaPage() {
             <span className="text-white font-medium">Watermarks Remover</span>,
             criado por Guillaume Meyer e publicado no GitHub, que se propõe a
             reescrever os padrões de texto associados à marca. O projeto é aberto,
-            então dá pra ver o código e a documentação por conta própria no botão
-            abaixo.
+            então dá pra ver o código e a documentação por conta própria.
           </p>
         </div>
-        <a
-          href={REPO}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="group flex w-full items-center justify-center gap-2.5 rounded-xl px-6 py-4 text-base font-bold text-white transition-transform hover:scale-[1.02]"
-          style={{
-            backgroundColor: ACCENT,
-            boxShadow: `0 10px 30px -8px ${ACCENT}80`,
-          }}
-        >
-          <Github className="h-5 w-5 shrink-0" />
-          Acessar o repositório no GitHub
-          <ExternalLink className="h-4 w-4 shrink-0 opacity-80 transition-transform group-hover:translate-x-0.5" />
-        </a>
-        <p className="text-center text-xs text-[#666]">
-          Abre em nova aba, em github.com/guillaumemeyer/watermarks-remover
-        </p>
       </section>
 
-      {/* Gate + fatos */}
+      {/* Gate + link + fatos */}
       {!unlocked ? (
         <LeadGate
           source="marcadagua-page"
           accent={ACCENT}
           buttonTextColor="#ffffff"
-          title="Libere o resumo completo"
-          description="Insira seus dados para desbloquear o resumo dos pontos-chave dessa novidade, em fatos diretos."
-          contentNote="Você vai liberar: os pontos-chave da marca d'água do Claude reunidos, do que ela indica ao seu comportamento e ao contexto regulatório, em fatos objetivos."
-          buttonLabel="Liberar o resumo"
+          title="Libere o acesso ao repositório"
+          description="Insira seus dados para desbloquear o link do repositório da ferramenta no GitHub e o resumo dos pontos-chave dessa novidade."
+          contentNote="Você vai liberar: o botão de acesso ao repositório no GitHub e os pontos-chave da marca d'água do Claude, em fatos objetivos."
+          buttonLabel="Liberar o acesso"
           onUnlock={() => setUnlocked(true)}
         />
       ) : (
         <>
           <div className="flex items-center gap-2 text-sm" style={{ color: ACCENT }}>
             <Sparkles className="h-4 w-4" />
-            Resumo liberado.
+            Acesso liberado.
           </div>
+
+          {/* Botao do repositorio */}
+          <a
+            href={REPO}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group flex w-full items-center justify-center gap-2.5 rounded-xl px-6 py-4 text-base font-bold text-white transition-transform hover:scale-[1.02]"
+            style={{
+              backgroundColor: ACCENT,
+              boxShadow: `0 10px 30px -8px ${ACCENT}80`,
+            }}
+          >
+            <Github className="h-5 w-5 shrink-0" />
+            Acessar o repositório no GitHub
+            <ExternalLink className="h-4 w-4 shrink-0 opacity-80 transition-transform group-hover:translate-x-0.5" />
+          </a>
+          <p className="text-center text-xs text-[#666]">
+            Abre em nova aba, em github.com/guillaumemeyer/watermarks-remover
+          </p>
 
           <section className="space-y-4">
             <SectionTitle icon={Scale}>Os pontos-chave, em fatos</SectionTitle>
