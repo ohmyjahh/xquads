@@ -1,12 +1,15 @@
 # Story 002 — Normalizar telefone com prefixo 55 (Brasil) antes de enviar pro CRM
 
-**Status:** Ready for Review
+**Status:** Done
 **Criado:** 2026-05-12
 **Validado:** 2026-05-12
 **Implementado:** 2026-05-12
+**Deployado:** 2026-05-12
 **Autor:** @sm (River)
 **Validado por:** @po (Pax) — Score 9/10
 **Implementado por:** @dev (Dex)
+**QA por:** @qa (Quinn) — PASS
+**Deploy por:** @devops (Gage)
 **Prioridade:** Alta — bloqueia disparo automático no GENE
 
 ---
@@ -164,6 +167,8 @@ const payload = { name, email, phone: normalizedPhone, downloadName };
 - **2026-05-12** — Story criada por @sm (River). Decisão: normalizar no servidor (xquads), não no painel do GENE, para garantir que Sheets também receba o valor normalizado.
 - **2026-05-12** — Story validada por @po (Pax). Verdict: **GO** (9/10). Transição **Draft → Ready**.
 - **2026-05-12** — Implementado por @dev (Dex). Refinamento durante implementação: a função inicial confundiria DDD 55 (Santa Maria-RS) com prefixo país. Solução: exigir comprimento >= 12 dígitos para considerar que o phone já tem prefixo. Validado com 6 casos E2E (DDDs comuns + DDD 55 + fixo 10 dígitos + phone inválido). Build + lint OK. Transição **Ready → Ready for Review**.
+- **2026-05-12** — Revisão @qa (Quinn): **PASS** sem concerns novos. AC1-AC6 cobertos. Edge cases adicionais (DDD 55, fixo 10 dígitos) também passaram.
+- **2026-05-12** — Deploy @devops (Gage): push `770b655..3afa2f7` em `main`, auto-deploy `xquads-5zakxf1ce` em produção. Smoke tests em prod (xquads.vercel.app e sowsales.com.br/xquads) com phones em formatos variados retornaram 200/400 conforme esperado. Transição **Ready for Review → Done**.
 
 ## QA Results
 

@@ -1,6 +1,6 @@
 # Story 014: Página /foto (Auditoria de pegada digital por imagem)
 
-**Status:** InReview
+**Status:** Done
 **Épico:** Páginas isca Xquads
 **Criada por:** @sage (2026-07-14)
 **Validada por:** @eden (2026-07-14) — GO, 10/10
