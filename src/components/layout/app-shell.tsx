@@ -5,7 +5,13 @@ import { usePathname } from 'next/navigation';
 import { Sidebar } from './sidebar';
 import { Header } from './header';
 
-const STANDALONE_ROUTES = ['/carrossel', '/instagram', '/insta', '/idvisual', '/arrow', '/imagemgpt', '/compact', '/estilo', '/mcpmeta', '/curriculo', '/viral', '/app', '/claude', '/loop', '/fable', '/emprego', '/humano', '/mkt', '/virginia', '/skills', '/orquestrador', '/foto', '/estudogpt', '/familia', '/frameworkviral', '/logoanimada', '/vendasgpt', '/meurosto', '/ensinarclaude', '/linkedin', '/omniroute', '/markitdown', '/airbnb', '/clonardesign', '/codigosgpt', '/livroskill', '/claudelinkedin', '/agenteclaude', '/appseguro', '/dadosvazados', '/gptads', '/segundocerebro', '/imadeseguidores', '/appdozero', '/marcadagua'];
+const DASHBOARD_ROUTES = ['/', '/squads', '/agents', '/downloads'];
+
+function isDashboardRoute(pathname: string) {
+  return DASHBOARD_ROUTES.some((route) =>
+    route === '/' ? pathname === '/' : pathname === route || pathname.startsWith(`${route}/`)
+  );
+}
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -14,7 +20,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
   const cleanPath = pathname.replace(basePath, '') || '/';
 
-  if (STANDALONE_ROUTES.includes(cleanPath)) {
+  if (!isDashboardRoute(cleanPath)) {
     return (
       <div className="min-h-screen bg-[#121214]">
         <main className="p-4 md:p-6">{children}</main>
