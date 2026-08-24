@@ -94,3 +94,28 @@ e alcance maior que a `/humano`, que exige Claude Code.
   2. **"EVITE markdown." e "EVITE asteriscos." especificados**, para remover a contradição com "DEVE usar listas com marcadores em posts de redes sociais". Agora: markdown proibido é título com `#`, negrito com `**` e link em colchetes; asterisco proibido é o de ênfase, com hífen ou `•` liberados como marcador de lista.
   - Sem mudança na contagem: seguem 50 regras (10 DEVE + 40 EVITE). Lint limpo, `npm run build` verde.
 - **2026-08-24** — Aprovada pelo dono. @devops: commit + push em `main`, auto-deploy Vercel. Status → **Done**.
+
+## Incidente de deploy (24/08)
+
+O push de `5cfd8e4` chegou ao GitHub (confirmado via `gh api`, 11:57 UTC), mas o Vercel
+**não criou build**. `vercel ls xquads` mostrava o último deploy com 3 dias (o da Story 039).
+A URL ficou 404 por mais de 5 minutos, contra ~40s do deploy anterior. A integração Git do
+projeto parou de disparar; religar exige o dashboard do Vercel.
+
+**Contorno aplicado:** deploy a partir de árvore limpa, não do working tree.
+`git archive 5cfd8e4` extraído para diretório temporário, `.vercel/project.json` copiado,
+`vercel --prod` executado de lá. Resultado: `xquads-msf22lcxh`, alias `xquads.vercel.app`.
+
+**Por que não `vercel --prod` da pasta do projeto:** o repositório não tem `.vercelignore`,
+e `src/app/teste/`, `public/obrigado/` e `squads/` estão fora do `.gitignore`. Um deploy do
+working tree teria publicado esses arquivos não aprovados. Confirmado após o deploy:
+`/xquads/teste` e `/xquads/obrigado` retornam 404 em produção.
+
+**Pendências para o dono:**
+- Reconectar a integração Git do projeto `xquads` no dashboard do Vercel.
+- Avaliar um `.vercelignore` (ou entradas no `.gitignore`) cobrindo `squads/` e rascunhos,
+  para que um deploy manual futuro não vaze arquivo de trabalho.
+
+- **2026-08-24** — Publicada. `/xquads/escritahumana` responde 200 em produção, LeadGate ativo,
+  prompt protegido, sem faixa de prévia local. Regressão conferida: `/codigossecretos`,
+  `/marcadagua` e `/humano` seguem em 200.
