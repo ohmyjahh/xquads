@@ -114,3 +114,5 @@ Conecta com a `/appseguro`, que já converte no mesmo assunto.
 - `src/app/strix/page.tsx`
 - `docs/stories/041-strix-page.md`
 - **2026-08-27** — Aprovada pelo dono. @devops: commit + push em `main`. Status → **Done**.
+- **2026-08-27** — Publicada. Deploy automático do Vercel **voltou a funcionar sozinho**: o push disparou build em 42s (`xquads-nt2irjnhq`), sem precisar do contorno de árvore limpa usado na Story 040. A falha de 24/08 foi intermitente, não uma desconexão permanente da integração Git.
+- **2026-08-27** — Verificado em produção: `/xquads/strix` responde 200, LeadGate ativo, link do repositório e comandos protegidos, aviso de uso autorizado visível na parte aberta, sem faixa de prévia local. Regressão conferida: `/escritahumana`, `/codigossecretos` e `/appseguro` em 200; `/teste` e `/obrigado` seguem 404, confirmando que nada não aprovado subiu.
