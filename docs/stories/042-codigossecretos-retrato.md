@@ -64,3 +64,4 @@ alterar `source`/`utmContent`; mexer em qualquer outro código da biblioteca.
 - `src/app/codigossecretos/page.tsx`
 - `docs/stories/042-codigossecretos-retrato.md`
 - **2026-08-27** — Aprovada pelo dono. @devops: commit + push em `main`. Status → **Done**.
+- **2026-08-27** — Publicada junto com a Story 043. "+50 códigos" confirmado no HTML de produção da `/codigossecretos`.

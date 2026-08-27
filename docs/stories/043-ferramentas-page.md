@@ -105,3 +105,4 @@ páginas separadas, funcionando como porta de entrada para as outras iscas.
 - `src/app/ferramentas/page.tsx`
 - `docs/stories/043-ferramentas-page.md`
 - **2026-08-27** — Aprovada pelo dono. @devops: commit + push em `main`. Status → **Done**.
+- **2026-08-27** — Publicada. `/xquads/ferramentas` responde 200, LeadGate ativo, os 30 links protegidos (zero âncoras externas expostas antes do lead), atalho e data visíveis na parte aberta. Auto-deploy do Vercel disparou normalmente pelo push.
