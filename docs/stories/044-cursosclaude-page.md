@@ -91,3 +91,4 @@ português. Conecta com as quatro páginas de Claude que já existem (`/claude`,
 - `src/app/cursosclaude/page.tsx`
 - `docs/stories/044-cursosclaude-page.md`
 - **2026-08-27** — Aprovada pelo dono. @devops: commit + push em `main`. Status → **Done**.
+- **2026-08-27** — Publicada. `/xquads/cursosclaude` responde 200, LeadGate ativo, trilha protegida (nenhum título de nível 3 exposto antes do lead), aviso de idioma visível sem precisar preencher formulário, zero links externos expostos na parte aberta. Auto-deploy do Vercel disparou pelo push.
