@@ -72,3 +72,6 @@ Os quatro constam da lista oficial de provedores do Hermes, que hoje passa de 40
 - `src/app/timedeagentes/page.tsx`
 - `docs/stories/046-timedeagentes-conectar-ia.md`
 - **2026-09-01** — Aprovada pelo dono. @devops: commit + push em `main`. Status → **Done**.
+- **2026-09-01** — Publicada. Deploy `xquads-ky021ydnp` no ar.
+  - Verificação inicial por `curl` deu falso negativo: o conteúdo novo fica atrás do gate e não existe no HTML servido, só no bundle. Confirmado de duas formas: a string presente no chunk `4674dd8311360d9c.js` em produção, e a página aberta no navegador com o gate destravado.
+  - Com o gate aberto em produção: etapa nova visível, quatro provedores presentes, ordem correta (Configurar → aviso do cérebro → Nous → Anthropic → DeepSeek → Ollama → gateway), requisito de RAM declarado, passos 3 a 5 intactos.
