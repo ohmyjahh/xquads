@@ -103,3 +103,4 @@ o que fazer depois de conhecer as ferramentas. Formato passo a passo tem retenç
 - `src/app/timedeagentes/page.tsx`
 - `docs/stories/045-timedeagentes-page.md`
 - **2026-09-01** — Aprovada pelo dono. @devops: commit + push em `main`. Status → **Done**.
+- **2026-09-01** — Publicada. `/xquads/timedeagentes` responde 200, LeadGate ativo, comandos protegidos (nenhuma linha de instalação exposta antes do lead), os cinco passos e os três avisos de risco visíveis sem preencher formulário, zero links externos na parte aberta. Auto-deploy do Vercel disparou pelo push.
