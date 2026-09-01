@@ -61,6 +61,38 @@ const AVISOS = [
   },
 ];
 
+const PROVEDORES: { nome: string; resumo: string; texto: string; cmd: string; nota?: string; tag: string }[] = [
+  {
+    nome: "Nous Portal",
+    resumo: "Um login só, mais de 300 modelos",
+    texto: "É o provedor do time que faz o Hermes. Você entra uma vez e tem acesso a vários modelos de ponta, cobrados na sua assinatura em vez de uma conta por fornecedor.",
+    cmd: "hermes setup --portal",
+    tag: "Mais simples",
+  },
+  {
+    nome: "Anthropic",
+    resumo: "Claude direto",
+    texto: "Conecta pela sua conta da Anthropic, por chave de API ou login. É o caminho de quem já paga Claude e quer usar o mesmo acesso.",
+    cmd: "hermes auth add anthropic --type oauth",
+    tag: "Conta própria",
+  },
+  {
+    nome: "DeepSeek",
+    resumo: "Custo baixo",
+    texto: "Alternativa mais barata para quem vai rodar muita tarefa e não quer estourar a fatura no primeiro mês.",
+    cmd: "export DEEPSEEK_API_KEY=sk-...\nhermes chat --provider deepseek --model deepseek-chat",
+    tag: "Econômico",
+  },
+  {
+    nome: "Ollama",
+    resumo: "Roda na sua máquina, sem mensalidade",
+    texto: "O modelo fica no seu computador e nada sai dele. Não tem custo por uso, mas cobra em hardware: a documentação pede 24 GB de RAM ou mais para o modelo que ela recomenda.",
+    cmd: "ollama pull gemma4:31b\nollama serve\nhermes model",
+    nota: "No hermes model escolha Custom endpoint e informe http://localhost:11434/v1, sem chave de API.",
+    tag: "Local",
+  },
+];
+
 const BLOCOS: { passo: number; titulo: string; texto: string; cmd?: string; nota?: string }[] = [
   {
     passo: 2,
@@ -280,7 +312,7 @@ export default function TimeDeAgentesPage() {
                 Os comandos abaixo saíram do repositório oficial, conferidos em setembro de 2026.
               </p>
             </div>
-            {BLOCOS.filter((b) => b.passo === 2).map((b) => (
+            {BLOCOS.filter((b) => b.passo === 2 && !b.titulo.includes("gateway") && !b.titulo.includes("Liberar")).map((b) => (
               <article
                 key={b.titulo}
                 className="rounded-xl border border-[#2a2a2e] bg-[#1a1a1d] p-5"
@@ -320,6 +352,111 @@ export default function TimeDeAgentesPage() {
                 {b.nota && <p className="mt-2 text-xs text-[#777]">{b.nota}</p>}
               </article>
             ))}
+            <div className="rounded-xl border p-5" style={{ borderColor: `${ACCENT}4D`, backgroundColor: `${ACCENT}0F` }}>
+              <h3 className="font-semibold" style={{ color: ACCENT }}>
+                Antes de seguir: o Hermes não pensa sozinho
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-[#bbb]">
+                Ele é o corpo do agente, não o cérebro. Sem um modelo de linguagem conectado, você
+                instala tudo, liga o WhatsApp e não recebe resposta nenhuma. Escolha um dos caminhos
+                abaixo antes de ligar o gateway. Dá para trocar depois.
+              </p>
+            </div>
+
+            {PROVEDORES.map((p) => (
+              <article
+                key={p.nome}
+                className="rounded-xl border border-[#2a2a2e] bg-[#1a1a1d] p-5"
+              >
+                <div className="flex items-start justify-between gap-4">
+                  <div className="min-w-0">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <h3 className="font-semibold">{p.nome}</h3>
+                      <span
+                        className="rounded-full px-2 py-0.5 text-[10px] font-medium"
+                        style={{ backgroundColor: `${ACCENT}1A`, color: ACCENT }}
+                      >
+                        {p.tag}
+                      </span>
+                    </div>
+                    <p className="mt-0.5 text-sm text-[#888]">{p.resumo}</p>
+                    <p className="mt-2 text-sm leading-relaxed text-[#999]">{p.texto}</p>
+                  </div>
+                  <button
+                    onClick={() => copiar(p.nome, p.cmd)}
+                    className="shrink-0 rounded-md border px-3 py-1.5 text-xs transition-opacity hover:opacity-80 cursor-pointer"
+                    style={{
+                      borderColor: `${ACCENT}33`,
+                      backgroundColor: `${ACCENT}0D`,
+                      color: ACCENT,
+                    }}
+                  >
+                    {copiado === p.nome ? (
+                      <>
+                        <Check className="inline h-3.5 w-3.5" /> Copiado
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="inline h-3.5 w-3.5" /> Copiar
+                      </>
+                    )}
+                  </button>
+                </div>
+                <pre className="mt-3 overflow-x-auto rounded-lg border border-[#2a2a2e] bg-[#0e0e10] p-4 text-[13px] font-mono text-[#ccc] select-all">
+                  {p.cmd}
+                </pre>
+                {p.nota && <p className="mt-2 text-xs text-[#777]">{p.nota}</p>}
+              </article>
+            ))}
+
+            <p className="text-sm leading-relaxed text-[#777]">
+              Em qualquer um dos casos, <span className="font-mono text-[#999]">hermes model</span>{" "}
+              é o comando que abre o assistente de escolha de provedor e modelo. As chaves ficam
+              guardadas em <span className="font-mono text-[#999]">~/.hermes/.env</span>, na sua
+              máquina.
+            </p>
+
+            {BLOCOS.filter((b) => b.passo === 2 && (b.titulo.includes("gateway") || b.titulo.includes("Liberar"))).map((b) => (
+              <article
+                key={b.titulo}
+                className="rounded-xl border border-[#2a2a2e] bg-[#1a1a1d] p-5"
+              >
+                <div className="flex items-start justify-between gap-4">
+                  <div className="min-w-0">
+                    <h3 className="font-semibold">{b.titulo}</h3>
+                    <p className="mt-1 text-sm leading-relaxed text-[#999]">{b.texto}</p>
+                  </div>
+                  {b.cmd && (
+                    <button
+                      onClick={() => copiar(b.titulo, b.cmd as string)}
+                      className="shrink-0 rounded-md border px-3 py-1.5 text-xs transition-opacity hover:opacity-80 cursor-pointer"
+                      style={{
+                        borderColor: `${ACCENT}33`,
+                        backgroundColor: `${ACCENT}0D`,
+                        color: ACCENT,
+                      }}
+                    >
+                      {copiado === b.titulo ? (
+                        <>
+                          <Check className="inline h-3.5 w-3.5" /> Copiado
+                        </>
+                      ) : (
+                        <>
+                          <Copy className="inline h-3.5 w-3.5" /> Copiar
+                        </>
+                      )}
+                    </button>
+                  )}
+                </div>
+                {b.cmd && (
+                  <pre className="mt-3 overflow-x-auto rounded-lg border border-[#2a2a2e] bg-[#0e0e10] p-4 text-[13px] font-mono text-[#ccc] select-all">
+                    {b.cmd}
+                  </pre>
+                )}
+                {b.nota && <p className="mt-2 text-xs text-[#777]">{b.nota}</p>}
+              </article>
+            ))}
+
             {copiado === "erro" && (
               <p className="rounded-lg border border-[#EF4444]/40 bg-[#EF4444]/10 px-4 py-3 text-sm text-[#FCA5A5]">
                 Seu navegador bloqueou a cópia. Selecione o comando e copie com Ctrl+C ou Cmd+C.
