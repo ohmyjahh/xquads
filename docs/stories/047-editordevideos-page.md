@@ -81,3 +81,4 @@ passo de comprar formação. Conecta com `/timedeagentes` e `/ferramentas`, que 
 - `src/app/editordevideos/page.tsx`
 - `docs/stories/047-editordevideos-page.md`
 - **2026-09-09** — Aprovada pelo dono. @devops: commit + push em `main`. Status → **Done**.
+- **2026-09-09** — Publicada. `/xquads/editordevideos` responde 200, LeadGate ativo, prompt protegido (nenhum bloco `<pre>` no DOM antes do lead), aviso "não roda colando no chat", os quatro pré-requisitos e o pipeline visíveis sem preencher formulário. Auto-deploy do Vercel disparou pelo push.
