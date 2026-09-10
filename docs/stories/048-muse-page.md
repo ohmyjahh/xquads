@@ -102,3 +102,4 @@ que a manchete não conta.
   - Reverificado: bloco dos EUA ausente, cross-link ausente, nenhum `href` para timedeagentes, único link externo segue `https://muse.ai/`. Seções restantes: título, "O que ele faz", "Onde seus dados ficam", gate, "Por onde dá para usar", "Antes de conectar suas contas".
   - Lint limpo, `npm run build` verde.
 - **2026-09-10** — Aprovada pelo dono. @devops: commit + push em `main`. Status → **Done**.
+- **2026-09-10** — Publicada. `/xquads/muse` responde 200, LeadGate ativo, botão do site oficial protegido, zero links externos expostos antes do lead. Confirmado em produção que os dois blocos removidos a pedido do dono não estão na página. Auto-deploy do Vercel disparou pelo push.
