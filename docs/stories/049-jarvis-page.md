@@ -124,3 +124,4 @@ páginas tratam do mesmo público e podem se referenciar.
 - `src/app/jarvis/page.tsx`
 - `docs/stories/049-jarvis-page.md`
 - **2026-09-14** — Aprovada pelo dono. @devops: commit + push em `main`. Status → **Done**.
+- **2026-09-14** — Publicada. `/xquads/jarvis` responde 200, LeadGate ativo, prompt e link do repositório protegidos (nenhum `<pre>` e nenhuma âncora para o GitHub no DOM antes do lead), os três avisos e os dados do repositório visíveis sem preencher formulário. Auto-deploy do Vercel disparou pelo push.
