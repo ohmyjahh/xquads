@@ -90,3 +90,4 @@ que geração de imagem.
 - `src/app/produtividade/page.tsx`
 - `docs/stories/051-produtividade-page.md`
 - **2026-09-17** — Aprovada pelo dono. @devops: commit + push em `main`. Status → **Done**.
+- **2026-09-17** — Publicada. `/xquads/produtividade` responde 200, LeadGate ativo, os 50 códigos protegidos (nenhum card no DOM antes do lead), o passo a passo de uso e o exemplo `/mindmap` visíveis sem preencher formulário. Auto-deploy do Vercel disparou pelo push.
