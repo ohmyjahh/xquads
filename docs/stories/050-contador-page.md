@@ -102,3 +102,4 @@ Público altamente qualificado e adjacente ao das páginas `/timedeagentes`, `/e
 - `src/app/contador/page.tsx`
 - `docs/stories/050-contador-page.md`
 - **2026-09-17** — Aprovada pelo dono. @devops: commit + push em `main`. Status → **Done**.
+- **2026-09-17** — Publicada. `/xquads/contador` responde 200, LeadGate ativo, repositório protegido (nenhuma âncora para o GitHub no DOM antes do lead), os dois avisos e os quatro assistentes visíveis sem preencher formulário. Auto-deploy do Vercel disparou pelo push.
