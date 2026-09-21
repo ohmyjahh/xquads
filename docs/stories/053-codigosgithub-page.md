@@ -111,3 +111,4 @@ do Xquads usa GitHub todo dia. Combina com `/strix`, `/contador` e `/jarvis`, qu
 - `src/app/codigosgithub/page.tsx`
 - `docs/stories/053-codigosgithub-page.md`
 - **2026-09-21** — Aprovada pelo dono. @devops: commit + push em `main`. Status → **Done**.
+- **2026-09-21** — Publicada. `/xquads/codigosgithub` responde 200, LeadGate ativo, os 17 códigos e o montador de links protegidos (zero âncoras externas e nenhum campo de entrada no DOM antes do lead), exemplo da substituição visível na parte aberta. Auto-deploy do Vercel disparou pelo push.
