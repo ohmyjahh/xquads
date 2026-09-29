@@ -7,10 +7,26 @@ import { LeadForm } from '@/components/downloads/lead-form';
 import { SalesCta } from '@/components/sales-cta';
 
 const INSTALL_STEPS_SQUADS = [
-  { step: 1, text: 'Clique no botao abaixo para baixar o arquivo ZIP' },
-  { step: 2, text: 'Extraia o ZIP em uma pasta no seu computador' },
-  { step: 3, text: 'Copie a pasta "squads/" para dentro do seu projeto aios-core' },
-  { step: 4, text: 'Pronto! Os agentes, workflows e tasks estarao disponiveis' },
+  { step: 1, text: 'Abra o terminal e rode o comando de instalacao abaixo' },
+  { step: 2, text: 'O instalador detecta sozinho quais agentes de IA voce ja tem na maquina' },
+  { step: 3, text: 'Reinicie o seu agente para ele carregar os squads' },
+  { step: 4, text: 'Peca em linguagem natural: "usa o xquads pra montar a campanha"' },
+];
+
+const INSTALL_CMD_SQUADS =
+  'bash <(curl -sL https://raw.githubusercontent.com/ohmyjahh/xquads-squads/main/install.sh)';
+
+// Clientes onde os squads funcionam. Sao Agent Skills (padrao aberto
+// agentskills.io), entao nao dependem de nenhum agente especifico.
+const CLIENTES_COMPATIVEIS = [
+  'Claude Code',
+  'Codex',
+  'Gemini CLI',
+  'Cursor',
+  'GitHub Copilot',
+  'VS Code',
+  'OpenCode',
+  'e outros compativeis com Agent Skills',
 ];
 
 const INSTALL_STEPS_REPO = [
@@ -71,8 +87,10 @@ export default function DownloadsPage() {
             <div className="flex-1 min-w-0">
               <h2 className="text-lg font-semibold text-white">Pacote Xquads</h2>
               <p className="text-sm text-[#888] mt-1">
-                Todos os 12 squads com agentes, workflows, tasks e configuracoes prontos para uso.
-                Inclui Advisory Board, Brand, Copy, Cybersecurity, Data, Design, Hormozi, Movement, Storytelling, Traffic Masters, C-Level e Claude Code Mastery.
+                Todos os 15 squads e 183 agentes, com workflows, tasks e checklists prontos para uso.
+                Inclui Advisory Board, Brand, C-Level, Claude Code Mastery, Copy, Copy Master, Cybersecurity,
+                Data, Design, Hormozi, Marketing, Movement, Storytelling, Traffic Masters e o Xquads Chief,
+                que roteia a sua demanda para o squad certo.
               </p>
 
               <div className="mt-5 space-y-3">
@@ -82,7 +100,7 @@ export default function DownloadsPage() {
                 </h3>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                   {[
-                    { label: '96+ Agentes', desc: 'Personas completas' },
+                    { label: '183 Agentes', desc: 'Personas completas' },
                     { label: 'Workflows', desc: 'Fluxos automatizados' },
                     { label: 'Tasks', desc: 'Tarefas executaveis' },
                     { label: 'Configs', desc: 'Pronto para usar' },
@@ -110,6 +128,40 @@ export default function DownloadsPage() {
                     </div>
                   ))}
                 </div>
+
+                <code className="block rounded-md bg-[#0D0D0F] border border-[#2A2A2E] px-3 py-2 text-xs text-[#EA8049] font-mono whitespace-pre-wrap break-all leading-relaxed">
+                  {INSTALL_CMD_SQUADS}
+                </code>
+              </div>
+
+              <div className="mt-5 p-4 rounded-lg bg-[#262629] border border-[#2A2A2E]">
+                <div className="flex items-center gap-2 mb-2">
+                  <CheckCircle2 className="h-4 w-4 text-[#3BA856]" />
+                  <p className="text-sm font-medium text-white">Funciona no agente que voce ja usa</p>
+                </div>
+                <p className="text-sm text-[#888]">
+                  Os squads sao{' '}
+                  <a
+                    href="https://agentskills.io"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[#EA8049] hover:underline"
+                  >
+                    Agent Skills
+                  </a>
+                  , um padrao aberto. Nao dependem de nenhum agente especifico.
+                </p>
+                <div className="mt-3 flex flex-wrap gap-1.5">
+                  {CLIENTES_COMPATIVEIS.map((cliente) => (
+                    <span
+                      key={cliente}
+                      className="rounded-md bg-[#1E1E21] border border-[#2A2A2E] px-2 py-1 text-xs text-[#ccc]"
+                    >
+                      {cliente}
+                    </span>
+                  ))}
+                </div>
+                <p className="mt-3 text-xs text-[#888]">Unico pre-requisito: Git.</p>
               </div>
 
               <div className="mt-6 flex flex-wrap gap-3">
@@ -176,7 +228,7 @@ export default function DownloadsPage() {
                   <p className="text-sm font-medium text-white">Pre-requisitos</p>
                 </div>
                 <ul className="space-y-1">
-                  {['Node.js 18+', 'Git', 'Claude Code (Anthropic CLI)'].map((req) => (
+                  {['Node.js 18+', 'Git'].map((req) => (
                     <li key={req} className="flex items-center gap-2 text-sm text-[#888]">
                       <ArrowRight className="h-3 w-3 text-[#3BA856]" />
                       {req}
