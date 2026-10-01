@@ -1,14 +1,7 @@
 "use client";
 
 import { useState, useSyncExternalStore } from "react";
-import {
-  Check,
-  Copy,
-  Clapperboard,
-  Terminal,
-  ArrowRight,
-  TriangleAlert,
-} from "lucide-react";
+import { Check, Copy, Clapperboard, Monitor, Terminal, Wallet } from "lucide-react";
 import { LeadGate } from "@/components/lead-gate";
 import { hasCapturedLead } from "@/hooks/use-copy-with-lead";
 import { SalesCta } from "@/components/sales-cta";
@@ -226,63 +219,63 @@ Todas as referências profissionais fecham com um cartão de marca de **3-5s**:
 5. **Prove, não presuma**: transcrição conferida contra o áudio, SFX medidos no render, loudness medido no arquivo final.
 `;
 
-const PRE_REQUISITOS = [
-  {
-    nome: "Um agente com terminal",
-    texto: "Claude Code, Codex ou Cursor. O prompt manda rodar comando e escrever arquivo, coisa que o chat do navegador não faz.",
-  },
-  {
-    nome: "FFmpeg",
-    texto: "Analisa o bruto, extrai o áudio, trata a voz e sintetiza os efeitos sonoros.",
-  },
-  {
-    nome: "Whisper",
-    texto: "Transcreve com timestamp por palavra. É o que sincroniza legenda, corte e efeito.",
-  },
-  {
-    nome: "Node 18+ e Remotion",
-    texto: "Onde a edição acontece de fato: cortes, legendas, zoom, motion graphics e o render final.",
-  },
-];
-
-const ETAPAS = [
-  {
-    n: "0",
-    titulo: "Define a identidade visual",
-    texto: "Fonte, cor de destaque, estilo de legenda e de keyword, escolhidos pelo nicho de quem aparece no vídeo.",
-  },
+const PASSOS = [
   {
     n: "1",
-    titulo: "Analisa o bruto",
-    texto: "Resolução, rotação, transcrição com timestamp por palavra e folha de contato. Inclui conferir onde o Whisper errou palavra.",
+    titulo: "Abra o ChatGPT no computador",
+    texto: "O plugin vive no aplicativo de computador, não na versão do navegador. Se ainda não tem, baixe em chatgpt.com/download e entre com a sua conta.",
   },
   {
     n: "2",
-    titulo: "Decupa",
-    texto: "Escolhe o melhor take, joga fora bastidor e frase quebrada, aperta pausa. Alvo de um corte a cada 2 a 5 segundos.",
+    titulo: "Mude para o modo Work",
+    texto: "No topo da janela tem um seletor de modo. Troque para Work. É nele que fica o diretório de plugins.",
   },
   {
     n: "3",
-    titulo: "Trata o áudio",
-    texto: "Compressão, normalização em -14 LUFS, trilha por baixo e efeito sonoro em toda palavra que aparece na tela.",
+    titulo: "Clique em Plugins",
+    texto: "Abre o diretório com mais de mil plugins disponíveis.",
   },
   {
     n: "4",
-    titulo: "Monta e renderiza",
-    texto: "Reframe 9:16, punch-in alternado, legendas curtas, keywords com glow, B-roll, motion graphics e end card.",
+    titulo: "Busque por Remotion",
+    texto: "O nome é exatamente esse, Remotion. É o plugin oficial de quem faz a ferramenta.",
+  },
+  {
+    n: "5",
+    titulo: "Instale e abra um chat novo",
+    texto: "Depois de instalar, comece uma conversa nova e digite $remotion. O plugin aparece como sugestão e passa a estar disponível ali.",
+  },
+  {
+    n: "6",
+    titulo: "Suba seu vídeo e cole o prompt",
+    texto: "Arraste a gravação crua para a conversa, cole o prompt completo e diga qual é o arquivo. Ele cuida do resto.",
   },
 ];
 
-export default function EditorDeVideosPage() {
+const OBSERVACOES = [
+  {
+    icone: Monitor,
+    titulo: "É no aplicativo de computador",
+    texto: "A documentação do plugin fala do app de desktop do ChatGPT. Pelo navegador você não encontra o diretório de plugins do mesmo jeito.",
+  },
+  {
+    icone: Wallet,
+    titulo: "O Remotion cobra de empresa",
+    texto: "Para uso individual existe licença gratuita. Se for usar dentro de uma empresa, o licenciamento é pago e os valores estão em remotion.pro. Vale conferir antes de colocar no fluxo do time.",
+  },
+  {
+    icone: Terminal,
+    titulo: "Existe o caminho pelo terminal",
+    texto: "Se você já usa Claude Code, Cursor ou Copilot, há plugin equivalente para cada um, e o prompt é o mesmo.",
+  },
+];
+
+export default function EditorDeVideos2Page() {
   const [formUnlocked, setFormUnlocked] = useState(false);
   const [copiado, setCopiado] = useState(false);
   const [falhou, setFalhou] = useState(false);
 
-  const storedLead = useSyncExternalStore(
-    () => () => {},
-    () => hasCapturedLead(),
-    () => false
-  );
+  const storedLead = useSyncExternalStore(() => () => {}, () => hasCapturedLead(), () => false);
   const review = useSyncExternalStore(
     () => () => {},
     () => ["localhost", "127.0.0.1"].includes(window.location.hostname),
@@ -309,7 +302,6 @@ export default function EditorDeVideosPage() {
       document.body.removeChild(campo);
       return ok;
     };
-
     let ok = false;
     try {
       if (!navigator.clipboard) throw new Error("clipboard indisponível");
@@ -318,7 +310,6 @@ export default function EditorDeVideosPage() {
     } catch {
       ok = legado();
     }
-
     if (!ok) {
       setFalhou(true);
       setTimeout(() => setFalhou(false), 6000);
@@ -345,15 +336,15 @@ export default function EditorDeVideosPage() {
           style={{ borderColor: `${ACCENT}4D`, color: ACCENT }}
         >
           <Clapperboard className="h-4 w-4" />
-          Prompt mestre
+          Dentro do ChatGPT
         </span>
         <h1 className="text-4xl sm:text-5xl font-bold tracking-tight leading-[1.1]">
-          A IA edita seu <span style={{ color: ACCENT }}>Reels inteiro</span>, do bruto ao
-          arquivo final
+          Agora o <span style={{ color: ACCENT }}>ChatGPT</span> edita seu Reels, sem instalar nada
+          no computador
         </h1>
         <p className="mx-auto max-w-xl text-lg text-[#999] leading-relaxed">
-          Você entrega a gravação crua da câmera. Ela devolve um vertical 1080x1920 com corte,
-          legenda sincronizada, zoom, efeito sonoro e cartão de marca. Sem abrir editor.
+          Você instala um plugin dentro do aplicativo, arrasta a gravação crua e cola o prompt.
+          Volta um vertical 1080x1920 com corte, legenda sincronizada, zoom e efeito sonoro.
         </p>
       </header>
 
@@ -363,18 +354,15 @@ export default function EditorDeVideosPage() {
             O que você entrega
           </p>
           <p className="mt-2 text-sm leading-relaxed text-[#bbb]">
-            Um arquivo de câmera, geralmente 4K, com vários takes, erro de fala, tosse e conversa
-            de bastidor. Uns três minutos de gravação.
+            Um arquivo de câmera, geralmente 4K, com vários takes, erro de fala, tosse e conversa de
+            bastidor. Uns três minutos de gravação.
           </p>
         </article>
         <article
           className="rounded-xl border bg-[#1a1a1d] p-5"
           style={{ borderColor: `${ACCENT}4D` }}
         >
-          <p
-            className="text-[10px] font-mono uppercase tracking-widest"
-            style={{ color: ACCENT }}
-          >
+          <p className="text-[10px] font-mono uppercase tracking-widest" style={{ color: ACCENT }}>
             O que volta
           </p>
           <p className="mt-2 text-sm leading-relaxed text-[#ddd]">
@@ -384,79 +372,58 @@ export default function EditorDeVideosPage() {
         </article>
       </section>
 
-      <section
-        className="rounded-xl border p-5"
-        style={{ borderColor: `${ACCENT}4D`, backgroundColor: `${ACCENT}0F` }}
-      >
-        <h2 className="flex items-center gap-2 font-semibold" style={{ color: ACCENT }}>
-          <TriangleAlert className="h-4 w-4" />
-          Isso não roda colando no chat
-        </h2>
-        <p className="mt-2 text-sm leading-relaxed text-[#bbb]">
-          O prompt manda executar comando, ler e gravar arquivo e renderizar vídeo na sua máquina.
-          Colado no ChatGPT ou no Claude do navegador, você recebe uma explicação do que seria
-          feito, não um vídeo. Ele é feito para agente com acesso ao terminal.
-        </p>
-      </section>
-
-      <section className="space-y-4">
-        <h2 className="flex items-center gap-2 text-2xl font-bold tracking-tight">
-          <Terminal className="h-5 w-5" style={{ color: ACCENT }} />
-          O que precisa estar instalado
-        </h2>
-        <div className="space-y-2">
-          {PRE_REQUISITOS.map((p) => (
-            <article
-              key={p.nome}
-              className="rounded-xl border border-[#2a2a2e] bg-[#1a1a1d] p-4"
-            >
-              <h3 className="font-semibold">{p.nome}</h3>
-              <p className="mt-1 text-sm leading-relaxed text-[#999]">{p.texto}</p>
-            </article>
-          ))}
-        </div>
-        <p className="text-sm leading-relaxed text-[#777]">
-          Tudo local e gratuito. Se você ainda não tem agente rodando no terminal, comece por{" "}
-          <a
-            href="/xquads/timedeagentes"
-            className="underline underline-offset-4"
-            style={{ color: ACCENT }}
-          >
-            sowsales.com.br/xquads/timedeagentes
-          </a>
-          .
-        </p>
-      </section>
-
       <section className="space-y-3">
-        <h2 className="text-2xl font-bold tracking-tight">O pipeline, em cinco etapas</h2>
-        {ETAPAS.map((e) => (
+        <h2 className="text-2xl font-bold tracking-tight">O passo a passo</h2>
+        <p className="text-sm text-[#888]">
+          Leva uns dois minutos. Você faz uma vez e fica instalado.
+        </p>
+        {PASSOS.map((p) => (
           <article
-            key={e.n}
+            key={p.n}
             className="flex gap-4 rounded-xl border border-[#2a2a2e] bg-[#1a1a1d] p-4"
           >
             <span
               className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-bold"
               style={{ backgroundColor: `${ACCENT}1A`, color: ACCENT }}
             >
-              {e.n}
+              {p.n}
             </span>
             <div className="min-w-0">
-              <h3 className="font-semibold">{e.titulo}</h3>
-              <p className="mt-1 text-sm leading-relaxed text-[#999]">{e.texto}</p>
+              <h3 className="font-semibold">{p.titulo}</h3>
+              <p className="mt-1 text-sm leading-relaxed text-[#999]">{p.texto}</p>
             </div>
           </article>
         ))}
       </section>
 
+      <section className="space-y-3">
+        <h2 className="text-2xl font-bold tracking-tight">Três coisas que vale saber</h2>
+        {OBSERVACOES.map((o) => (
+          <article
+            key={o.titulo}
+            className="flex gap-4 rounded-xl border border-[#2a2a2e] bg-[#1a1a1d] p-4"
+          >
+            <o.icone className="mt-0.5 h-5 w-5 shrink-0" style={{ color: ACCENT }} />
+            <div className="min-w-0">
+              <h3 className="font-semibold">{o.titulo}</h3>
+              <p className="mt-1 text-sm leading-relaxed text-[#999]">{o.texto}</p>
+            </div>
+          </article>
+        ))}
+        <p className="text-xs text-[#666]">
+          Caminho e nomes de menu conferidos na documentação oficial do Remotion em 21 de setembro de
+          2026. Interface de aplicativo muda, então o nome de algum botão pode variar.
+        </p>
+      </section>
+
       {!unlocked ? (
         <LeadGate
-          source="editordevideos-page"
+          source="editordevideos2-page"
           accent={ACCENT}
           buttonTextColor="#2a0410"
           title="Receba o prompt mestre completo"
-          description="Preencha seus dados para liberar o documento inteiro, pronto para entregar ao seu agente."
-          contentNote="São 210 linhas de especificação: theme, decupagem, tratamento de áudio com medição, montagem no Remotion e checklist de controle de qualidade."
+          description="Preencha seus dados para liberar o documento inteiro, pronto para colar depois de instalar o plugin."
+          contentNote="São 210 linhas de especificação: identidade visual, decupagem, tratamento de áudio com medição, montagem e checklist de controle de qualidade."
           buttonLabel="Liberar o prompt"
           onUnlock={() => setFormUnlocked(true)}
         />
@@ -468,7 +435,7 @@ export default function EditorDeVideosPage() {
                 className="text-[10px] font-mono uppercase tracking-widest"
                 style={{ color: ACCENT }}
               >
-                Copie e entregue ao agente
+                Cole junto com o vídeo
               </p>
               <h2 className="text-2xl font-bold tracking-tight">O prompt mestre</h2>
             </div>
@@ -496,31 +463,25 @@ export default function EditorDeVideosPage() {
           <pre className="max-h-[32rem] select-all overflow-auto rounded-xl border border-[#2a2a2e] bg-[#0e0e10] p-5 text-[12.5px] leading-relaxed text-[#ccc] whitespace-pre-wrap font-mono">
             {PROMPT}
           </pre>
-          <p className="flex items-start gap-2 text-sm leading-relaxed text-[#777]">
-            <ArrowRight className="mt-0.5 h-4 w-4 shrink-0" style={{ color: ACCENT }} />
-            Abra o agente na pasta onde está o vídeo, cole o prompt e diga qual é o arquivo. Ele
-            pergunta só o que não conseguir deduzir sozinho.
-          </p>
         </section>
       )}
 
       <section className="rounded-xl border border-[#2a2a2e] bg-[#1a1a1d] p-5">
-        <h2 className="text-lg font-semibold">Não quer instalar nada?</h2>
+        <h2 className="text-lg font-semibold">Prefere montar no seu computador?</h2>
         <p className="mt-2 text-sm leading-relaxed text-[#999]">
-          Dá para rodar o mesmo prompt dentro do ChatGPT, com um plugin que instala em dois minutos.
-          O passo a passo está em{" "}
+          A versão pelo terminal, com FFmpeg, Whisper e Remotion instalados na sua máquina, está em{" "}
           <a
-            href="/xquads/editordevideos2"
+            href="/xquads/editordevideos"
             className="underline underline-offset-4"
             style={{ color: ACCENT }}
           >
-            sowsales.com.br/xquads/editordevideos2
+            sowsales.com.br/xquads/editordevideos
           </a>
-          .
+          . Dá mais controle e usa o mesmo prompt.
         </p>
       </section>
 
-      <SalesCta utmContent="editordevideos" />
+      <SalesCta utmContent="editordevideos2" />
       <p className="text-center text-xs text-[#555]">
         Feito por <span style={{ color: ACCENT }}>@rafa.grandi</span>
       </p>
