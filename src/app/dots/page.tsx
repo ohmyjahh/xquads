@@ -98,21 +98,6 @@ export default function DotsPage() {
         </div>
       </section>
 
-      <section
-        className="rounded-xl border p-5"
-        style={{ borderColor: `${ACCENT}4D`, backgroundColor: `${ACCENT}0F` }}
-      >
-        <h2 className="font-semibold" style={{ color: ACCENT }}>
-          Antes de criar expectativa: não está em todos os planos
-        </h2>
-        <p className="mt-2 text-sm leading-relaxed text-[#bbb]">
-          A OpenAI está liberando os dots nos planos <strong>Pro</strong>,{" "}
-          <strong>Business Premium</strong> e <strong>Enterprise</strong>, no que ela chama de
-          mercados elegíveis. Quem está no Plus ou no gratuito ainda não tem acesso, e o anúncio não
-          divulga preço nem lista os países.
-        </p>
-      </section>
-
       {!unlocked ? (
         <LeadGate
           source="dots-page"
@@ -126,23 +111,25 @@ export default function DotsPage() {
         />
       ) : (
         <div className="space-y-6">
-          <a
-            href={ANUNCIO}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-between gap-4 rounded-xl border p-5 transition-opacity hover:opacity-90"
-            style={{ borderColor: `${ACCENT}4D`, backgroundColor: `${ACCENT}14` }}
-          >
-            <div>
-              <p className="font-semibold" style={{ color: ACCENT }}>
-                Ler o anúncio oficial dos dots
-              </p>
-              <p className="mt-1 text-sm text-[#999]">
-                openai.com · em português, com o vídeo de lançamento
-              </p>
-            </div>
-            <ArrowUpRight className="h-5 w-5 shrink-0" style={{ color: ACCENT }} />
-          </a>
+          <div className="space-y-2">
+            <a
+              href={ANUNCIO}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-3 rounded-xl px-6 py-5 text-lg font-bold transition-transform hover:scale-[1.02]"
+              style={{
+                backgroundColor: ACCENT,
+                color: "#3d0a26",
+                boxShadow: `0 10px 36px ${ACCENT}45`,
+              }}
+            >
+              Ler o anúncio oficial dos dots
+              <ArrowUpRight className="h-5 w-5 shrink-0" />
+            </a>
+            <p className="text-center text-xs text-[#777]">
+              openai.com · em português, com o vídeo de lançamento
+            </p>
+          </div>
 
           <section className="space-y-3">
             <h2 className="flex items-center gap-2 text-2xl font-bold tracking-tight">

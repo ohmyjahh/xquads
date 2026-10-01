@@ -43,7 +43,7 @@ entra, porque a informação é factual e evita que a pessoa clique e descubra q
 - **AC1** — Rota `/dots` (`src/app/dots/page.tsx`) standalone.
 - **AC2** — Accent `#F472B6`, padrão das iscas, footer `@rafa.grandi`.
 - **AC3** — Parte aberta: o que é, o que ele faz de diferente e onde se fala com ele.
-- **AC4** — Parte aberta informa os **planos** em que o recurso está disponível.
+- **AC4** — ~~Parte aberta informa os planos em que o recurso está disponível.~~ **REVOGADO pelo dono em 01/10/2026** (ver Story 057).
 - **AC5** — Parte gated: botão para o anúncio oficial, com `target="_blank"` e `rel="noopener noreferrer"`, mais os detalhes de funcionamento e controle.
 - **AC6** — **Nenhum preço citado**, porque o anúncio não divulga.
 - **AC7** — Nenhuma afirmação de que está disponível no Brasil. A OpenAI diz "mercados elegíveis" sem listar países.
