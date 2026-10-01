@@ -77,3 +77,4 @@ centralizado, maior e com sombra colorida. Contraste de preenchimento, não só 
 - `docs/stories/057-dots-ajustes.md`
 - `docs/stories/056-dots-page.md` (marcação do AC revogado)
 - **2026-10-01** — Aprovada pelo dono. @devops: commit + push em `main`. Status → **Done**.
+- **2026-10-01** — Publicada e verificada em produção. Sem lead: aviso de planos ausente, LeadGate ativo, botão protegido. Com o gate destravado: botão com fundo sólido `rgb(244, 114, 182)` contra `rgb(26, 26, 29)` de todos os cards, destino correto para o anúncio da OpenAI. Auto-deploy do Vercel disparou pelo push.
