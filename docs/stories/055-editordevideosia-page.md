@@ -81,3 +81,4 @@ fundo e plano secundário a cada 15 segundos. Diferencia das listas genéricas d
 - `src/app/editordevideosia/page.tsx`
 - `docs/stories/055-editordevideosia-page.md`
 - **2026-10-01** — Aprovada pelo dono. @devops: commit + push em `main`. Status → **Done**.
+- **2026-10-01** — Publicada e verificada em produção: responde 200, LeadGate ativo e conteúdo protegido antes do lead.

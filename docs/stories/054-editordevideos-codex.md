@@ -118,3 +118,4 @@ prompt, que é o ativo real, continua o mesmo.
 - `src/app/editordevideos/page.tsx` (apenas o bloco de cross-link)
 - `docs/stories/054-editordevideos-codex.md`
 - **2026-10-01** — Aprovada pelo dono. @devops: commit + push em `main`. Status → **Done**.
+- **2026-10-01** — Publicada e verificada em produção: responde 200, LeadGate ativo e conteúdo protegido antes do lead.
