@@ -57,3 +57,6 @@ na página** como link secundário, abaixo do botão.
 
 - `src/app/dots/page.tsx`
 - `docs/stories/058-dots-botao-criar.md`
+- **2026-10-01** — Publicada. Deploy `xquads-15ohgih8e` no ar.
+  - Verificação por `curl` nos chunks listados no HTML deu **falso negativo** por 14 tentativas: o conteúdo fica atrás do gate e seu chunk não aparece no HTML inicial. Mesmo tipo de armadilha registrada na Story 046.
+  - Confirmado com o gate destravado no navegador: botão **"Crie os seus DOTS"** apontando para `https://chatgpt.com/dots`, e o anúncio da OpenAI presente como segundo link.
