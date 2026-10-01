@@ -14,6 +14,7 @@ import { hasCapturedLead } from "@/hooks/use-copy-with-lead";
 import { SalesCta } from "@/components/sales-cta";
 
 const ACCENT = "#F472B6";
+const CRIAR = "https://chatgpt.com/dots";
 const ANUNCIO = "https://openai.com/pt-BR/index/introducing-dots/";
 
 const DIFERENCAS = [
@@ -113,7 +114,7 @@ export default function DotsPage() {
         <div className="space-y-6">
           <div className="space-y-2">
             <a
-              href={ANUNCIO}
+              href={CRIAR}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center justify-center gap-3 rounded-xl px-6 py-5 text-lg font-bold transition-transform hover:scale-[1.02]"
@@ -123,11 +124,19 @@ export default function DotsPage() {
                 boxShadow: `0 10px 36px ${ACCENT}45`,
               }}
             >
-              Ler o anúncio oficial dos dots
+              Crie os seus DOTS
               <ArrowUpRight className="h-5 w-5 shrink-0" />
             </a>
             <p className="text-center text-xs text-[#777]">
-              openai.com · em português, com o vídeo de lançamento
+              Abre no ChatGPT ·{" "}
+              <a
+                href={ANUNCIO}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline underline-offset-4 hover:text-[#aaa]"
+              >
+                ler o anúncio oficial da OpenAI
+              </a>
             </p>
           </div>
 
