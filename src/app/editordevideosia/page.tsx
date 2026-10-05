@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useSyncExternalStore } from "react";
-import { Check, Copy, Clapperboard, Paperclip, ListChecks, Palette } from "lucide-react";
+import { Check, Copy, Clapperboard, Link2, Upload, Timer, Film, Palette } from "lucide-react";
 import { LeadGate } from "@/components/lead-gate";
 import { hasCapturedLead } from "@/hooks/use-copy-with-lead";
 import { SalesCta } from "@/components/sales-cta";
@@ -179,21 +179,30 @@ Antes de exportar, revise:
 
 Entregue o vídeo final no formato solicitado, legendas separadas e projeto editável quando disponível. Acrescente um resumo curto das decisões e limitações reais. Se a solicitação for somente planejamento, entregue o plano; se for edição e houver meios de executá-la, avance até um arquivo renderizado e verificado.`;
 
-const COMO_USAR = [
+const PASSOS = [
   {
-    icone: Copy,
-    titulo: "Copie o prompt inteiro",
-    texto: "É um documento de direção, não uma frase. Vai inteiro, do começo ao fim.",
+    n: "1",
+    icone: Link2,
+    titulo: "Junte referências que você gosta",
+    texto: "Ache vídeos com a edição que você quer e mande os links junto. A IA estuda o estilo e usa como modelo, em vez de inventar uma estética genérica.",
   },
   {
-    icone: Paperclip,
-    titulo: "Anexe o vídeo e o que tiver de apoio",
-    texto: "Gravação crua, prints, logotipo, resultados. Quanto mais material, menos ele precisa perguntar.",
+    n: "2",
+    icone: Upload,
+    titulo: "Suba o vídeo cru com o prompt",
+    texto: "Cole o prompt inteiro, anexe a gravação e diga o que você quer nessa edição: legenda, corte, efeito sonoro, o que for. O briefing que você não preencher ele resolve com o material.",
   },
   {
-    icone: ListChecks,
-    titulo: "Preencha o briefing com o que souber",
-    texto: "O que você deixar em branco ele resolve com o material. Só vira pergunta quando impedir uma entrega correta.",
+    n: "3",
+    icone: Timer,
+    titulo: "Peça uma prévia de 10 segundos",
+    texto: "Antes de mandar editar tudo. Você vê o estilo, corrige o rumo e economiza processamento. Editar o vídeo inteiro para descobrir que o ritmo não é o seu é desperdício de tempo e de token.",
+  },
+  {
+    n: "4",
+    icone: Film,
+    titulo: "Aprovada a prévia, peça o vídeo completo",
+    texto: "Com a direção acertada, aí sim vale processar a gravação inteira.",
   },
 ];
 
@@ -290,16 +299,27 @@ export default function EditorDeVideosIaPage() {
       </header>
 
       <section className="space-y-3">
-        <h2 className="text-2xl font-bold tracking-tight">Como usar</h2>
-        {COMO_USAR.map((c) => (
+        <h2 className="text-2xl font-bold tracking-tight">Como usar, do começo ao fim</h2>
+        <p className="text-sm text-[#888]">
+          O caminho que evita retrabalho: referência primeiro, prévia antes do vídeo todo.
+        </p>
+        {PASSOS.map((p) => (
           <article
-            key={c.titulo}
+            key={p.n}
             className="flex gap-4 rounded-xl border border-[#2a2a2e] bg-[#1a1a1d] p-4"
           >
-            <c.icone className="mt-0.5 h-5 w-5 shrink-0" style={{ color: ACCENT }} />
+            <span
+              className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-bold"
+              style={{ backgroundColor: `${ACCENT}1A`, color: ACCENT }}
+            >
+              {p.n}
+            </span>
             <div className="min-w-0">
-              <h3 className="font-semibold">{c.titulo}</h3>
-              <p className="mt-1 text-sm leading-relaxed text-[#999]">{c.texto}</p>
+              <h3 className="flex items-center gap-2 font-semibold">
+                <p.icone className="h-4 w-4 shrink-0" style={{ color: ACCENT }} />
+                {p.titulo}
+              </h3>
+              <p className="mt-1 text-sm leading-relaxed text-[#999]">{p.texto}</p>
             </div>
           </article>
         ))}
