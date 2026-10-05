@@ -115,3 +115,4 @@ assunto de forma irresponsável.
 - `docs/stories/061-replicadeapp-page.md`
 - **2026-10-05** — **Pedido do dono antes da publicação:** remover o bloco "Do mesmo autor", que apontava para a `/youtubeskill`. Removido junto com o import órfão `Youtube`. A página passa a ter um único link, o do repositório. Lint limpo, build verde.
 - **2026-10-05** — Aprovada pelo dono. @devops: commit + push em `main`. Status → **Done**.
+- **2026-10-05** — Publicada e verificada em produção: responde 200, LeadGate ativo e conteúdo protegido antes do lead.

@@ -98,3 +98,4 @@ Nicho com dinheiro circulando e barreira de entrada baixa. Conecta com `/editord
 - `src/app/cortepodcast/page.tsx`
 - `docs/stories/062-cortepodcast-page.md`
 - **2026-10-05** — Aprovada pelo dono. @devops: commit + push em `main`. Status → **Done**.
+- **2026-10-05** — Publicada e verificada em produção: responde 200, LeadGate ativo e conteúdo protegido antes do lead.
