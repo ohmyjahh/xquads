@@ -76,3 +76,5 @@ para descobrir que o ritmo não era o desejado. Ele recebe destaque de texto, n�
 - `src/app/editordevideosia/page.tsx`
 - `docs/stories/059-editordevideosia-passo-a-passo.md`
 - **2026-10-05** — Aprovada pelo dono. @devops: commit + push em `main`. Status → **Done**.
+- **2026-10-05** — Publicada e verificada em produção: os quatro passos renderizados na ordem correta, bloco antigo ausente, índice das 11 seções preservado, LeadGate ativo e prompt protegido.
+  - **Falso alarme durante a verificação**: a primeira checagem acusou gate inativo e prompt exposto. A causa era a flag `xquads_lead_captured` que a própria sessão havia gravado no localStorage em verificações anteriores, nas Stories 057 e 058. Após remover a flag e recarregar, o gate voltou a aparecer normalmente. Nenhum problema real na página.
