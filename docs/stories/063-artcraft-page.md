@@ -82,3 +82,4 @@ e InDesign, mas isso **não será afirmado na página**, por não estar declarad
 - `src/app/artcraft/page.tsx`
 - `docs/stories/063-artcraft-page.md`
 - **2026-10-08** — Aprovada pelo dono. @devops: commit + push em `main`. Status → **Done**.
+- **2026-10-08** — Publicada e verificada em produção: responde 200, LeadGate ativo e conteúdo protegido antes do lead.

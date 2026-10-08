@@ -84,3 +84,4 @@ ele trata e o que ele pede para fazer.
 - `src/app/mods/page.tsx`
 - `docs/stories/065-mods-page.md`
 - **2026-10-08** — Aprovada pelo dono. @devops: commit + push em `main`. Status → **Done**.
+- **2026-10-08** — Publicada e verificada em produção: responde 200, LeadGate ativo e conteúdo protegido antes do lead.
