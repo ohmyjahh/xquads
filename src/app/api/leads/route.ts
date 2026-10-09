@@ -4,6 +4,8 @@ interface LeadPayload {
   name: string;
   email: string;
   phone: string;
+  /** Area de atuacao informada no formulario. Opcional: chamadas antigas seguem validas. */
+  area?: string;
   downloadName?: string;
 }
 
@@ -29,11 +31,14 @@ async function postToSheets(payload: LeadPayload) {
     method: 'POST',
     headers: { 'Content-Type': 'text/plain' },
     body: JSON.stringify({
+      // ATENCAO: a ordem das cinco primeiras chaves e historica. O Apps Script pode
+      // montar a linha por posicao, entao campo novo entra sempre no FIM.
       name: payload.name,
       email: payload.email,
       phone: payload.phone,
       download: payload.downloadName ?? 'xquads',
       date: new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' }),
+      area: payload.area ?? '',
     }),
   });
 }
@@ -52,13 +57,14 @@ async function postToGene(payload: LeadPayload) {
       name: payload.name,
       phone: payload.phone,
       email: payload.email,
+      area: payload.area ?? '',
     }),
   });
 }
 
 export async function POST(req: NextRequest) {
   try {
-    const { name, email, phone, downloadName } = await req.json();
+    const { name, email, phone, area, downloadName } = await req.json();
 
     if (!name || !email || !phone) {
       return NextResponse.json(
@@ -72,7 +78,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Telefone invalido' }, { status: 400 });
     }
 
-    const payload: LeadPayload = { name, email, phone: normalizedPhone, downloadName };
+    const payload: LeadPayload = { name, email, phone: normalizedPhone, area, downloadName };
 
     const [sheetsResult, geneResult] = await Promise.allSettled([
       postToSheets(payload),

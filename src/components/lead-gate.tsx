@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Loader2, Lock } from "lucide-react";
 import { markLeadCaptured } from "@/hooks/use-copy-with-lead";
+import { AREAS_ATUACAO } from "@/lib/areas-atuacao";
 
 interface LeadGateProps {
   /** Identifica a origem do lead no /api/leads */
@@ -36,6 +37,7 @@ export function LeadGate({
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [area, setArea] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -49,7 +51,7 @@ export function LeadGate({
       const res = await fetch(`${base}/api/leads`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, phone, downloadName: source }),
+        body: JSON.stringify({ name, email, phone, area, downloadName: source }),
       });
 
       if (!res.ok) throw new Error("Erro ao salvar dados");
@@ -109,6 +111,23 @@ export function LeadGate({
           onChange={(e) => setPhone(e.target.value)}
           className="w-full rounded-lg bg-[#121214] border border-[#2A2A2E] px-4 py-3 text-sm text-white placeholder-[#444] focus:outline-none transition-colors"
         />
+
+        <select
+          required
+          value={area}
+          onChange={(e) => setArea(e.target.value)}
+          className="w-full cursor-pointer appearance-none rounded-lg border border-[#2A2A2E] bg-[#121214] px-4 py-3 text-sm text-white focus:outline-none transition-colors"
+          style={{ color: area ? "#ffffff" : "#444" }}
+        >
+          <option value="" disabled>
+            Qual sua área de atuação?
+          </option>
+          {AREAS_ATUACAO.map((a) => (
+            <option key={a} value={a} className="bg-[#121214] text-white">
+              {a}
+            </option>
+          ))}
+        </select>
 
         {error && <p className="text-xs text-red-400">{error}</p>}
 

@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { Download, Github, X, Loader2, CheckCircle2, Copy } from 'lucide-react';
 import { markLeadCaptured } from '@/hooks/use-copy-with-lead';
+import { AREAS_ATUACAO } from '@/lib/areas-atuacao';
 
 const REDIRECT_URL =
   'https://www.raxo.com.br/vibecodingvsl?utm_source=instagram&utm_medium=organico&utm_campaign=xquads-isca-nov25&utm_content=isca-xquads';
@@ -19,6 +20,7 @@ export function LeadForm({ onClose, source, type, onSuccess }: LeadFormProps) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
+  const [area, setArea] = useState('');
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
   const [error, setError] = useState('');
@@ -36,7 +38,7 @@ export function LeadForm({ onClose, source, type, onSuccess }: LeadFormProps) {
       const res = await fetch(`${base}/api/leads`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, phone, downloadName: source }),
+        body: JSON.stringify({ name, email, phone, area, downloadName: source }),
       });
 
       if (!res.ok) throw new Error('Erro ao salvar dados');
@@ -149,6 +151,28 @@ export function LeadForm({ onClose, source, type, onSuccess }: LeadFormProps) {
                     onChange={(e) => setPhone(e.target.value)}
                     className="w-full rounded-lg bg-[#121214] border border-[#2A2A2E] px-4 py-2.5 text-sm text-white placeholder-[#444] focus:outline-none transition-colors"
                   />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-medium text-[#888] mb-1.5">
+                    Área de atuação <span style={{ color: accentColor }}>*</span>
+                  </label>
+                  <select
+                    required
+                    value={area}
+                    onChange={(e) => setArea(e.target.value)}
+                    className="w-full cursor-pointer appearance-none rounded-lg bg-[#121214] border border-[#2A2A2E] px-4 py-2.5 text-sm focus:outline-none transition-colors"
+                    style={{ color: area ? '#ffffff' : '#444' }}
+                  >
+                    <option value="" disabled>
+                      Selecione a sua área
+                    </option>
+                    {AREAS_ATUACAO.map((a) => (
+                      <option key={a} value={a} className="bg-[#121214] text-white">
+                        {a}
+                      </option>
+                    ))}
+                  </select>
                 </div>
 
                 {error && <p className="text-xs text-red-400">{error}</p>}
