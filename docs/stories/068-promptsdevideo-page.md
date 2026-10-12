@@ -106,3 +106,4 @@ precisa de peça animada sem saber motion design. Material gratuito, de autor at
 - `src/app/promptsdevideo/page.tsx`
 - `docs/stories/068-promptsdevideo-page.md`
 - **2026-10-12** — Aprovada pelo dono. @devops: commit + push em `main`. Status → **Done**.
+- **2026-10-12** — Publicada e verificada em produção: responde 200.

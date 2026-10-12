@@ -74,3 +74,4 @@ de chamar os quatro de plugin.
 - `src/app/plugins/page.tsx`
 - `docs/stories/069-plugins-page.md`
 - **2026-10-12** — Aprovada pelo dono. @devops: commit + push em `main`. Status → **Done**.
+- **2026-10-12** — Publicada e verificada em produção: responde 200.

@@ -70,3 +70,4 @@ chama a mesma rota. Manter uma cópia só cria a próxima divergência.
 - `src/app/loop/page.tsx`
 - `docs/stories/067-loop-campo-area.md`
 - **2026-10-12** — Aprovada pelo dono. @devops: commit + push em `main`. Status → **Done**.
+- **2026-10-12** — Publicada e verificada em produção: responde 200.

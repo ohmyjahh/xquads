@@ -81,3 +81,4 @@ O que a página faz:
 - `src/app/engenhariareversa/page.tsx`
 - `docs/stories/070-engenhariareversa-page.md`
 - **2026-10-12** — Aprovada pelo dono. @devops: commit + push em `main`. Status → **Done**.
+- **2026-10-12** — Publicada e verificada em produção: responde 200.
