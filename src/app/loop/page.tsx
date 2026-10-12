@@ -5,12 +5,11 @@ import {
   ArrowRight,
   Check,
   Copy,
-  Loader2,
-  Lock,
   Repeat,
   Infinity as InfinityIcon,
 } from "lucide-react";
-import { hasCapturedLead, markLeadCaptured } from "@/hooks/use-copy-with-lead";
+import { hasCapturedLead } from "@/hooks/use-copy-with-lead";
+import { LeadGate } from "@/components/lead-gate";
 import { SalesCta } from "@/components/sales-cta";
 
 const PROMPT_SPEC = `Crie uma skill no Claude Code chamada "spec".
@@ -75,108 +74,6 @@ function CodeBlock({ code }: { code: string }) {
   );
 }
 
-function LeadGate({ onUnlock }: { onUnlock: () => void }) {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
-    setLoading(true);
-
-    try {
-      const base = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
-      const res = await fetch(`${base}/api/leads`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, phone, downloadName: "loop-page" }),
-      });
-
-      if (!res.ok) throw new Error("Erro ao salvar dados");
-
-      markLeadCaptured();
-      onUnlock();
-    } catch {
-      setError("Algo deu errado. Tente novamente.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  return (
-    <div className="rounded-2xl border border-[#EA8049]/30 bg-gradient-to-br from-[#EA8049]/10 via-[#1a1a1e] to-[#1a1a1e] p-6 sm:p-10 text-center space-y-5">
-      <Eyebrow>Desbloqueie a construção</Eyebrow>
-      <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
-        Receba as 3 instruções
-      </h2>
-      <p className="text-[15px] text-[#999] max-w-lg mx-auto leading-relaxed">
-        Insira seus dados para desbloquear as três habilidades de copiar e
-        colar, os passos para executar o loop e a habilidade em modo fácil.
-      </p>
-
-      <form onSubmit={handleSubmit} className="max-w-md mx-auto space-y-3 text-left">
-        <input
-          type="text"
-          required
-          placeholder="Seu nome"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          className="w-full rounded-lg bg-[#121214] border border-[#2A2A2E] px-4 py-3 text-sm text-white placeholder-[#444] focus:outline-none focus:border-[#EA8049] transition-colors"
-        />
-        <input
-          type="email"
-          required
-          placeholder="voce@email.com"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="w-full rounded-lg bg-[#121214] border border-[#2A2A2E] px-4 py-3 text-sm text-white placeholder-[#444] focus:outline-none focus:border-[#EA8049] transition-colors"
-        />
-        <input
-          type="tel"
-          required
-          placeholder="(11) 99999-9999"
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
-          className="w-full rounded-lg bg-[#121214] border border-[#2A2A2E] px-4 py-3 text-sm text-white placeholder-[#444] focus:outline-none focus:border-[#EA8049] transition-colors"
-        />
-
-        {error && <p className="text-xs text-red-400">{error}</p>}
-
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full inline-flex items-center justify-center gap-2 rounded-lg bg-[#EA8049] hover:bg-[#c5603a] text-white text-base font-semibold px-6 py-3.5 transition-colors disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer"
-        >
-          {loading ? (
-            <>
-              <Loader2 className="h-4 w-4 animate-spin" />
-              Desbloqueando...
-            </>
-          ) : (
-            <>
-              <Lock className="h-4 w-4" />
-              Desbloqueie o loop
-            </>
-          )}
-        </button>
-      </form>
-
-      <p className="text-xs text-[#555]">
-        Sem spam. Seus dados não serão compartilhados com terceiros.
-      </p>
-      <p className="text-[13px] text-[#888] max-w-md mx-auto leading-relaxed">
-        Conteúdo: instruções para{" "}
-        <code className="font-mono text-[#EA8049]">/spec</code>,{" "}
-        <code className="font-mono text-[#EA8049]">/build</code> e{" "}
-        <code className="font-mono text-[#EA8049]">/review</code>, os passos
-        para executar o loop e a habilidade gratuita de otimização de planos.
-      </p>
-    </div>
-  );
-}
 
 export default function LoopPage() {
   const [unlocked, setUnlocked] = useState(false);
@@ -263,7 +160,14 @@ export default function LoopPage() {
 
       {/* ============ GATE ============ */}
       {!unlocked ? (
-        <LeadGate onUnlock={handleUnlock} />
+        <LeadGate
+          source="loop-page"
+          accent="#EA8049"
+          title="Receba as 3 instruções"
+          description="Insira seus dados para desbloquear as três habilidades de copiar e colar, os passos para executar o loop e a habilidade em modo fácil."
+          buttonLabel="Desbloquear"
+          onUnlock={handleUnlock}
+        />
       ) : (
         <div className="rounded-xl border border-[#2a2a2e] bg-[#1a1a1e] p-6 text-center space-y-2">
           <Eyebrow>Desbloqueie a construção</Eyebrow>
