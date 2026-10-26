@@ -6,6 +6,8 @@ interface LeadPayload {
   phone: string;
   /** Area de atuacao informada no formulario. Opcional: chamadas antigas seguem validas. */
   area?: string;
+  /** Faixa de faturamento mensal. Opcional: chamadas antigas seguem validas. */
+  faturamento?: string;
   downloadName?: string;
 }
 
@@ -39,6 +41,7 @@ async function postToSheets(payload: LeadPayload) {
       download: payload.downloadName ?? 'xquads',
       date: new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' }),
       area: payload.area ?? '',
+      faturamento: payload.faturamento ?? '',
     }),
   });
 }
@@ -58,13 +61,14 @@ async function postToGene(payload: LeadPayload) {
       phone: payload.phone,
       email: payload.email,
       area: payload.area ?? '',
+      faturamento: payload.faturamento ?? '',
     }),
   });
 }
 
 export async function POST(req: NextRequest) {
   try {
-    const { name, email, phone, area, downloadName } = await req.json();
+    const { name, email, phone, area, faturamento, downloadName } = await req.json();
 
     if (!name || !email || !phone) {
       return NextResponse.json(
@@ -78,7 +82,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Telefone invalido' }, { status: 400 });
     }
 
-    const payload: LeadPayload = { name, email, phone: normalizedPhone, area, downloadName };
+    const payload: LeadPayload = { name, email, phone: normalizedPhone, area, faturamento, downloadName };
 
     const [sheetsResult, geneResult] = await Promise.allSettled([
       postToSheets(payload),

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Loader2, Lock } from "lucide-react";
 import { markLeadCaptured } from "@/hooks/use-copy-with-lead";
 import { AREAS_ATUACAO } from "@/lib/areas-atuacao";
+import { FAIXAS_FATURAMENTO } from "@/lib/faturamento";
 
 interface LeadGateProps {
   /** Identifica a origem do lead no /api/leads */
@@ -38,6 +39,7 @@ export function LeadGate({
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [area, setArea] = useState("");
+  const [faturamento, setFaturamento] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -51,7 +53,7 @@ export function LeadGate({
       const res = await fetch(`${base}/api/leads`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, phone, area, downloadName: source }),
+        body: JSON.stringify({ name, email, phone, area, faturamento, downloadName: source }),
       });
 
       if (!res.ok) throw new Error("Erro ao salvar dados");
@@ -125,6 +127,23 @@ export function LeadGate({
           {AREAS_ATUACAO.map((a) => (
             <option key={a} value={a} className="bg-[#121214] text-white">
               {a}
+            </option>
+          ))}
+        </select>
+
+        <select
+          required
+          value={faturamento}
+          onChange={(e) => setFaturamento(e.target.value)}
+          className="w-full cursor-pointer appearance-none rounded-lg border border-[#2A2A2E] bg-[#121214] px-4 py-3 text-sm text-white focus:outline-none transition-colors"
+          style={{ color: faturamento ? "#ffffff" : "#444" }}
+        >
+          <option value="" disabled>
+            Qual o seu faturamento mensal?
+          </option>
+          {FAIXAS_FATURAMENTO.map((f) => (
+            <option key={f} value={f} className="bg-[#121214] text-white">
+              {f}
             </option>
           ))}
         </select>
