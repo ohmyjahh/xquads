@@ -1,6 +1,6 @@
 # Story 076 — Quinto campo do formulário: faturamento mensal
 
-**Status:** Ready
+**Status:** InReview
 **Epic:** Páginas de conteúdo + captura de leads (Xquads)
 **Criada em:** 2026-10-26
 
@@ -148,13 +148,13 @@ leads de 76 pontos de captura. O peso está no teste, não na escrita.
 
 ## Definition of Done
 
-- [ ] Os 11 ACs conferidos
-- [ ] `npm run lint` sem erro novo
-- [ ] `npm run build` passando
-- [ ] Payload real capturado e conferido chave a chave, na ordem
-- [ ] Testado: com campo, sem campo, webhook fora do ar
-- [ ] Apps Script atualizado entregue ao dono
-- [ ] Prévia aberta no navegador e mostrada ao Rafa
+- [x] Os 11 ACs conferidos
+- [x] `npm run lint` sem erro novo
+- [x] `npm run build` passando
+- [x] Payload real capturado e conferido chave a chave, na ordem
+- [x] Testado: com campo, sem campo, webhook fora do ar
+- [x] Apps Script atualizado entregue ao dono
+- [x] Prévia aberta no navegador e mostrada ao Rafa
 - [ ] Aprovação explícita do Rafa antes de qualquer push
 
 ---
@@ -165,3 +165,61 @@ leads de 76 pontos de captura. O peso está no teste, não na escrita.
 |---|---|---|
 | 2026-10-26 | @mestre | Story criada após estudo da 066 e decisões do dono |
 | 2026-10-26 | @produto | Validação 10/10 (GO). Status Draft → Ready |
+| 2026-10-26 | @desenvolvedor | Campo implementado nos dois componentes, na rota e no 3º destino (branch da 071) |
+| 2026-10-26 | @qualidade | QA PASS 11/11 |
+
+## QA Results
+
+**Verdict: PASS** — 11/11 ACs.
+
+### A ordem do payload, capturada de verdade
+
+Servidor local simulando o Apps Script, com `object_pairs_hook` preservando a ordem recebida:
+
+```
+name -> email -> phone -> download -> date -> area -> faturamento
+```
+
+Idêntica nas três capturas. O campo novo é o último, como manda a regra herdada da 066.
+
+### Cenários executados contra a rota real
+
+| # | Cenário | Resultado |
+|---|---|---|
+| 1 | Lead completo (5 campos) | ✅ `{ok:true}`, payload com `faturamento` preenchido |
+| 2 | Lead **sem** faturamento (chamada antiga) | ✅ aceito, `faturamento: ''` |
+| 3 | Lead **sem** área nem faturamento (legado) | ✅ aceito, ambos vazios |
+| 4 | Webhook fora do ar | ✅ `{ok:true}` — comportamento de hoje preservado |
+| 5 | JSON malformado | ✅ `{ok:true}` — comportamento de hoje preservado |
+| 6 | Sem telefone | ✅ 400, como antes |
+
+### A prova de que nada quebra na planilha
+
+Simulando o `appendRow` **atual** (6 colunas) sobre os payloads capturados, as linhas saem
+exatamente como hoje — o campo a mais é ignorado por um script posicional. Confirma que o código
+pode subir antes do Apps Script sem perder nem embaralhar lead.
+
+### Formulário, nos dois componentes
+
+| Componente | Campos | Obrigatórios | Faixas |
+|---|---|---|---|
+| `LeadGate` (58 páginas) | 5, na ordem certa | todos | as 5 do dono |
+| `LeadForm` (18 páginas) | 5, com rótulos | todos | as 5 do dono |
+
+### AC10 — Story 071
+
+Merge da `main` na branch sem conflito; `faturamento` acrescentado ao corpo próprio e assinado do
+terceiro destino. **18/18 testes passando** — os 6 que falharam comparavam o corpo exato com
+constante fixa e pegaram corretamente a chave nova; as fixtures foram atualizadas.
+
+### AC11 — isolamento
+
+Os webhooks apontaram para `127.0.0.1:4556` durante todo o teste. **Nenhum lead de teste chegou
+à planilha de produção.** Servidor falso derrubado e capturas apagadas ao final.
+
+### Débito reconfirmado (não corrigido, fora do escopo)
+
+`useCopyWithLead` (`src/hooks/use-copy-with-lead.ts:22`) chama `navigator.clipboard.writeText`
+**sem `try/catch`**. Se a cópia falhar, a função lança e `setShowLeadForm(true)` nunca roda: o
+formulário não abre e **o lead se perde**, nas 18 páginas do `LeadForm`. Isso apareceu durante
+este teste, travando a abertura do modal. Continua registrado, aguardando autorização.
