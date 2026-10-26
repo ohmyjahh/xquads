@@ -1,6 +1,6 @@
 # Story 076 — Quinto campo do formulário: faturamento mensal
 
-**Status:** InReview
+**Status:** Done
 **Epic:** Páginas de conteúdo + captura de leads (Xquads)
 **Criada em:** 2026-10-26
 
@@ -155,7 +155,7 @@ leads de 76 pontos de captura. O peso está no teste, não na escrita.
 - [x] Testado: com campo, sem campo, webhook fora do ar
 - [x] Apps Script atualizado entregue ao dono
 - [x] Prévia aberta no navegador e mostrada ao Rafa
-- [ ] Aprovação explícita do Rafa antes de qualquer push
+- [x] Aprovação explícita do Rafa antes de qualquer push
 
 ---
 
@@ -223,3 +223,21 @@ Os webhooks apontaram para `127.0.0.1:4556` durante todo o teste. **Nenhum lead 
 **sem `try/catch`**. Se a cópia falhar, a função lança e `setShowLeadForm(true)` nunca roda: o
 formulário não abre e **o lead se perde**, nas 18 páginas do `LeadForm`. Isso apareceu durante
 este teste, travando a abertura do modal. Continua registrado, aguardando autorização.
+| 2026-10-26 | @devops | Publicado (`d4f0f32`). Deploy no ar em ~20 s |
+| 2026-10-26 | @qualidade | **Validado em produção.** Lead de teste: o navegador enviou `faturamento` e a rota respondeu 200. Dono confirmou que leads reais já chegam com o campo preenchido. Status → Done |
+
+## Validação em produção
+
+Com o `fetch` do navegador interceptado na página real:
+
+```
+enviado:   faturamento: "De R$ 100 mil a R$ 500 mil"
+resposta:  200 {ok: true}
+gate:      destravou
+```
+
+O dono confirmou em seguida que **leads reais já estão chegando preenchidos**, o que fecha o
+ciclo: formulário → rota → Apps Script → planilha, com a coluna G gravando.
+
+**Pendência operacional (do dono):** apagar a linha de teste
+`TESTE CLAUDE - pode apagar` / `teste-faturamento@exemplo.invalido`.
