@@ -134,6 +134,22 @@ export default function EfeitosPage() {
         </p>
       </section>
 
+
+
+
+      {!unlocked ? (
+        <LeadGate
+          source="efeitos-page"
+          accent={ACCENT}
+          buttonTextColor="#2b1403"
+          title="Receba o acesso à skill"
+          description="Preencha seus dados para liberar a instalação e os comandos."
+          contentNote="Você vai liberar: o comando que instala tudo de uma vez, como usar no dia a dia e o repositório aberto."
+          buttonLabel="Liberar o acesso"
+          onUnlock={() => setFormUnlocked(true)}
+        />
+      ) : (
+        <div className="space-y-6">
       <section className="space-y-3">
         <h2 className="text-2xl font-bold tracking-tight">Alguns de perto</h2>
         <div className="grid gap-3 sm:grid-cols-3">
@@ -204,19 +220,6 @@ export default function EfeitosPage() {
         </div>
       </section>
 
-      {!unlocked ? (
-        <LeadGate
-          source="efeitos-page"
-          accent={ACCENT}
-          buttonTextColor="#2b1403"
-          title="Receba o acesso à skill"
-          description="Preencha seus dados para liberar a instalação e os comandos."
-          contentNote="Você vai liberar: o comando que instala tudo de uma vez, como usar no dia a dia e o repositório aberto."
-          buttonLabel="Liberar o acesso"
-          onUnlock={() => setFormUnlocked(true)}
-        />
-      ) : (
-        <div className="space-y-6">
           <section className="space-y-3">
             <h2 className="text-2xl font-bold tracking-tight">Instalar</h2>
             <p className="text-sm leading-relaxed text-[#999]">
