@@ -1,6 +1,6 @@
 # Story 077 — Página /efeitos: a skill de 17 efeitos de vídeo do Rafa
 
-**Status:** InReview
+**Status:** Done
 **Epic:** Páginas de conteúdo + captura de leads (Xquads)
 **Criada em:** 2026-10-26
 
@@ -128,7 +128,7 @@ Quem não tem isso não deve gastar um lead para descobrir depois.
 - [x] `npm run build` passando
 - [x] **Todas as imagens carregando de fato**, conferidas no navegador
 - [x] Prévia mostrada ao Rafa
-- [ ] Aprovação explícita antes de qualquer push
+- [x] Aprovação explícita antes de qualquer push
 
 ---
 
@@ -170,3 +170,20 @@ Rolagem forçada para resolver o `lazy`, depois `naturalWidth` de cada `<img>`:
 
 **Quebradas: nenhuma.** `lint` não acusou a `<img>` — o `eslint-disable-next-line` ficou por
 precaução e pode ser removido num próximo passe.
+| 2026-10-26 | @devops | Publicado (`c6552ff`). Deploy no ar em ~30 s |
+| 2026-10-26 | @qualidade | **Validado em produção.** 7/7 imagens, 17/17 efeitos, gate ativo com os 5 campos. Status → Done |
+
+## Validação em produção
+
+| Item | Resultado |
+|---|---|
+| Imagens | **7/7 carregando**, nenhuma quebrada |
+| Efeitos listados | **17/17** |
+| Requisitos e ressalva do macOS | antes do gate ✅ |
+| Gate | ativo; comando de instalação não vaza |
+| Formulário | 5 campos, todos obrigatórios |
+
+**Falso positivo evitado:** a primeira leitura acusou "gate inativo". Investigado antes de
+reportar: era a flag `xquads_lead_captured` gravada pelo **meu próprio** teste de formulário em
+produção na Story 076, não falha do gate. Removida a flag, o gate apareceu normalmente. Mesma
+armadilha da Story 059.
