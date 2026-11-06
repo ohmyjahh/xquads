@@ -1,6 +1,6 @@
 # Story 082 - Página /mirofish: passo a passo de instalação do MiroFish
 
-**Status:** InReview (prévia em local feita; aguardando QA e "pode subir" do Rafa)
+**Status:** InReview (publicada em produção no deploy `xquads-di45bj3ji`; aguardando QA final)
 **Epic:** Páginas de conteúdo + captura de leads (Xquads)
 **Criada em:** 2026-11-06
 **Implementa:** Diego (dev de funil). **QA:** QA – Funis de isca (quem implementa não aprova).
@@ -104,6 +104,7 @@ AC1 a AC12, QA independente PASS, "pode subir" do Rafa, validado em produção.
 - 2026-11-06: QA CONCERNS aplicada nos dois pontos pedidos. (1) O bloco do Docker agora manda fazer os passos 2 e 3 e rodar o comando no lugar dos passos 4 e 5, deixando claro que precisa do repositório clonado e do `.env` preenchido (AC6). (2) Os avisos de uso perderam as afirmações sem lastro: "Texto raso gera simulação rasa" virou "A qualidade da previsão depende do material que você envia", e o aviso de erro agora cita issues e o Discord do projeto, sem falar em ausência de suporte oficial (AC11). Licença AGPL-3.0 e Discord conferidos na API do GitHub e no README antes de citar.
 
 - 2026-11-06: ordem corrigida a pedido do Rafa: o bloco "Antes de instalar: o que você vai precisar" saiu de antes do gate e passou a abrir o conteúdo liberado, logo depois do formulário. Antes do gate a página só apresenta o que a ferramenta faz. Risco aceito registrado em Riscos. Conferido em local e publicado com o "pode subir" do Rafa na sequência.
+- 2026-11-06: publicado. Commit `f98ebdb` na `main` e deploy `xquads-di45bj3ji` (Ready, 22s). Conferido em produção: `/xquads/mirofish` responde 200, o gate aparece com os 5 campos, nenhuma menção a "Antes de instalar" antes do formulário e nenhum passo vazando. Forçando o estado de lead capturado no navegador, o bloco de pré-requisitos aparece abrindo o conteúdo liberado, com os 6 passos, Docker, aviso das 40 rodadas, botão do repositório, link da demo e o CTA com `utm_content=mirofish`. Console limpo e sem rolagem horizontal em 390 px nas duas telas. Prints 8 a 10 na pasta de prints.
 
 ## File List
 - `src/app/mirofish/page.tsx` (novo)
