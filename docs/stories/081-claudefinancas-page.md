@@ -1,6 +1,6 @@
 # Story 081 - Página /claudefinancas: Claude Financeiro Pessoal (novidade de 05/11/2026)
 
-**Status:** InReview (QA pedida; "pode subir" do Rafa em 06/11; publicada) 
+**Status:** Done (QA PASS em `6d372a7`; lead de teste conferido em produção)
 **Epic:** Páginas de conteúdo + captura de leads (Xquads)
 **Criada em:** 2026-11-06
 **Implementa:** Diego (dev de funil). **QA:** QA – Funis de isca (quem implementa não aprova).
@@ -85,6 +85,7 @@ AC1 a AC10, QA independente PASS, "pode subir" do Rafa, validado em produção.
 - 2026-11-06: conferido em produção (deploy `xquads-fm3tbwqci`): com o gate ativo não aparece nenhuma menção ao Brasil; com lead já capturado no navegador (`xquads_lead_captured=1`) o bloco aparece logo antes dos passos, com os dois links corretos e console limpo. Envio de lead real pendente.
 - 2026-11-06: QA CONCERNS aplicada: (1) o item sobre países virou "o anúncio não fala de outros países nem de data para chegar ao Brasil", no lugar da afirmação sobre bancos dos EUA; (2) "sem você notar" saiu do card de comparação; (3) "não tem instalação" saiu do passo 1. Republicada no mesmo dia.
 - 2026-11-06: segunda revisão da QA: título do bloco virou "Disponibilidade: ainda não funciona no Brasil" (era "Antes de tudo: ...", que ficava estranho depois do gate) e o risco aceito pelo Rafa ficou registrado em Riscos.
+- 2026-11-06: lead de teste em produção, com o ok do Rafa e dado fictício: nome "Teste Diego isca claudefinancas", e-mail `diego.teste+claudefinancas@example.com`, telefone (11) 99999-0000, área Tecnologia e desenvolvimento, faturamento de R$ 0 a R$ 20 mil. POST `/xquads/api/leads` 200, página destravou. Linha conferida na planilha de leads do Xquads, aba Workshop: 06/11/2026 09:40:50, origem `claudefinancas-page`, com telefone normalizado `5511999990000`. GENE CRM: sem erro nem aviso no log de produção no mesmo minuto (o log registraria falha de webhook). Story fechada como Done; QA PASS no commit `6d372a7`.
 
 ## File List
 
