@@ -1,6 +1,6 @@
 # Story 082 - Página /mirofish: passo a passo de instalação do MiroFish
 
-**Status:** InReview (publicada em produção no deploy `xquads-di45bj3ji`; aguardando QA final)
+**Status:** Done (QA PASS no estado publicado, commit `4fde0ff`, deploy `xquads-di45bj3ji`; lead de teste dispensado pelo Rafa)
 **Epic:** Páginas de conteúdo + captura de leads (Xquads)
 **Criada em:** 2026-11-06
 **Implementa:** Diego (dev de funil). **QA:** QA – Funis de isca (quem implementa não aprova).
@@ -105,6 +105,8 @@ AC1 a AC12, QA independente PASS, "pode subir" do Rafa, validado em produção.
 
 - 2026-11-06: ordem corrigida a pedido do Rafa: o bloco "Antes de instalar: o que você vai precisar" saiu de antes do gate e passou a abrir o conteúdo liberado, logo depois do formulário. Antes do gate a página só apresenta o que a ferramenta faz. Risco aceito registrado em Riscos. Conferido em local e publicado com o "pode subir" do Rafa na sequência.
 - 2026-11-06: publicado. Commit `f98ebdb` na `main` e deploy `xquads-di45bj3ji` (Ready, 22s). Conferido em produção: `/xquads/mirofish` responde 200, o gate aparece com os 5 campos, nenhuma menção a "Antes de instalar" antes do formulário e nenhum passo vazando. Forçando o estado de lead capturado no navegador, o bloco de pré-requisitos aparece abrindo o conteúdo liberado, com os 6 passos, Docker, aviso das 40 rodadas, botão do repositório, link da demo e o CTA com `utm_content=mirofish`. Console limpo e sem rolagem horizontal em 390 px nas duas telas. Prints 8 a 10 na pasta de prints.
+- 2026-11-06: QA PASS no estado publicado (commit `4fde0ff`, deploy `xquads-di45bj3ji`), 12 de 12 ACs, incluindo o AC3 novo. A QA confirmou no HTML de produção que o formulário não carrega "Antes de instalar", versão de Node nem os passos, e que o chunk da página tem `mirofish-page` e `utm_content=mirofish`.
+- 2026-11-06: lead de teste não foi enviado. O Rafa dispensou quando perguntei ("Não precisa"), então o caminho planilha e CRM desta origem segue sem prova em produção. Na consulta à aba Workshop, nenhum lead com origem `mirofish-page` tinha entrado. Story fechada como Done com essa pendência registrada, não como verificada.
 
 ## File List
 - `src/app/mirofish/page.tsx` (novo)
