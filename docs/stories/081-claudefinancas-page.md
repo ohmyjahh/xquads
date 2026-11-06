@@ -81,6 +81,8 @@ AC1 a AC10, QA independente PASS, "pode subir" do Rafa, validado em produção.
 
 - 2026-11-06: story criada e página implementada em local (Diego).
 - 2026-11-06: ajuste pedido pelo Rafa: o bloco de disponibilidade saiu de antes do gate e passou para o conteúdo liberado, logo depois do formulário. Conferido em local e publicado, com o "pode subir" do Rafa no mesmo dia.
+- 2026-11-06: conferido em produção (deploy `xquads-fm3tbwqci`): com o gate ativo não aparece nenhuma menção ao Brasil; com lead já capturado no navegador (`xquads_lead_captured=1`) o bloco aparece logo antes dos passos, com os dois links corretos e console limpo. Envio de lead real pendente.
+- 2026-11-06: QA CONCERNS aplicada: (1) o item sobre países virou "o anúncio não fala de outros países nem de data para chegar ao Brasil", no lugar da afirmação sobre bancos dos EUA; (2) "sem você notar" saiu do card de comparação; (3) "não tem instalação" saiu do passo 1. Republicada no mesmo dia.
 
 ## File List
 

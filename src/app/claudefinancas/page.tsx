@@ -33,7 +33,7 @@ const RECURSOS = [
     icone: PieChart,
     nome: "Compara com os meses anteriores",
     texto:
-      "Perguntou se aquele gasto está acima do normal? Ele volta nos meses passados, aponta o que mudou e mostra a assinatura que renovou sem você notar.",
+      "Perguntou se aquele gasto está acima do normal? Ele volta nos meses passados, aponta o que mudou e mostra a renovação de uma assinatura.",
   },
   {
     icone: CalendarDays,
@@ -61,7 +61,7 @@ const SEGURANCA = [
 const LIMITES = [
   "Está em beta e começou a sair só nos Estados Unidos, na semana de 5 de novembro de 2026.",
   "Só nos planos pagos Pro, Max e Ultra. Não tem no plano gratuito.",
-  "A conexão acontece pelo Plaid com bancos dos Estados Unidos. Não existe data para chegar ao Brasil.",
+  "O anúncio não fala de outros países nem de data para chegar ao Brasil.",
   "O artigo oficial é em inglês.",
   "Não é recomendação de investimento e não substitui contador nem consultor financeiro.",
 ];
@@ -71,7 +71,7 @@ const PASSOS = [
     n: "1",
     titulo: "Abra a área de finanças",
     texto:
-      "Quando ela aparecer na barra lateral do Claude, é só clicar em Personal Finance. Não tem instalação nem programa novo.",
+      "Quando ela aparecer na barra lateral do Claude, é só clicar em Personal Finance.",
   },
   {
     n: "2",
