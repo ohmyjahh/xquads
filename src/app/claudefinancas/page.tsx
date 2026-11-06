@@ -181,7 +181,7 @@ export default function ClaudeFinancasPage() {
           >
             <h2 className="flex items-center gap-2 font-semibold text-[#FBBF24]">
               <AlertTriangle className="h-5 w-5" />
-              Antes de tudo: isso ainda não funciona para quem está no Brasil
+              Disponibilidade: ainda não funciona no Brasil
             </h2>
             <ul className="mt-3 space-y-2">
               {LIMITES.map((l) => (

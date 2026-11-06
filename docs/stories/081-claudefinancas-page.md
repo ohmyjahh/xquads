@@ -72,6 +72,7 @@ Nenhum número, preço ou requisito foi inventado. Os valores em dólar que apar
 
 - Novidade em beta e por região: se a Anthropic liberar o Brasil, a página fica desatualizada e precisa de story de ajuste.
 - Teste de lead ponta a ponta só em produção (as variáveis do webhook não existem em local).
+- **Risco aceito pelo Rafa (06/11):** o aviso de disponibilidade fica só no conteúdo liberado. Quem está no Brasil descobre que a ferramenta não está disponível aqui apenas depois de deixar os dados no formulário.
 
 ## Definition of Done
 
@@ -83,6 +84,7 @@ AC1 a AC10, QA independente PASS, "pode subir" do Rafa, validado em produção.
 - 2026-11-06: ajuste pedido pelo Rafa: o bloco de disponibilidade saiu de antes do gate e passou para o conteúdo liberado, logo depois do formulário. Conferido em local e publicado, com o "pode subir" do Rafa no mesmo dia.
 - 2026-11-06: conferido em produção (deploy `xquads-fm3tbwqci`): com o gate ativo não aparece nenhuma menção ao Brasil; com lead já capturado no navegador (`xquads_lead_captured=1`) o bloco aparece logo antes dos passos, com os dois links corretos e console limpo. Envio de lead real pendente.
 - 2026-11-06: QA CONCERNS aplicada: (1) o item sobre países virou "o anúncio não fala de outros países nem de data para chegar ao Brasil", no lugar da afirmação sobre bancos dos EUA; (2) "sem você notar" saiu do card de comparação; (3) "não tem instalação" saiu do passo 1. Republicada no mesmo dia.
+- 2026-11-06: segunda revisão da QA: título do bloco virou "Disponibilidade: ainda não funciona no Brasil" (era "Antes de tudo: ...", que ficava estranho depois do gate) e o risco aceito pelo Rafa ficou registrado em Riscos.
 
 ## File List
 
