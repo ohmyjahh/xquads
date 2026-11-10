@@ -1,6 +1,6 @@
 # Story 084 - Página /troca: prompts de troca de pessoa, roupa e objeto em vídeo (Seedance 2.0)
 
-**Status:** InReview (ajuste de 10/11 sobre rosto real aguardando QA; versão anterior publicada com QA PASS, commit `b3f1a10`; teste de lead dispensado pelo Rafa)
+**Status:** Done (QA PASS em produção do delta de 10/11, commit `dfe9281`, deploy `xquads-2jmpfor58`; versão inicial `b3f1a10`; teste de lead dispensado pelo Rafa, captura desta origem não provada em produção)
 **Epic:** Páginas de conteúdo + captura de leads (Xquads)
 **Criada em:** 2026-11-10
 **Implementa:** Diego (dev de funil). **QA:** QA – Funis de isca (quem implementa não aprova).
@@ -41,7 +41,7 @@ Nenhuma isca de troca de pessoa em vídeo. Próximas: `/editordevideosia`, `/vid
 - [x] AC3 antes do gate: só título, subtítulo e "o que você consegue trocar"; nenhum prompt, limite ou aviso
 - [x] AC4 conteúdo atrás do `LeadGate` com `source="troca-page"` e 5 campos
 - [x] AC5 3 prompts com botão de copiar (try/catch com aviso de falha), marcadores `[Video1]` e `[Image1]`
-- [ ] AC6 limites conforme a tabela da fonte (2 a 15 s, 1 a 3 vídeos, 9 imagens, prompts em inglês), sem nenhuma afirmação sobre rosto real nem sobre usar só personagem estilizado ou 3D (decisão do Rafa, 10/11)
+- [x] AC6 limites conforme a tabela da fonte (2 a 15 s, 1 a 3 vídeos, 9 imagens, prompts em inglês), sem nenhuma afirmação sobre rosto real nem sobre usar só personagem estilizado ou 3D (decisão do Rafa, 10/11)
 - [x] AC7 links da Replicate e da Higgsfield respondem 200
 - [x] AC8 em `localhost` aparece destravada, com "PRÉVIA LOCAL"
 - [x] AC9 `SalesCta` com `utmContent="troca"` e assinatura `@rafa.grandi`
@@ -66,3 +66,4 @@ AC1 a AC10, QA PASS, OK do Rafa (via Alfa), ordem do Rafa: página aprovada, dep
 - 2026-11-10: publicada com o "pode subir" do Rafa (via Alfa). Commit `b3f1a10`, deploy `xquads-4vyzd0vr2`. Conferido em produção pelo Diego: 200, HTML sem nenhum termo de alerta antes do gate, 5 campos, `utm_content` correto, 390 px sem overflow, console limpo. Teste de lead (planilha + GENE CRM) dispensado pelo Rafa em 10/11: o caminho de captura desta origem não foi provado em produção.
 - 2026-11-10: QA – Funis de isca deu PASS em produção (laudo `qa-troca-jogo-2026-11-10.md`, seção Produção). Story fechada como Done com a ressalva do teste de lead dispensado pelo Rafa.
 - 2026-11-10: ajuste pedido pelo Rafa (via Alfa): removido o item de LIMITES que dizia que rosto humano real costuma ser barrado (fonte Wiro/lzyprompt contestada pelo Rafa); o card voltou a "Troca a pessoa" e o primeiro prompt a "the person from [Image1]" (sem "character", que sugeria personagem). Nenhuma afirmação nova sobre rosto foi posta no lugar. Mudança de 3 linhas em `src/app/troca/page.tsx`. Aguardando QA do delta (incluindo regra dos alertas).
+- 2026-11-10: QA – Funis de isca deu PASS em produção do delta de rosto (laudo `qa-troca-jogo-2026-11-10.md`, seção "Produção do delta"). Story fechada como Done. Ressalva: teste de lead dispensado pelo Rafa; a captura da origem `troca-page` (planilha e GENE CRM) não foi provada em produção.
