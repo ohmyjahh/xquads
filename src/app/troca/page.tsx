@@ -23,8 +23,8 @@ const HIGGSFIELD = "https://higgsfield.ai/seedance/2.0";
 const O_QUE_FAZ = [
   {
     icone: User,
-    nome: "Troca o personagem",
-    texto: "Você sobe um vídeo que já existe e pede outro personagem no lugar, sem regravar a cena.",
+    nome: "Troca a pessoa",
+    texto: "Você sobe um vídeo que já existe e pede outra pessoa no lugar, sem regravar a cena.",
   },
   {
     icone: Shirt,
@@ -48,7 +48,7 @@ const PROMPTS = [
   {
     titulo: "Trocar a pessoa",
     texto:
-      "Replace the person in [Video1] with the character from [Image1]. Keep all original actions, the same framing and the same camera movement. Only the person changes: the background, the lighting and the timing stay exactly as in [Video1].",
+      "Replace the person in [Video1] with the person from [Image1]. Keep all original actions, the same framing and the same camera movement. Only the person changes: the background, the lighting and the timing stay exactly as in [Video1].",
   },
   {
     titulo: "Trocar a roupa",
@@ -65,7 +65,6 @@ const PROMPTS = [
 const LIMITES = [
   "O vídeo de entrada precisa ter de 2 a 15 segundos. Se o seu clipe for maior, corte em pedaços e emende depois.",
   "O modelo aceita de 1 a 3 vídeos de referência e até 9 imagens por geração.",
-  "Rosto humano real costuma ser barrado: a página do modelo no Wiro diz que a ByteDance não aceita imagem nem vídeo de referência com rosto humano real no Seedance 2.0. Para trocar a pessoa, use personagem estilizado, ilustração ou 3D, tanto no vídeo quanto na imagem.",
   "Os exemplos da documentação estão em inglês, por isso os prompts abaixo estão em inglês. Copie como estão.",
 ];
 
