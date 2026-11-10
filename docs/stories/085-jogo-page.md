@@ -1,6 +1,6 @@
 # Story 085 - Página /jogo: 5 pedidos para montar um jogo 3D com o Claude Fable 5.2 e o Higgsfield
 
-**Status:** InReview (aguardando QA – Funis de isca)
+**Status:** Done (QA PASS em produção, commit `b3f1a10`, deploy `xquads-4vyzd0vr2`; teste de lead dispensado pelo Rafa em 10/11)
 **Epic:** Páginas de conteúdo + captura de leads (Xquads)
 **Criada em:** 2026-11-10
 **Implementa:** Diego (dev de funil). **QA:** QA – Funis de isca (quem implementa não aprova).
@@ -35,17 +35,17 @@ Nenhuma isca de jogo 3D ou Higgsfield. Sem duplicação.
 
 ### Acceptance Criteria
 
-- [ ] AC1 rota `/jogo` sem erro de build nem de console
-- [ ] AC2 linguagem de quem não é desenvolvedor
-- [ ] AC3 antes do gate: só título, subtítulo e as 5 etapas; nada de teste grátis, cartão, custo ou aviso
-- [ ] AC4 conteúdo atrás do `LeadGate` com `source="jogo-page"` e 5 campos
-- [ ] AC5 primeiro bloco liberado deixa claro: pede cartão, vira assinatura se não cancelar, confira a tela de ativação
-- [ ] AC6 5 pedidos com botão de copiar (try/catch) e botão do endereço do conector
-- [ ] AC7 cada fato do bloco "Sobre o Fable 5.2" bate com a Anthropic; nada da lista "não entrou"
-- [ ] AC8 links (Higgsfield MCP, anúncio da Anthropic) respondem 200
-- [ ] AC9 em `localhost` aparece destravada, com "PRÉVIA LOCAL"
-- [ ] AC10 `SalesCta` com `utmContent="jogo"` e assinatura `@rafa.grandi`
-- [ ] AC11 sem travessão
+- [x] AC1 rota `/jogo` sem erro de build nem de console
+- [x] AC2 linguagem de quem não é desenvolvedor
+- [x] AC3 antes do gate: só título, subtítulo e as 5 etapas; nada de teste grátis, cartão, custo ou aviso
+- [x] AC4 conteúdo atrás do `LeadGate` com `source="jogo-page"` e 5 campos
+- [x] AC5 primeiro bloco liberado deixa claro: pede cartão, vira assinatura se não cancelar, confira a tela de ativação
+- [x] AC6 5 pedidos com botão de copiar (try/catch) e botão do endereço do conector
+- [x] AC7 cada fato do bloco "Sobre o Fable 5.2" bate com a Anthropic; nada da lista "não entrou"
+- [x] AC8 links (Higgsfield MCP, anúncio da Anthropic) respondem 200
+- [x] AC9 em `localhost` aparece destravada, com "PRÉVIA LOCAL"
+- [x] AC10 `SalesCta` com `utmContent="jogo"` e assinatura `@rafa.grandi`
+- [x] AC11 sem travessão
 
 ## Escopo
 IN: `src/app/jogo/page.tsx`. OUT: componentes compartilhados, `/api/leads`, config, outras páginas.
@@ -63,3 +63,5 @@ AC1 a AC11, QA PASS, OK do Rafa via Alfa, e a ordem página, ManyChat, post.
 ## Change Log
 - 2026-11-10: story criada e página implementada (Diego). Não publicada.
 - 2026-11-10: ajustes da QA (CONCERNS J1, J2, J3): pedidos reescritos para o chat do Claude (artifact em HTML com Three.js; sem pasta nem servidor; o Pedido 5 virou dois jogadores na mesma tela, WASD e setas; o multiplayer online fica fora porque pede ambiente que rode servidor); bloco de aviso com ressalva "segundo as fontes que conferi (a página oficial não detalha)" e título "Leia antes de ativar"; passo 1 manda ver se o teste ainda existe; título "Os 5 pedidos que montam um jogo 3D" e nota de que os pedidos não são o original do vídeo.
+- 2026-11-10: publicada com o "pode subir" do Rafa (via Alfa). Commit `b3f1a10`, deploy `xquads-4vyzd0vr2`. Conferido em produção pelo Diego: 200, HTML sem nenhum termo de alerta antes do gate, 5 campos, `utm_content` correto, 390 px sem overflow, console limpo. Teste de lead (planilha + GENE CRM) dispensado pelo Rafa em 10/11: o caminho de captura desta origem não foi provado em produção.
+- 2026-11-10: QA – Funis de isca deu PASS em produção (laudo `qa-troca-jogo-2026-11-10.md`, seção Produção). Story fechada como Done com a ressalva do teste de lead dispensado pelo Rafa.

@@ -1,6 +1,6 @@
 # Story 084 - Página /troca: prompts de troca de pessoa, roupa e objeto em vídeo (Seedance 2.0)
 
-**Status:** InReview (aguardando QA – Funis de isca)
+**Status:** Done (QA PASS em produção, commit `b3f1a10`, deploy `xquads-4vyzd0vr2`; teste de lead dispensado pelo Rafa em 10/11)
 **Epic:** Páginas de conteúdo + captura de leads (Xquads)
 **Criada em:** 2026-11-10
 **Implementa:** Diego (dev de funil). **QA:** QA – Funis de isca (quem implementa não aprova).
@@ -36,16 +36,16 @@ Nenhuma isca de troca de pessoa em vídeo. Próximas: `/editordevideosia`, `/vid
 
 ### Acceptance Criteria
 
-- [ ] AC1 rota `/troca` renderiza sem erro de build nem de console
-- [ ] AC2 linguagem de quem não é desenvolvedor
-- [ ] AC3 antes do gate: só título, subtítulo e "o que você consegue trocar"; nenhum prompt, limite ou aviso
-- [ ] AC4 conteúdo atrás do `LeadGate` com `source="troca-page"` e 5 campos
-- [ ] AC5 3 prompts com botão de copiar (try/catch com aviso de falha), marcadores `[Video1]` e `[Image1]`
-- [ ] AC6 limites e política de rosto conforme a tabela da fonte, sem afirmar o que a fonte não diz
-- [ ] AC7 links da Replicate e da Higgsfield respondem 200
-- [ ] AC8 em `localhost` aparece destravada, com "PRÉVIA LOCAL"
-- [ ] AC9 `SalesCta` com `utmContent="troca"` e assinatura `@rafa.grandi`
-- [ ] AC10 sem travessão
+- [x] AC1 rota `/troca` renderiza sem erro de build nem de console
+- [x] AC2 linguagem de quem não é desenvolvedor
+- [x] AC3 antes do gate: só título, subtítulo e "o que você consegue trocar"; nenhum prompt, limite ou aviso
+- [x] AC4 conteúdo atrás do `LeadGate` com `source="troca-page"` e 5 campos
+- [x] AC5 3 prompts com botão de copiar (try/catch com aviso de falha), marcadores `[Video1]` e `[Image1]`
+- [x] AC6 limites e política de rosto conforme a tabela da fonte, sem afirmar o que a fonte não diz
+- [x] AC7 links da Replicate e da Higgsfield respondem 200
+- [x] AC8 em `localhost` aparece destravada, com "PRÉVIA LOCAL"
+- [x] AC9 `SalesCta` com `utmContent="troca"` e assinatura `@rafa.grandi`
+- [x] AC10 sem travessão
 
 ## Escopo
 IN: `src/app/troca/page.tsx`. OUT: componentes compartilhados, `/api/leads`, config, outras páginas.
@@ -63,3 +63,5 @@ AC1 a AC10, QA PASS, OK do Rafa (via Alfa), ordem do Rafa: página aprovada, dep
 ## Change Log
 - 2026-11-10: story criada e página implementada (Diego). Não publicada.
 - 2026-11-10: ajustes da QA (CONCERNS T1 e T2): limite de rosto no texto do Wiro ("ByteDance não aceita imagem nem vídeo de referência com rosto humano real no Seedance 2.0", use personagem estilizado, ilustração ou 3D); card "Troca a pessoa" virou "Troca o personagem"; link de "Onde rodar" trocado para higgsfield.ai/seedance/2.0 (200), sem afirmar que roda pelo MCP.
+- 2026-11-10: publicada com o "pode subir" do Rafa (via Alfa). Commit `b3f1a10`, deploy `xquads-4vyzd0vr2`. Conferido em produção pelo Diego: 200, HTML sem nenhum termo de alerta antes do gate, 5 campos, `utm_content` correto, 390 px sem overflow, console limpo. Teste de lead (planilha + GENE CRM) dispensado pelo Rafa em 10/11: o caminho de captura desta origem não foi provado em produção.
+- 2026-11-10: QA – Funis de isca deu PASS em produção (laudo `qa-troca-jogo-2026-11-10.md`, seção Produção). Story fechada como Done com a ressalva do teste de lead dispensado pelo Rafa.
