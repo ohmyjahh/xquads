@@ -1,6 +1,6 @@
 # Story 086 - Página /agenda: agente de IA que agenda consultas no WhatsApp de clínica odontológica
 
-**Status:** InReview (QA PASS em 11/11 na versão publicada; falta conferência de produção da QA; teste de cadastro dispensado pelo Rafa)
+**Status:** Done (QA PASS em produção, commit `b1ad871`, deploy `xquads-9bkyjq0nb`; teste de cadastro dispensado pelo Rafa, captura da origem `agenda-page` não provada em produção; observação O1 opcional pendente)
 **Epic:** Páginas de conteúdo + captura de leads (Xquads)
 **Criada em:** 2026-11-10
 **Implementa:** Diego (dev de funil). **QA:** QA – Funis de isca (quem implementa não aprova).
@@ -42,17 +42,17 @@ Nenhuma isca de clínica, agenda ou WhatsApp. `/airbnb`, `/vendasgpt` são de ou
 
 ### Acceptance Criteria
 
-- [ ] AC1 rota `/agenda` sem erro de build nem de console
-- [ ] AC2 linguagem de quem não é desenvolvedor
-- [ ] AC3 antes do gate: só selo, título, subtítulo, os 4 cards e o formulário; nenhum alerta, aviso, bloco amarelo, prompt ou mensagem
-- [ ] AC4 conteúdo atrás do `LeadGate` com `source="agenda-page"` e 5 campos
-- [ ] AC5 depois do gate, o primeiro bloco é o alerta (sem diagnóstico, urgência para humano, LGPD, janela de 24 h)
-- [ ] AC6 fluxo em 4 etapas, prompt do agente e 4 mensagens com botão de copiar (try/catch com aviso de falha)
-- [ ] AC7 cada fato bate com a tabela da fonte; nenhum valor em reais, nenhum resultado prometido
-- [ ] AC8 links das fontes respondem 200
-- [ ] AC9 em `localhost` aparece destravada, com "PRÉVIA LOCAL"
-- [ ] AC10 `SalesCta` com `utmContent="agenda"` e assinatura `@rafa.grandi`
-- [ ] AC11 sem travessão
+- [x] AC1 rota `/agenda` sem erro de build nem de console
+- [x] AC2 linguagem de quem não é desenvolvedor
+- [x] AC3 antes do gate: só selo, título, subtítulo, os 4 cards e o formulário; nenhum alerta, aviso, bloco amarelo, prompt ou mensagem
+- [x] AC4 conteúdo atrás do `LeadGate` com `source="agenda-page"` e 5 campos
+- [x] AC5 depois do gate, o primeiro bloco é o alerta (sem diagnóstico, urgência para humano, LGPD, janela de 24 h)
+- [x] AC6 fluxo em 4 etapas, prompt do agente e 4 mensagens com botão de copiar (try/catch com aviso de falha)
+- [x] AC7 cada fato bate com a tabela da fonte; nenhum valor em reais, nenhum resultado prometido
+- [x] AC8 links das fontes respondem 200
+- [x] AC9 em `localhost` aparece destravada, com "PRÉVIA LOCAL"
+- [x] AC10 `SalesCta` com `utmContent="agenda"` e assinatura `@rafa.grandi`
+- [x] AC11 sem travessão
 
 ## Escopo
 IN: `src/app/agenda/page.tsx`. OUT: componentes compartilhados, `/api/leads`, config, layout, outras páginas.
@@ -72,3 +72,4 @@ AC1 a AC11, QA PASS, OK do Rafa via Alfa, ordem página, ManyChat, post.
 ## Change Log
 - 2026-11-10: story criada e página implementada (Diego). Não publicada.
 - 2026-11-11: QA – Funis de isca deu PASS (laudo `qa-agenda-2026-11-11.md`). Publicada com o OK do Rafa (via Alfa). Teste de cadastro dispensado pelo Rafa em 11/11. Observação O1 da QA (baixa) PENDENTE, exige delta de página e nova revisão: o prompt pede "o motivo da consulta" mas DADOS PESSOAIS diz "só nome e telefone"; sugestão: "nome, telefone e o tipo de consulta (avaliação, limpeza, retorno). Não peça detalhes de sintomas além do que a pessoa contar." Observação O2 registrada acima.
+- 2026-11-11: QA – Funis de isca deu PASS em produção (laudo `qa-agenda-2026-11-11.md`, seção Produção). Story fechada como Done. Ressalva: teste de cadastro dispensado pelo Rafa; a captura de `agenda-page` (planilha e GENE CRM) não foi provada em produção. O1 é delta opcional, só com pedido do Alfa e nova revisão da QA.
