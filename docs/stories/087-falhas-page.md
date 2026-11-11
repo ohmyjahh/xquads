@@ -1,6 +1,6 @@
 # Story 087 - Página /falhas: 7 falhas de segurança para checar antes de publicar um app, com teste e correção
 
-**Status:** InReview (QA PASS em 11/11 na versão publicada; falta conferência de produção da QA; teste de cadastro dispensado pelo Rafa)
+**Status:** Done (QA PASS em produção, commit `5c7a182`, deploy `xquads-9mum5tm2t`; teste de cadastro dispensado pelo Rafa, captura da origem `falhas-page` não provada em produção)
 **Epic:** Páginas de conteúdo + captura de leads (Xquads)
 **Criada em:** 2026-11-10
 **Implementa:** Diego (dev de funil). **QA:** QA – Funis de isca (quem implementa não aprova).
@@ -45,18 +45,18 @@ Já existe `/appseguro` (prompt master que audita a segurança do app vibe codad
 
 ### Acceptance Criteria
 
-- [ ] AC1 rota `/falhas` sem erro de build nem de console
-- [ ] AC2 linguagem de quem não é desenvolvedor
-- [ ] AC3 antes do gate: só selo, título, subtítulo, nomes das 7 falhas e o formulário; nenhum alerta, aviso, bloco amarelo, notícia ou teste
-- [ ] AC4 conteúdo atrás do `LeadGate` com `source="falhas-page"` e 5 campos
-- [ ] AC5 depois do gate, o primeiro bloco é o alerta
-- [ ] AC6 7 falhas, cada uma com o que é, como testar, como corrigir e link da fonte
-- [ ] AC7 checklist de 10 itens com botão de copiar (try/catch com aviso de falha)
-- [ ] AC8 cada fato bate com a tabela da fonte; nenhum número sem fonte (temperatura, número de afetados, atribuição)
-- [ ] AC9 links externos respondem 200 (exceto qualquer bloqueio de robô, registrado)
-- [ ] AC10 em `localhost` aparece destravada, com "PRÉVIA LOCAL"
-- [ ] AC11 `SalesCta` com `utmContent="falhas"` e assinatura `@rafa.grandi`
-- [ ] AC12 sem travessão
+- [x] AC1 rota `/falhas` sem erro de build nem de console
+- [x] AC2 linguagem de quem não é desenvolvedor
+- [x] AC3 antes do gate: só selo, título, subtítulo, nomes das 7 falhas e o formulário; nenhum alerta, aviso, bloco amarelo, notícia ou teste
+- [x] AC4 conteúdo atrás do `LeadGate` com `source="falhas-page"` e 5 campos
+- [x] AC5 depois do gate, o primeiro bloco é o alerta
+- [x] AC6 7 falhas, cada uma com o que é, como testar, como corrigir e link da fonte
+- [x] AC7 checklist de 10 itens com botão de copiar (try/catch com aviso de falha)
+- [x] AC8 cada fato bate com a tabela da fonte; nenhum número sem fonte (temperatura, número de afetados, atribuição)
+- [x] AC9 links externos respondem 200 (exceto qualquer bloqueio de robô, registrado)
+- [x] AC10 em `localhost` aparece destravada, com "PRÉVIA LOCAL"
+- [x] AC11 `SalesCta` com `utmContent="falhas"` e assinatura `@rafa.grandi`
+- [x] AC12 sem travessão
 
 ## Escopo
 IN: `src/app/falhas/page.tsx`. OUT: componentes compartilhados, `/api/leads`, config, layout, outras páginas (inclui `/appseguro`).
@@ -76,3 +76,4 @@ AC1 a AC12, QA PASS, OK do Rafa via Alfa, ordem página, ManyChat, post.
 ## Change Log
 - 2026-11-10: story criada e página implementada (Diego). Não publicada.
 - 2026-11-11: QA – Funis de isca deu PASS (laudo `qa-falhas-2026-11-11.md`). Publicada com o OK do Rafa (via Alfa) para o post das 15h. Teste de cadastro dispensado pelo Rafa.
+- 2026-11-11: QA – Funis de isca deu PASS em produção (laudo `qa-falhas-2026-11-11.md`, seção Produção). Story fechada como Done. Ressalva: teste de cadastro dispensado pelo Rafa; a captura de `falhas-page` (planilha e GENE CRM) não foi provada em produção.
