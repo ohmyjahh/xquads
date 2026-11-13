@@ -1,6 +1,6 @@
 # Story 094 - Página /reunioes: como usar o Claude nas reuniões (passo a passo)
 
-**Status:** InReview (re-checagem da QA em 13/11, sha `f73348687059`; prévia, não publicada)
+**Status:** Done (PASS da QA em 13/11 no sha `f73348687059`, publicado e conferido em produção em 13/11)
 **Epic:** Páginas de conteúdo + captura de leads (Xquads)
 **Criada em:** 2026-11-13
 **Implementa:** Diego (dev de funil). **QA:** QA – Funis de isca (quem implementa não aprova).
@@ -45,19 +45,19 @@ Slug `reunioes`. Em prévia local em `http://localhost:3001/xquads/reunioes`. `s
 - Integrações com Gong, Attention, Granola, Fireflies.ai, Otter e Plaud: o artigo diz que a Anthropic está trabalhando com eles e que "em breve" dá para enviar a transcrição. Ficou fora da página para não virar promessa com data.
 
 ### Acceptance Criteria
-- [ ] AC1 rota `/reunioes` sem erro de build nem de console
-- [ ] AC2 linguagem de quem não é especialista, com nome de menu em inglês entre aspas quando é do produto
-- [ ] AC3 antes do gate: só a linha de conferência, o selo, título, subtítulo, 6 cards de conteúdo e o formulário; nenhum alerta, requisito, custo, plano, plataforma nem bloco amarelo
-- [ ] AC4 `LeadGate` com `source="reunioes-page"` e os 5 campos; `utm_content=reunioes`
-- [ ] AC5 bloco de alerta é o 1º item do conteúdo liberado e traz plano, plataforma, organizações sem acesso, custo, dados salvos, aviso de transcrição, convidado de fora, quem vê o quê e duração
-- [ ] AC6 passo a passo numerado, de 12 passos, na ordem antes, conexão, durante e depois
-- [ ] AC7 botão "Ler o artigo oficial" aponta para https://claude.com/resources/articles/claude-meetings com target _blank e rel noopener noreferrer
-- [ ] AC8 todo fato tem fonte com data; dicas que não vêm das fontes estão marcadas como "Recomendação nossa"
-- [ ] AC9 nenhuma afirmação sobre preço por assento, data de saída do beta ou plataforma que as fontes não tragam
-- [ ] AC10 links externos respondem 200
-- [ ] AC11 localhost destravado com "PRÉVIA LOCAL"
-- [ ] AC12 `SalesCta` e assinatura `@rafa.grandi`
-- [ ] AC13 sem travessão em nenhum texto
+- [x] AC1 rota `/reunioes` sem erro de build nem de console
+- [x] AC2 linguagem de quem não é especialista, com nome de menu em inglês entre aspas quando é do produto
+- [x] AC3 antes do gate: só a linha de conferência, o selo, título, subtítulo, 6 cards de conteúdo e o formulário; nenhum alerta, requisito, custo, plano, plataforma nem bloco amarelo
+- [x] AC4 `LeadGate` com `source="reunioes-page"` e os 5 campos; `utm_content=reunioes`
+- [x] AC5 bloco de alerta é o 1º item do conteúdo liberado e traz plano, plataforma, organizações sem acesso, custo, dados salvos, aviso de transcrição, convidado de fora, quem vê o quê e duração
+- [x] AC6 passo a passo numerado, de 12 passos, na ordem antes, conexão, durante e depois
+- [x] AC7 botão "Ler o artigo oficial" aponta para https://claude.com/resources/articles/claude-meetings com target _blank e rel noopener noreferrer
+- [x] AC8 todo fato tem fonte com data; dicas que não vêm das fontes estão marcadas como "Recomendação nossa"
+- [x] AC9 nenhuma afirmação sobre preço por assento, data de saída do beta ou plataforma que as fontes não tragam
+- [x] AC10 links externos respondem 200
+- [x] AC11 localhost destravado com "PRÉVIA LOCAL"
+- [x] AC12 `SalesCta` e assinatura `@rafa.grandi`
+- [x] AC13 sem travessão em nenhum texto
 
 ## Escopo
 IN: `src/app/reunioes/page.tsx`, `docs/stories/094-reunioes-page.md`.
@@ -81,3 +81,4 @@ AC1 a AC13, PASS da QA, publicação por caminho, conferência de 200 no ar e av
 ## Change Log
 - 2026-11-13: story criada e página implementada. Artigo e Help Center lidos às 08h53. Passo a passo de 12 passos, 9 alertas, 7 dicas (2 marcadas como recomendação nossa). Em prévia local, não publicada.
 - 2026-11-13: ajustes da QA (CONCERNS no sha `726c8bc3ce06`). R1: o 7º alerta e a 4ª dica diziam que o Claude fica fora de chamadas com convidado de fora por padrão, o que é o texto do artigo; o Help Center de 13/11 detalha por plano (Team: pode entrar por padrão, owner desliga; Enterprise: owner libera primeiro) e diz que convidado não recebe a página nem o recap. Alerta reescrito e dica ajustada, com a opção individual em Settings > Capabilities > Meetings. R2: passo 9 agora diz que o pedido de aprovação aparece no chat do Meet "quando possível". R3: `contentNote` do formulário não cita mais requisitos e custos antes do gate, virou "os passos numerados, o que preparar antes e as dicas de uso". Arquivo e story voltam para a QA com sha novo.
+- 2026-11-13: **PASS da QA no sha `f73348687059`** e publicação. Commit `cb3bd9d` (só `src/app/reunioes/page.tsx` e esta story), push em `main`, deploy da Vercel. Conferido em `https://www.sowsales.com.br/xquads/reunioes`: 200, gate fechado com 3 inputs e 2 selects, sem termo de alerta e sem tarja de prévia no HTML público, CTA `utm_content=reunioes` apontando para `raxo.com.br/vibecodingvsl`, 390 px sem rolagem horizontal, console sem erro da página (as únicas falhas de rede são os scripts do pixel da Meta, do layout). Sem teste de envio de lead, por regra do Rafa.
