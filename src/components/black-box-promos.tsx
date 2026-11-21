@@ -324,10 +324,10 @@ export function BlackBoxPromos({ slug }: { slug: string }) {
         }
         body={
           modal === "exit"
-            ? "O maior desconto já feito fica no Grupo Secreto. Entre agora para receber o acesso no dia 27/11."
+            ? "O maior desconto já feito fica no Grupo Secreto. Entre agora para receber o desconto no dia 27/11."
             : modal === "scroll"
               ? "Sexta, 27/11, o Rafa abre a caixa preta da IA. O maior desconto já feito é só para quem estiver no Grupo Secreto."
-              : "Sexta, 27/11, o Rafa abre a caixa preta da IA e libera o maior desconto já feito. Entre no Grupo Secreto para receber o acesso."
+              : "Sexta, 27/11, o Rafa abre a caixa preta da IA e libera o maior desconto já feito. Entre no Grupo Secreto para receber o desconto."
         }
       />
 
@@ -409,11 +409,11 @@ export function BlackBoxBlock({ slug, variant = "desconto" }: { slug: string; va
           <div className="max-w-xl">
             <BoxTag icon="lock" />
             <h2 className="mt-3 text-2xl font-black leading-tight sm:text-3xl">
-              A Black Box só abre para quem está no Grupo Secreto
+              O desconto da Black Box é exclusivo para quem está no Grupo Secreto
             </h2>
             <p className="mt-2 text-sm leading-relaxed sm:text-base" style={{ color: BODY }}>
               O desconto da sexta, 27/11, é exclusivo para quem estiver no Grupo Secreto do
-              WhatsApp. Quem ficar de fora não recebe.
+              WhatsApp. Entre no grupo para receber.
             </p>
           </div>
           <div className="shrink-0">
@@ -434,7 +434,7 @@ export function BlackBoxBlock({ slug, variant = "desconto" }: { slug: string; va
             <Countdown variant="boxes" size="lg" />
           </div>
           <p className="mt-4 max-w-lg text-sm leading-relaxed sm:text-base" style={{ color: BODY }}>
-            Quando o relógio zerar, só quem estiver no Grupo Secreto recebe o acesso.
+            Quando o relógio zerar, só quem estiver no Grupo Secreto recebe o desconto.
           </p>
           <div className="mt-4 w-full sm:w-auto">
             <Cta slug={slug} label="QUERO PARTICIPAR DA BLACK BOX" className="w-full sm:w-auto" />
@@ -453,8 +453,8 @@ export function BlackBoxBlock({ slug, variant = "desconto" }: { slug: string; va
         já feito
       </h2>
       <p className="mt-3 max-w-2xl text-sm leading-relaxed sm:text-base" style={{ color: BODY }}>
-        Sexta, 27/11, o Rafa abre a caixa preta da IA com o maior desconto que ele já fez. O valor só
-        aparece para quem estiver no Grupo Secreto.
+        Sexta, 27/11, o Rafa abre a caixa preta da IA com o maior desconto que ele já fez. O desconto é
+        exclusivo para quem estiver no Grupo Secreto.
       </p>
       <div className="mt-5 flex flex-wrap items-center gap-4">
         <Cta slug={slug} label="QUERO O MAIOR DESCONTO" className="w-full sm:w-auto" />
