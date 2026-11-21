@@ -163,7 +163,7 @@ export default function Vendedor24hBlackBoxPage() {
         >
           <ShieldAlert className="mt-0.5 h-4 w-4 shrink-0" style={{ color: ACCENT }} />
           <div>
-            <b style={{ color: ACCENT }}>Cuidados:</b> nunca compartilhe a sua chave de API com ninguém. Teste as respostas com
+            <b style={{ color: ACCENT }}>Cuidados:</b> nunca compartilhe a sua chave de API com ninguém. A chave de API é cobrada por uso, à parte da assinatura do Claude. Teste as respostas com
             uma conta sua antes de ligar para os clientes.
           </div>
         </section>
