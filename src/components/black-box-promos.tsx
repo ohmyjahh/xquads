@@ -319,7 +319,7 @@ export function BlackBoxPromos({ slug }: { slug: string }) {
           modal === "exit"
             ? "Antes de sair: a Black Box abre sexta, 27/11"
             : modal === "scroll"
-              ? "Você já viu metade da biblioteca"
+              ? "Você já viu metade da página"
               : "A maior Black da história da inteligência artificial"
         }
         body={
