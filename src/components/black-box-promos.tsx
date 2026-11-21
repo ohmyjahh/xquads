@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { ArrowRight, Clock, Lock, Tag, X } from "lucide-react";
+import { ArrowRight, X } from "lucide-react";
 
 const DEADLINE = new Date("2026-11-27T00:00:00-03:00").getTime();
 
@@ -13,8 +13,6 @@ const INK_HOVER = "#2B2219";
 const CREAM = "#EFE6D6";
 const CREAM_HOVER = "#FFF6E8";
 const CORAL = "#F08A6C";
-const BODY = "#3D342A";
-const SOFT = "#5A4E40";
 const ON_DARK_MUTED = "#B9AD9B";
 const OVERLAY = "rgba(6,4,1,0.86)";
 const TAG_TEXT = "BLACK BOX IA · SEXTA, 27/11";
@@ -137,30 +135,47 @@ function Cta({
   );
 }
 
-function BoxTag({ icon = "clock" }: { icon?: "clock" | "lock" | "tag" }) {
-  const Icon = icon === "lock" ? Lock : icon === "tag" ? Tag : Clock;
-  return (
-    <p
-      className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[10px] font-extrabold uppercase tracking-[0.16em]"
-      style={{ backgroundColor: CORAL, color: INK }}
-    >
-      <Icon className="h-3 w-3" aria-hidden="true" />
-      {TAG_TEXT}
-    </p>
-  );
-}
+const ART_ALT = "Black Box IA, sexta 27/11: quero participar";
+const ART_BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
-function CloseButton({ onClick }: { onClick: () => void }) {
+/** Arte "Revelação" inteira clicável. 1080x1350 no mobile, 1600x600 no desktop; caixa com proporção fixa (sem salto de layout). */
+function RevelacaoArt({
+  slug,
+  lazy = true,
+  desktopWide = true,
+  className = "",
+}: {
+  slug: string;
+  lazy?: boolean;
+  desktopWide?: boolean;
+  className?: string;
+}) {
   return (
-    <button
-      type="button"
-      onClick={onClick}
-      aria-label="Fechar"
-      className={`rounded-md p-1.5 transition-colors hover:bg-black/10 ${FOCUS_RING}`}
-      style={{ color: INK }}
+    <a
+      href={blackBoxUrl(slug)}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={ART_ALT}
+      className={`block overflow-hidden rounded-2xl ${FOCUS_RING} ${className}`}
+      style={{ backgroundColor: INK, boxShadow: `0 0 0 2px ${CORAL}, 0 24px 60px -24px rgba(0,0,0,0.9)` }}
     >
-      <X className="h-5 w-5" />
-    </button>
+      <div className={`relative w-full aspect-[1080/1350] ${desktopWide ? "md:aspect-[1600/600]" : ""}`}>
+        <picture>
+          {desktopWide && (
+            <source media="(min-width: 768px)" srcSet={`${ART_BASE}/blackbox/01-revelacao-desktop.webp`} width={1600} height={600} />
+          )}
+          <img
+            src={`${ART_BASE}/blackbox/01-revelacao-mobile.webp`}
+            alt={ART_ALT}
+            width={1080}
+            height={1350}
+            loading={lazy ? "lazy" : "eager"}
+            decoding="async"
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+        </picture>
+      </div>
+    </a>
   );
 }
 
@@ -168,14 +183,10 @@ function PromoModal({
   open,
   onClose,
   slug,
-  title,
-  body,
 }: {
   open: boolean;
   onClose: () => void;
   slug: string;
-  title: string;
-  body: string;
 }) {
   const dialogRef = useRef<HTMLDivElement>(null);
 
@@ -224,31 +235,22 @@ function PromoModal({
         ref={dialogRef}
         role="dialog"
         aria-modal="true"
-        aria-labelledby="black-box-modal-title"
+        aria-label={ART_ALT}
         tabIndex={-1}
-        className="relative outline-none max-h-[calc(100vh-2rem)] w-full max-w-md overflow-y-auto rounded-2xl p-6 shadow-2xl sm:p-8"
-        style={{ backgroundColor: CREAM, color: INK, boxShadow: `0 0 0 2px ${CORAL}, 0 30px 80px -20px rgba(0,0,0,0.8)` }}
+        className="relative outline-none w-full"
+        style={{ maxWidth: "min(26rem, calc((100vh - 2rem) * 0.8))" }}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="absolute right-3 top-3">
-          <CloseButton onClick={onClose} />
-        </div>
-        <BoxTag />
-        <h2 id="black-box-modal-title" className="mt-4 pr-6 text-2xl font-black leading-tight sm:text-3xl">
-          {title}
-        </h2>
-        <p className="mt-3 text-sm leading-relaxed sm:text-base" style={{ color: BODY }}>
-          {body}
-        </p>
-        <div className="mt-5">
-          <Countdown variant="boxes" />
-        </div>
-        <div className="mt-5">
-          <Cta slug={slug} label="QUERO PARTICIPAR DA BLACK BOX" full />
-        </div>
-        <p className="mt-3 text-xs leading-relaxed" style={{ color: SOFT }}>
-          O desconto é exclusivo para quem estiver no Grupo Secreto.
-        </p>
+        <RevelacaoArt slug={slug} lazy={false} desktopWide={false} />
+        <button
+          type="button"
+          onClick={onClose}
+          aria-label="Fechar"
+          className={`absolute right-2 top-2 flex h-9 w-9 items-center justify-center rounded-full ${FOCUS_RING}`}
+          style={{ backgroundColor: "rgba(14,9,4,0.85)", color: CREAM, boxShadow: `0 0 0 1px ${CORAL}` }}
+        >
+          <X className="h-5 w-5" />
+        </button>
       </div>
     </div>
   );
@@ -311,25 +313,7 @@ export function BlackBoxPromos({ slug }: { slug: string }) {
 
   return (
     <>
-      <PromoModal
-        open={modal !== null}
-        onClose={close}
-        slug={slug}
-        title={
-          modal === "exit"
-            ? "Antes de sair: a Black Box abre sexta, 27/11"
-            : modal === "scroll"
-              ? "Você já viu metade da página"
-              : "A maior Black da história da inteligência artificial"
-        }
-        body={
-          modal === "exit"
-            ? "O maior desconto já feito fica no Grupo Secreto. Entre agora para receber o desconto no dia 27/11."
-            : modal === "scroll"
-              ? "Sexta, 27/11, o Rafa abre a caixa preta da IA. O maior desconto já feito é só para quem estiver no Grupo Secreto."
-              : "Sexta, 27/11, o Rafa abre a caixa preta da IA e libera o maior desconto já feito. Entre no Grupo Secreto para receber o desconto."
-        }
-      />
+      <PromoModal open={modal !== null} onClose={close} slug={slug} />
 
       {corner && modal === null && (
         <aside
@@ -393,73 +377,11 @@ export function BlackBoxTopBar({ slug }: { slug: string }) {
 
 export type BlackBoxBlockVariant = "grupo" | "desconto" | "contagem";
 
-const cardShell = "rounded-2xl p-5 sm:p-8";
-const cardStyle = {
-  backgroundColor: CREAM,
-  color: INK,
-  boxShadow: `0 0 0 2px ${CORAL}, 0 24px 60px -24px rgba(0,0,0,0.9)`,
-} as const;
-
-/** Card da Black Box no meio do conteúdo. Cada variante tem copy própria. */
+/** Card da Black Box no meio do conteúdo: a arte Revelação clicável (a variante fica só como marcador para teste). */
 export function BlackBoxBlock({ slug, variant = "desconto" }: { slug: string; variant?: BlackBoxBlockVariant }) {
-  if (variant === "grupo") {
-    return (
-      <section aria-label="Black Box IA: Grupo Secreto" className={cardShell} style={cardStyle} data-bb-card="grupo">
-        <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
-          <div className="max-w-xl">
-            <BoxTag icon="lock" />
-            <h2 className="mt-3 text-2xl font-black leading-tight sm:text-3xl">
-              O desconto da Black Box é exclusivo para quem está no Grupo Secreto
-            </h2>
-            <p className="mt-2 text-sm leading-relaxed sm:text-base" style={{ color: BODY }}>
-              O desconto da sexta, 27/11, é exclusivo para quem estiver no Grupo Secreto do
-              WhatsApp. Entre no grupo para receber.
-            </p>
-          </div>
-          <div className="shrink-0">
-            <Cta slug={slug} label="ENTRAR NO GRUPO SECRETO" className="w-full sm:w-auto" />
-          </div>
-        </div>
-      </section>
-    );
-  }
-
-  if (variant === "contagem") {
-    return (
-      <section aria-label="Black Box IA: contagem regressiva" className={cardShell} style={cardStyle} data-bb-card="contagem">
-        <div className="flex flex-col items-center text-center">
-          <BoxTag />
-          <h2 className="mt-3 text-2xl font-black leading-tight sm:text-3xl">A caixa preta da IA abre em</h2>
-          <div className="mt-4">
-            <Countdown variant="boxes" size="lg" />
-          </div>
-          <p className="mt-4 max-w-lg text-sm leading-relaxed sm:text-base" style={{ color: BODY }}>
-            Quando o relógio zerar, só quem estiver no Grupo Secreto recebe o desconto.
-          </p>
-          <div className="mt-4 w-full sm:w-auto">
-            <Cta slug={slug} label="QUERO PARTICIPAR DA BLACK BOX" className="w-full sm:w-auto" />
-          </div>
-        </div>
-      </section>
-    );
-  }
-
   return (
-    <section aria-label="Black Box IA: o maior desconto já feito" className={cardShell} style={cardStyle} data-bb-card="desconto">
-      <BoxTag icon="tag" />
-      <h2 className="mt-3 text-3xl font-black uppercase leading-[1.05] sm:text-5xl">
-        O maior desconto
-        <br />
-        já feito
-      </h2>
-      <p className="mt-3 max-w-2xl text-sm leading-relaxed sm:text-base" style={{ color: BODY }}>
-        Sexta, 27/11, o Rafa abre a caixa preta da IA com o maior desconto que ele já fez. O desconto é
-        exclusivo para quem estiver no Grupo Secreto.
-      </p>
-      <div className="mt-5 flex flex-wrap items-center gap-4">
-        <Cta slug={slug} label="QUERO O MAIOR DESCONTO" className="w-full sm:w-auto" />
-        <Countdown variant="boxes" size="sm" />
-      </div>
+    <section aria-label="Black Box IA" data-bb-card={variant}>
+      <RevelacaoArt slug={slug} />
     </section>
   );
 }
