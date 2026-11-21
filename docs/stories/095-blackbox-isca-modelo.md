@@ -35,3 +35,4 @@ tsc 0, eslint 0, 0 travessão. Prévia em `http://localhost:3001/xquads/codigoss
 ## Change Log
 
 - 2026-11-21: criada e implementada; enviada à QA.
+- 2026-11-21: correção C1 da QA (card de canto não volta após o X) e O1 (`pb-36 md:pb-20`). Ajuste do Rafa: chamadas com paleta invertida (creme #EFE6D6, texto #0E0904, botão preto, tag coral #F08A6C, overlay escuro) e 3 cards inline (Grupo Secreto, maior desconto já feito, contagem) em ~1/3, 1/2 e ~2/3 da lista; commit 9de824e. Prints em `modelo-pagina/v2/`. Nova revisão da QA pendente (contraste AA, mobile, fechar).
