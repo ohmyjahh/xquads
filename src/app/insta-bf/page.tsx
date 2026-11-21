@@ -35,7 +35,7 @@ O que esta funcionando, o que esta travando o crescimento e qual e o maior gap e
 3 a 5 acoes concretas e ordenadas por impacto potencial, com justificativa baseada nos dados.
 
 9. ROTEIROS BASEADOS NOS TOP VIDEOS
-Com base nos 3 videos de maior engajamento identificados na secao 4, escreva um roteiro completo para cada um seguindo o mesmo padrao de estrutura, gancho, desenvolvimento e CTA que gerou resultado. Cada roteiro deve ser original, mas replicar a logica e o formato do video de referencia — nao o conteudo. Indique no inicio de cada roteiro qual video serviu de base e por que aquele padrao foi escolhido.
+Com base nos 3 videos de maior engajamento identificados na secao 4, escreva um roteiro completo para cada um seguindo o mesmo padrao de estrutura, gancho, desenvolvimento e CTA que gerou resultado. Cada roteiro deve ser original, mas replicar a logica e o formato do video de referencia - nao o conteudo. Indique no inicio de cada roteiro qual video serviu de base e por que aquele padrao foi escolhido.
 
 Seja objetivo, baseie cada afirmacao nos dados do Windsor. Onde nao houver dados suficientes, indique a lacuna em vez de especular.`;
 
