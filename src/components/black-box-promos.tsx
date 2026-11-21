@@ -1,14 +1,25 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { ArrowRight, Clock, X } from "lucide-react";
+import { ArrowRight, Clock, Lock, Tag, X } from "lucide-react";
 
 const DEADLINE = new Date("2026-11-27T00:00:00-03:00").getTime();
-const BLACK = "#0E0904";
+
+// Paleta invertida da Black Box (chamadas destacadas da página, que usa âmbar).
+// Contraste WCAG (fundo creme #EFE6D6): INK 16:1, BODY 9.8:1, SOFT 6.5:1.
+// Etiqueta: texto INK sobre CORAL 8:1. Botão: CREAM sobre INK 16:1.
+const INK = "#0E0904";
+const INK_HOVER = "#2B2219";
 const CREAM = "#EFE6D6";
-const MUTED = "#B9AD9B";
-const AMBER = "#D9962B";
-const AMBER_HOVER = "#E8A63C";
+const CREAM_HOVER = "#FFF6E8";
+const CORAL = "#F08A6C";
+const BODY = "#3D342A";
+const SOFT = "#5A4E40";
+const ON_DARK_MUTED = "#B9AD9B";
+const OVERLAY = "rgba(6,4,1,0.86)";
+const TAG_TEXT = "BLACK BOX IA · SEXTA, 27/11";
+const FOCUS_RING =
+  "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#F08A6C]";
 
 export function blackBoxUrl(slug: string) {
   return `https://rafagrandi.com.br/blackbox-cadastro?utm_source=instagram&utm_medium=isca&utm_campaign=blackbox&utm_content=${slug}`;
@@ -39,27 +50,48 @@ function useCountdown(): Left {
 
 const PLACEHOLDER: CountdownLeft = { days: "00", hours: "00", minutes: "00", seconds: "00" };
 
-function Countdown({ compact = false, dark = false }: { compact?: boolean; dark?: boolean }) {
+/** Contagem regressiva. `onDark`: dígitos creme soltos (barra do topo). `boxes`: caixas pretas sobre creme. */
+function Countdown({ variant, size = "md" }: { variant: "onDark" | "boxes"; size?: "sm" | "md" | "lg" }) {
   const left = useCountdown() ?? PLACEHOLDER;
   const parts = [
     ["DIAS", left.days],
     ["HORAS", left.hours],
     ["MIN", left.minutes],
     ["SEG", left.seconds],
-  ];
+  ] as const;
+
+  if (variant === "onDark") {
+    return (
+      <div className="flex items-center gap-2" aria-label="Contagem regressiva para sexta, 27/11">
+        {parts.map(([label, value]) => (
+          <div key={label} className="text-center">
+            <div className="font-mono text-sm font-bold tabular-nums" style={{ color: CREAM }}>
+              {value}
+            </div>
+            <div className="font-mono text-[8px] uppercase tracking-widest" style={{ color: ON_DARK_MUTED }}>
+              {label}
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  const digit = size === "lg" ? "text-3xl sm:text-5xl" : size === "sm" ? "text-base" : "text-2xl sm:text-3xl";
+  const box = size === "lg" ? "min-w-[4.25rem] px-2 py-3 sm:min-w-[6rem] sm:py-4" : size === "sm" ? "min-w-[2.75rem] px-1.5 py-1.5" : "min-w-[3.5rem] px-2 py-2.5 sm:min-w-[4.25rem]";
   return (
-    <div className={`flex items-center ${compact ? "gap-2" : "gap-3"}`}>
+    <div
+      className={`flex items-stretch ${size === "lg" ? "gap-2 sm:gap-3" : "gap-1.5 sm:gap-2"}`}
+      aria-label="Contagem regressiva para sexta, 27/11"
+    >
       {parts.map(([label, value]) => (
-        <div key={label} className="text-center">
-          <div
-            className={`font-mono font-bold tabular-nums ${compact ? "text-sm" : "text-2xl sm:text-3xl"}`}
-            style={{ color: dark ? BLACK : CREAM }}
-          >
+        <div key={label} className={`rounded-lg text-center ${box}`} style={{ backgroundColor: INK }}>
+          <div className={`font-mono font-bold leading-none tabular-nums ${digit}`} style={{ color: CREAM }}>
             {value}
           </div>
           <div
-            className={`font-mono uppercase ${compact ? "text-[8px]" : "text-[10px]"} tracking-widest`}
-            style={{ color: dark ? "rgba(14,9,4,0.7)" : MUTED }}
+            className={`mt-1 font-mono uppercase tracking-widest ${size === "sm" ? "text-[8px]" : "text-[10px]"}`}
+            style={{ color: ON_DARK_MUTED }}
           >
             {label}
           </div>
@@ -69,33 +101,63 @@ function Countdown({ compact = false, dark = false }: { compact?: boolean; dark?
   );
 }
 
-function Cta({ slug, label, size = "md" }: { slug: string; label: string; size?: "sm" | "md" }) {
+function Cta({
+  slug,
+  label,
+  size = "md",
+  tone = "ink",
+  full = false,
+  className = "",
+}: {
+  slug: string;
+  label: string;
+  size?: "sm" | "md";
+  tone?: "ink" | "cream";
+  full?: boolean;
+  className?: string;
+}) {
+  const bg = tone === "ink" ? INK : CREAM;
+  const bgHover = tone === "ink" ? INK_HOVER : CREAM_HOVER;
+  const fg = tone === "ink" ? CREAM : INK;
   return (
     <a
       href={blackBoxUrl(slug)}
       target="_blank"
       rel="noopener noreferrer"
-      className={`inline-flex items-center justify-center gap-2 rounded-lg font-bold transition-colors ${
-        size === "sm" ? "px-3 py-2 text-xs" : "px-5 py-3.5 text-sm sm:text-base"
-      }`}
-      style={{ backgroundColor: AMBER, color: BLACK }}
-      onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = AMBER_HOVER)}
-      onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = AMBER)}
+      className={`inline-flex items-center justify-center gap-2 rounded-lg text-center font-extrabold transition-colors ${FOCUS_RING} ${
+        size === "sm" ? "px-3 py-2 text-xs" : "px-3 py-3.5 text-[13px] sm:px-5 sm:text-base"
+      } ${full ? "w-full" : ""} ${className}`}
+      style={{ backgroundColor: bg, color: fg }}
+      onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = bgHover)}
+      onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = bg)}
     >
       {label}
-      <ArrowRight className={size === "sm" ? "h-3.5 w-3.5" : "h-4 w-4"} />
+      <ArrowRight className={size === "sm" ? "h-3.5 w-3.5 shrink-0" : "h-4 w-4 shrink-0"} />
     </a>
   );
 }
 
-function CloseButton({ onClick, light = false }: { onClick: () => void; light?: boolean }) {
+function BoxTag({ icon = "clock" }: { icon?: "clock" | "lock" | "tag" }) {
+  const Icon = icon === "lock" ? Lock : icon === "tag" ? Tag : Clock;
+  return (
+    <p
+      className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[10px] font-extrabold uppercase tracking-[0.16em]"
+      style={{ backgroundColor: CORAL, color: INK }}
+    >
+      <Icon className="h-3 w-3" aria-hidden="true" />
+      {TAG_TEXT}
+    </p>
+  );
+}
+
+function CloseButton({ onClick }: { onClick: () => void }) {
   return (
     <button
       type="button"
       onClick={onClick}
       aria-label="Fechar"
-      className="rounded-md p-1.5 transition-colors"
-      style={{ color: light ? "rgba(14,9,4,0.65)" : MUTED }}
+      className={`rounded-md p-1.5 transition-colors hover:bg-black/10 ${FOCUS_RING}`}
+      style={{ color: INK }}
     >
       <X className="h-5 w-5" />
     </button>
@@ -106,28 +168,46 @@ function PromoModal({
   open,
   onClose,
   slug,
-  eyebrow,
   title,
   body,
 }: {
   open: boolean;
   onClose: () => void;
   slug: string;
-  eyebrow: string;
   title: string;
   body: string;
 }) {
+  const dialogRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     if (!open) return;
+    const previousFocus = document.activeElement as HTMLElement | null;
+    dialogRef.current?.focus();
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
+      if (e.key === "Escape") {
+        onClose();
+        return;
+      }
+      if (e.key !== "Tab" || !dialogRef.current) return;
+      const focusables = dialogRef.current.querySelectorAll<HTMLElement>("a[href], button");
+      if (focusables.length === 0) return;
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
     };
     window.addEventListener("keydown", onKey);
-    const previous = document.body.style.overflow;
+    const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     return () => {
       window.removeEventListener("keydown", onKey);
-      document.body.style.overflow = previous;
+      document.body.style.overflow = previousOverflow;
+      previousFocus?.focus?.({ preventScroll: true });
     };
   }, [open, onClose]);
 
@@ -136,39 +216,37 @@ function PromoModal({
   return (
     <div
       className="fixed inset-0 z-[60] flex items-center justify-center p-4"
-      style={{ backgroundColor: "rgba(6,4,1,0.82)" }}
+      style={{ backgroundColor: OVERLAY }}
       onClick={onClose}
       role="presentation"
     >
       <div
+        ref={dialogRef}
         role="dialog"
         aria-modal="true"
-        aria-label={title}
-        className="relative w-full max-w-md rounded-2xl border p-6 sm:p-8"
-        style={{ backgroundColor: "#14100A", borderColor: "rgba(217,150,43,0.45)", color: CREAM }}
+        aria-labelledby="black-box-modal-title"
+        tabIndex={-1}
+        className="relative outline-none max-h-[calc(100vh-2rem)] w-full max-w-md overflow-y-auto rounded-2xl p-6 shadow-2xl sm:p-8"
+        style={{ backgroundColor: CREAM, color: INK, boxShadow: `0 0 0 2px ${CORAL}, 0 30px 80px -20px rgba(0,0,0,0.8)` }}
         onClick={(e) => e.stopPropagation()}
       >
         <div className="absolute right-3 top-3">
           <CloseButton onClick={onClose} />
         </div>
-        <p
-          className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em]"
-          style={{ backgroundColor: "rgba(217,150,43,0.16)", color: AMBER }}
-        >
-          <Clock className="h-3 w-3" />
-          {eyebrow}
-        </p>
-        <h2 className="mt-4 text-2xl font-extrabold leading-tight sm:text-3xl">{title}</h2>
-        <p className="mt-3 text-sm leading-relaxed" style={{ color: MUTED }}>
+        <BoxTag />
+        <h2 id="black-box-modal-title" className="mt-4 pr-6 text-2xl font-black leading-tight sm:text-3xl">
+          {title}
+        </h2>
+        <p className="mt-3 text-sm leading-relaxed sm:text-base" style={{ color: BODY }}>
           {body}
         </p>
-        <div className="mt-5 rounded-xl border p-3" style={{ borderColor: "rgba(239,230,214,0.14)" }}>
-          <Countdown />
+        <div className="mt-5">
+          <Countdown variant="boxes" />
         </div>
         <div className="mt-5">
-          <Cta slug={slug} label="QUERO PARTICIPAR DA BLACK BOX" />
+          <Cta slug={slug} label="QUERO PARTICIPAR DA BLACK BOX" full />
         </div>
-        <p className="mt-3 text-[11px] leading-relaxed" style={{ color: MUTED }}>
+        <p className="mt-3 text-xs leading-relaxed" style={{ color: SOFT }}>
           O desconto é exclusivo para quem estiver no Grupo Secreto.
         </p>
       </div>
@@ -179,6 +257,7 @@ function PromoModal({
 export function BlackBoxPromos({ slug }: { slug: string }) {
   const [modal, setModal] = useState<"time" | "scroll" | "exit" | null>(null);
   const [corner, setCorner] = useState(false);
+  const cornerDismissed = useRef(false);
   const seen = useRef({ time: false, scroll: false, exit: false });
   const isOpen = useRef(false);
 
@@ -205,7 +284,7 @@ export function BlackBoxPromos({ slug }: { slug: string }) {
       const ratio = window.scrollY / max;
 
       if (window.innerWidth < 768) {
-        if (ratio > 0.1) setCorner(true);
+        if (ratio > 0.1 && !cornerDismissed.current) setCorner(true);
       }
 
       if (!seen.current.scroll && ratio >= 0.6) {
@@ -236,10 +315,9 @@ export function BlackBoxPromos({ slug }: { slug: string }) {
         open={modal !== null}
         onClose={close}
         slug={slug}
-        eyebrow="Black Box IA · sexta, 27/11"
         title={
           modal === "exit"
-            ? "Antes de fechar: a Black Box abre sexta, 27/11"
+            ? "Antes de sair: a Black Box abre sexta, 27/11"
             : modal === "scroll"
               ? "Você já viu metade da biblioteca"
               : "A maior Black da história da inteligência artificial"
@@ -254,16 +332,20 @@ export function BlackBoxPromos({ slug }: { slug: string }) {
       />
 
       {corner && modal === null && (
-        <div
-          className="fixed bottom-3 left-3 right-3 z-50 rounded-xl border p-3 shadow-2xl md:hidden"
-          style={{ backgroundColor: "#14100A", borderColor: "rgba(217,150,43,0.45)", color: CREAM }}
+        <aside
+          aria-label="Black Box IA"
+          className="fixed bottom-3 left-3 right-3 z-50 rounded-xl p-3 md:hidden"
+          style={{ backgroundColor: CREAM, color: INK, boxShadow: `0 0 0 2px ${CORAL}, 0 18px 40px -10px rgba(0,0,0,0.85)` }}
         >
-          <div className="flex items-start gap-3">
+          <div className="flex items-start gap-2">
             <div className="min-w-0 flex-1">
-              <p className="text-[10px] font-bold uppercase tracking-[0.16em]" style={{ color: AMBER }}>
-                Black Box IA · sexta, 27/11
+              <p
+                className="inline-block rounded-full px-2 py-0.5 text-[9px] font-extrabold uppercase tracking-[0.14em]"
+                style={{ backgroundColor: CORAL, color: INK }}
+              >
+                {TAG_TEXT}
               </p>
-              <p className="mt-1 text-sm font-semibold leading-snug">
+              <p className="mt-1.5 text-sm font-bold leading-snug">
                 O maior desconto já feito, só no Grupo Secreto.
               </p>
               <div className="mt-2">
@@ -272,15 +354,18 @@ export function BlackBoxPromos({ slug }: { slug: string }) {
             </div>
             <button
               type="button"
-              onClick={() => setCorner(false)}
+              onClick={() => {
+                cornerDismissed.current = true;
+                setCorner(false);
+              }}
               aria-label="Fechar"
-              className="rounded-md p-1"
-              style={{ color: MUTED }}
+              className={`rounded-md p-1 ${FOCUS_RING}`}
+              style={{ color: INK }}
             >
               <X className="h-4 w-4" />
             </button>
           </div>
-        </div>
+        </aside>
       )}
     </>
   );
@@ -290,40 +375,90 @@ export function BlackBoxTopBar({ slug }: { slug: string }) {
   return (
     <div
       className="fixed inset-x-0 top-0 z-50 border-b"
-      style={{ backgroundColor: BLACK, borderColor: "rgba(217,150,43,0.45)", color: CREAM }}
+      style={{ backgroundColor: INK, borderColor: CORAL, color: CREAM }}
     >
       <div className="mx-auto flex max-w-5xl items-center gap-3 px-4 py-2">
         <p className="min-w-0 flex-1 text-[10px] font-bold uppercase leading-tight tracking-[0.08em] sm:text-xs sm:tracking-[0.14em]">
-          Black Box IA <span style={{ color: AMBER }}>·</span> sexta, 27/11
+          Black Box IA <span style={{ color: CORAL }}>·</span>{" "}
+          <span style={{ color: CORAL }}>sexta, 27/11</span>
         </p>
         <div className="hidden sm:block">
-          <Countdown compact />
+          <Countdown variant="onDark" />
         </div>
-        <Cta slug={slug} label="QUERO PARTICIPAR" size="sm" />
+        <Cta slug={slug} label="QUERO PARTICIPAR" size="sm" tone="cream" />
       </div>
     </div>
   );
 }
 
-export function BlackBoxBlock({ slug }: { slug: string }) {
+export type BlackBoxBlockVariant = "grupo" | "desconto" | "contagem";
+
+const cardShell = "rounded-2xl p-5 sm:p-8";
+const cardStyle = {
+  backgroundColor: CREAM,
+  color: INK,
+  boxShadow: `0 0 0 2px ${CORAL}, 0 24px 60px -24px rgba(0,0,0,0.9)`,
+} as const;
+
+/** Card da Black Box no meio do conteúdo. Cada variante tem copy própria. */
+export function BlackBoxBlock({ slug, variant = "desconto" }: { slug: string; variant?: BlackBoxBlockVariant }) {
+  if (variant === "grupo") {
+    return (
+      <section aria-label="Black Box IA: Grupo Secreto" className={cardShell} style={cardStyle} data-bb-card="grupo">
+        <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+          <div className="max-w-xl">
+            <BoxTag icon="lock" />
+            <h2 className="mt-3 text-2xl font-black leading-tight sm:text-3xl">
+              A Black Box só abre para quem está no Grupo Secreto
+            </h2>
+            <p className="mt-2 text-sm leading-relaxed sm:text-base" style={{ color: BODY }}>
+              O desconto da sexta, 27/11, é exclusivo para quem estiver no Grupo Secreto do
+              WhatsApp. Quem ficar de fora não recebe.
+            </p>
+          </div>
+          <div className="shrink-0">
+            <Cta slug={slug} label="ENTRAR NO GRUPO SECRETO" className="w-full sm:w-auto" />
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (variant === "contagem") {
+    return (
+      <section aria-label="Black Box IA: contagem regressiva" className={cardShell} style={cardStyle} data-bb-card="contagem">
+        <div className="flex flex-col items-center text-center">
+          <BoxTag />
+          <h2 className="mt-3 text-2xl font-black leading-tight sm:text-3xl">A caixa preta da IA abre em</h2>
+          <div className="mt-4">
+            <Countdown variant="boxes" size="lg" />
+          </div>
+          <p className="mt-4 max-w-lg text-sm leading-relaxed sm:text-base" style={{ color: BODY }}>
+            Quando o relógio zerar, só quem estiver no Grupo Secreto recebe o acesso.
+          </p>
+          <div className="mt-4 w-full sm:w-auto">
+            <Cta slug={slug} label="QUERO PARTICIPAR DA BLACK BOX" className="w-full sm:w-auto" />
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   return (
-    <section
-      className="rounded-2xl border p-6 sm:p-8"
-      style={{ backgroundColor: "#14100A", borderColor: "rgba(217,150,43,0.45)", color: CREAM }}
-    >
-      <p className="text-[10px] font-bold uppercase tracking-[0.18em]" style={{ color: AMBER }}>
-        Black Box IA · sexta, 27/11
-      </p>
-      <h2 className="mt-2 text-2xl font-extrabold leading-tight sm:text-3xl">
-        A maior Black da história da inteligência artificial
+    <section aria-label="Black Box IA: o maior desconto já feito" className={cardShell} style={cardStyle} data-bb-card="desconto">
+      <BoxTag icon="tag" />
+      <h2 className="mt-3 text-3xl font-black uppercase leading-[1.05] sm:text-5xl">
+        O maior desconto
+        <br />
+        já feito
       </h2>
-      <p className="mt-2 max-w-2xl text-sm leading-relaxed" style={{ color: MUTED }}>
-        Sexta, 27/11, o Rafa abre a caixa preta da IA com o maior desconto já feito. O desconto é
-        exclusivo para quem estiver no Grupo Secreto.
+      <p className="mt-3 max-w-2xl text-sm leading-relaxed sm:text-base" style={{ color: BODY }}>
+        Sexta, 27/11, o Rafa abre a caixa preta da IA com o maior desconto que ele já fez. O valor só
+        aparece para quem estiver no Grupo Secreto.
       </p>
-      <div className="mt-4 flex flex-wrap items-center gap-4">
-        <Cta slug={slug} label="QUERO PARTICIPAR DA BLACK BOX" />
-        <Countdown compact />
+      <div className="mt-5 flex flex-wrap items-center gap-4">
+        <Cta slug={slug} label="QUERO O MAIOR DESCONTO" className="w-full sm:w-auto" />
+        <Countdown variant="boxes" size="sm" />
       </div>
     </section>
   );

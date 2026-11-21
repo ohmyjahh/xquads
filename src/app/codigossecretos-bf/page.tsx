@@ -1,8 +1,13 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { Fragment, useMemo, useState } from "react";
 import { Check, Copy, Search, Sparkles, Terminal } from "lucide-react";
-import { BlackBoxBlock, BlackBoxPromos, BlackBoxTopBar } from "@/components/black-box-promos";
+import {
+  BlackBoxBlock,
+  BlackBoxPromos,
+  BlackBoxTopBar,
+  type BlackBoxBlockVariant,
+} from "@/components/black-box-promos";
 
 const SLUG = "codigossecretos-bf";
 const ACCENT = "#D9962B";
@@ -82,7 +87,10 @@ export default function CodigosSecretosBlackBoxPage() {
       ),
     [query, category]
   );
-  const half = Math.ceil(visible.length / 2);
+  // Cortes em ~1/3, metade e ~2/3 da lista, sempre em número par para não quebrar a grade de 2 colunas.
+  const cut = (fraction: number) => Math.min(visible.length, Math.round((visible.length * fraction) / 2) * 2);
+  const cuts = [0, cut(1 / 3), cut(1 / 2), cut(2 / 3), visible.length];
+  const promoCards: BlackBoxBlockVariant[] = ["grupo", "desconto", "contagem"];
 
   const copy = async (item: (typeof CODES)[number]) => {
     const text = `${item[0]}\n\nCrie uma imagem de ${item[1].toLowerCase()} para [PRODUTO, PESSOA OU IDEIA]. ${item[2]} Use [CORES], formato [FORMATO], estilo [ESTILO] e inclua [TEXTO, SE HOUVER]. Faça até 3 perguntas se faltar informação.`;
@@ -143,7 +151,7 @@ export default function CodigosSecretosBlackBoxPage() {
   );
 
   return (
-    <div className="min-h-screen pb-20" style={{ backgroundColor: "#0E0904", color: CREAM }}>
+    <div className="min-h-screen pb-36 md:pb-20" style={{ backgroundColor: "#0E0904", color: CREAM }}>
       <BlackBoxTopBar slug={SLUG} />
 
       <div className="mx-auto max-w-5xl space-y-12 px-4 pt-20">
@@ -272,9 +280,23 @@ export default function CodigosSecretosBlackBoxPage() {
             </p>
           ) : (
             <div className="space-y-3">
-              <div className="grid gap-3 sm:grid-cols-2">{visible.slice(0, half).map(card)}</div>
-              <BlackBoxBlock slug={SLUG} />
-              <div className="grid gap-3 sm:grid-cols-2">{visible.slice(half).map(card)}</div>
+              {cuts.slice(0, -1).map((start, i) => {
+                const items = visible.slice(start, cuts[i + 1]);
+                const variant = promoCards[i];
+                return (
+                  <Fragment key={start + "-" + i}>
+                    {items.length > 0 && (
+                      <div className="grid gap-3 sm:grid-cols-2">{items.map(card)}</div>
+                    )}
+                    {/* Card só entra depois de um trecho com códigos, para nunca empilhar dois cards seguidos. */}
+                    {variant && items.length > 0 && (
+                      <div className="py-6">
+                        <BlackBoxBlock slug={SLUG} variant={variant} />
+                      </div>
+                    )}
+                  </Fragment>
+                );
+              })}
             </div>
           )}
         </section>
