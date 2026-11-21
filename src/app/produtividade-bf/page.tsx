@@ -33,6 +33,18 @@ const CODES: [string, string, string, string][] = [
     "Estudo",
   ],
   [
+    "/fluxograma",
+    "fluxograma",
+    "Resume o material completo em um fluxo de aprendizado, passo a passo.",
+    "Estudo",
+  ],
+  [
+    "/quadrinhos",
+    "quadrinhos didáticos",
+    "Quadrinhos que resumem os principais temas do material.",
+    "Estudo",
+  ],
+  [
     "/resumo",
     "resumo executivo",
     "Só o que sobrevive ao corte: as ideias que mudam alguma coisa.",
@@ -436,7 +448,7 @@ export default function ProdutividadeBlackBoxPage() {
           Biblioteca de produtividade
         </span>
         <h1 className="text-3xl sm:text-5xl font-bold tracking-tight leading-[1.1]">
-          <span style={{ color: ACCENT }}>50 códigos</span> que transformam
+          <span style={{ color: ACCENT }}>+50 códigos</span> que transformam
           qualquer material em algo pronto
         </h1>
         <p className="mx-auto max-w-xl text-lg text-[#999] leading-relaxed">
