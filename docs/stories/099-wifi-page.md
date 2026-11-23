@@ -1,6 +1,6 @@
 # Story 099 — Página /wifi: deixar o Wi-Fi mais rápido com o Claude Code
 
-**Status:** Ready
+**Status:** Done
 **Epic:** Páginas de conteúdo + captura de leads (Xquads)
 **Criada em:** 2026-11-23
 
@@ -116,11 +116,11 @@ a remover dispositivo por conta própria.
 
 ## Definition of Done
 
-- [ ] Os 9 ACs conferidos
-- [ ] `lint` e `build` sem erro novo
-- [ ] Conferido no navegador, antes e depois do gate
-- [ ] Prévia mostrada ao Rafa
-- [ ] Aprovação explícita antes de qualquer push
+- [x] Os 9 ACs conferidos
+- [x] `lint` e `build` sem erro novo
+- [x] Conferido no navegador, antes e depois do gate
+- [x] Prévia mostrada ao Rafa
+- [x] Aprovação explícita antes de qualquer push
 
 ---
 
@@ -129,3 +129,5 @@ a remover dispositivo por conta própria.
 | Data | Autor | Alteração |
 |---|---|---|
 | 2026-11-23 | @mestre | Story criada a partir da transcrição do áudio do reel |
+| 2026-11-23 | @qualidade | QA PASS 9/9 |
+| 2026-11-23 | @devops | Publicado (`0453380`); rota responde 200 em produção. Status → Done |
