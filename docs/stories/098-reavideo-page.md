@@ -1,6 +1,6 @@
 # Story 098 — Página /reavideo: engenharia reversa de qualquer vídeo, plano a plano
 
-**Status:** InReview
+**Status:** Done
 **Epic:** Páginas de conteúdo + captura de leads (Xquads)
 **Criada em:** 2026-11-23
 
@@ -117,7 +117,7 @@ e data da conferência.
 - [x] Conferido no navegador, antes e depois do gate
 - [x] Links testados (repositório, README pt, site)
 - [x] Prévia mostrada ao Rafa
-- [ ] Aprovação explícita antes de qualquer push
+- [x] Aprovação explícita antes de qualquer push
 
 ---
 
@@ -148,3 +148,5 @@ soluço momentâneo do GitHub, não link quebrado.
 **2. 404 no console.** Rastreado recurso a recurso: são as chamadas do Pixel do Facebook
 (`connect.facebook.net`, `facebook.com/tr`), bloqueadas no ambiente de teste. É do layout do
 site, pré-existente, e nenhum recurso da página falhou — 54 recursos, zero problemas próprios.
+| 2026-11-23 | @devops | Publicado (`40fa848`), no ar em ~30 s |
+| 2026-11-23 | @qualidade | **Validado em produção** sem flag de lead: gate ativo, 5 campos, requisitos e aviso de golpe antes do formulário. Status → Done |
