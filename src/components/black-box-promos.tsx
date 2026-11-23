@@ -148,8 +148,14 @@ const ART_ALT = "Black Box IA, sexta 27/11: quero participar";
 const ART_BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
 /** Arte "Revelação" inteira clicável. 1080x1350 no mobile, 1600x600 no desktop; caixa com proporção fixa (sem salto de layout). */
+/**
+ * ATENÇÃO (Story 103): `lazy` tem de continuar DESLIGADO por padrão.
+ * Com loading="lazy", a <img> dentro do <picture> em container de proporção fixa
+ * nunca chega a carregar — medido em produção: 3 das 4 artes das páginas -bf
+ * ficavam invisíveis. Tirando o lazy, carrega (1600px).
+ */
 function RevelacaoArt({
-  lazy = true,
+  lazy = false,
   desktopWide = true,
   className = "",
 }: {
@@ -263,7 +269,19 @@ function PromoModal({
   );
 }
 
-export function BlackBoxPromos({ slug, delayMs = 6000 }: { slug: string; delayMs?: number }) {
+/**
+ * `somenteTempo` limita a UMA aparição por página: sem os gatilhos de rolagem e de saída.
+ * Usado no automático das 107 páginas; as 9 páginas -bf seguem com os três gatilhos.
+ */
+export function BlackBoxPromos({
+  slug,
+  delayMs = 6000,
+  somenteTempo = false,
+}: {
+  slug: string;
+  delayMs?: number;
+  somenteTempo?: boolean;
+}) {
   const [modal, setModal] = useState<"time" | "scroll" | "exit" | null>(null);
   const [corner, setCorner] = useState(false);
   const cornerDismissed = useRef(false);
@@ -296,7 +314,7 @@ export function BlackBoxPromos({ slug, delayMs = 6000 }: { slug: string; delayMs
         if (ratio > 0.1 && !cornerDismissed.current) setCorner(true);
       }
 
-      if (!seen.current.scroll && ratio >= 0.6) {
+      if (!somenteTempo && !seen.current.scroll && ratio >= 0.6) {
         seen.current.scroll = true;
         if (!isOpen.current) setModal("scroll");
       }
@@ -304,19 +322,19 @@ export function BlackBoxPromos({ slug, delayMs = 6000 }: { slug: string; delayMs
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [somenteTempo]);
 
   useEffect(() => {
     if (!window.matchMedia("(min-width: 768px)").matches) return;
     const onLeave = (e: MouseEvent) => {
       if (e.relatedTarget || e.clientY > 0) return;
-      if (seen.current.exit || isOpen.current) return;
+      if (somenteTempo || seen.current.exit || isOpen.current) return;
       seen.current.exit = true;
       setModal("exit");
     };
     document.addEventListener("mouseout", onLeave);
     return () => document.removeEventListener("mouseout", onLeave);
-  }, []);
+  }, [somenteTempo]);
 
   return (
     <>

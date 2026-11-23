@@ -2,59 +2,83 @@
 
 /**
  * Monta as duas peças da Black Box em todas as páginas, sem editar página a página.
- *
  * Vive no layout raiz. Liga e desliga por `src/lib/blackbox-campanha.ts`.
  *
- * Duas coisas que não acontecem sozinhas e por isso estão tratadas aqui:
+ * Três decisões que vieram de problemas reais (Story 103):
  *
- * 1. No App Router, o layout NÃO remonta ao navegar entre páginas. Sem observar a rota,
- *    o pop-up apareceria uma vez por sessão, não uma por página. O `key` com o pathname
- *    força a remontagem, que é o que rearma o temporizador.
+ * 1. A faixa NÃO usa <picture>. O navegador resolve a fonte no instante em que insere o
+ *    <img>; renderizada por portal num nó criado à mão, a ordem de inserção do React fazia
+ *    o <img> chegar sem fonte e a imagem não carregava em telas >= 768px. Aqui a arte é
+ *    escolhida em JavaScript pela largura e vai num <img> simples.
  *
- * 2. Metade das páginas não usa <header> nem o container padrão. Por isso a faixa não é
- *    inserida "depois do primeiro bloco": ela entra depois do primeiro bloco cujo fim
- *    passa da altura da janela — a dobra de verdade, que independe da marcação.
+ * 2. A faixa entra DEPOIS do formulário, não depois da dobra: é lá que o dono quer, e em
+ *    muitas páginas a dobra cai antes do formulário. Sem formulário, volta para a dobra.
+ *
+ * 3. O pop-up usa `somenteTempo`: uma aparição por página. O componente tem três gatilhos
+ *    (tempo, rolagem, saída) e os três juntos faziam o pop-up voltar duas vezes depois de
+ *    fechado — aceitável nas páginas dedicadas -bf, demais nas 107.
  */
 
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { usePathname } from "next/navigation";
 import { createPortal } from "react-dom";
-import { BlackBoxPromos, BlackBoxBlock } from "@/components/black-box-promos";
+import { BlackBoxPromos } from "@/components/black-box-promos";
 import {
   campanhaNoAr,
   rotaRecebeCampanha,
   slugDaRota,
+  LINK_DA_CAMPANHA,
   SEGUNDOS_ATE_O_POPUP,
 } from "@/lib/blackbox-campanha";
 
-/** Marca o nó inserido, para nunca duplicar. */
 const MARCA = "data-bb-faixa";
+const ART_BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+const ART_ALT = "Black Box IA — sexta, 27/11. A maior Black da história da inteligência artificial.";
 
-/** Acha onde a primeira dobra termina e devolve um nó pronto para receber a faixa. */
+/** Onde a faixa entra: depois do formulário; sem formulário, depois da primeira dobra. */
 function criarPontoDeInsercao(): HTMLElement | null {
   const existente = document.querySelector<HTMLElement>(`[${MARCA}]`);
   if (existente) return existente;
 
-  // O container de conteúdo: o maior bloco com filhos diretos que valha percorrer.
   const main = document.querySelector("main") ?? document.body;
-  const candidatos = Array.from(main.querySelectorAll<HTMLElement>(":scope > div, :scope > div > div"));
-  const container =
-    candidatos
-      .filter((el) => el.children.length >= 2)
-      .sort((a, b) => b.children.length - a.children.length)[0] ?? null;
-  if (!container) return null;
 
-  const dobra = window.innerHeight;
-  const topoDoContainer = container.getBoundingClientRect().top + window.scrollY;
-
+  // 1ª escolha: logo depois do formulário que a pessoa precisa preencher.
+  const form = main.querySelector("form");
   let depoisDeste: HTMLElement | null = null;
-  for (const filho of Array.from(container.children) as HTMLElement[]) {
-    const fim = filho.getBoundingClientRect().bottom + window.scrollY - topoDoContainer;
-    depoisDeste = filho;
-    if (fim >= dobra) break;
+
+  if (form) {
+    // sobe até o bloco que embrulha o formulário, para a faixa não cair dentro do cartão
+    let bloco: HTMLElement = form;
+    while (
+      bloco.parentElement &&
+      bloco.parentElement !== main &&
+      bloco.parentElement.children.length < 2
+    ) {
+      bloco = bloco.parentElement;
+    }
+    depoisDeste = bloco.parentElement === main ? bloco : (bloco.parentElement ?? bloco);
   }
-  // Página curta: nenhum bloco passou da dobra — a faixa vai para o fim do conteúdo.
-  if (!depoisDeste) depoisDeste = container.lastElementChild as HTMLElement | null;
+
+  // 2ª escolha: o primeiro bloco cujo fim passa da dobra.
+  if (!depoisDeste) {
+    const candidatos = Array.from(
+      main.querySelectorAll<HTMLElement>(":scope > div, :scope > div > div")
+    );
+    const container =
+      candidatos.filter((el) => el.children.length >= 2).sort((a, b) => b.children.length - a.children.length)[0] ??
+      null;
+    if (!container) return null;
+
+    const dobra = window.innerHeight;
+    const topo = container.getBoundingClientRect().top + window.scrollY;
+    for (const filho of Array.from(container.children) as HTMLElement[]) {
+      const fim = filho.getBoundingClientRect().bottom + window.scrollY - topo;
+      depoisDeste = filho;
+      if (fim >= dobra) break;
+    }
+    if (!depoisDeste) depoisDeste = container.lastElementChild as HTMLElement | null;
+  }
+
   if (!depoisDeste) return null;
 
   const alvo = document.createElement("div");
@@ -63,22 +87,48 @@ function criarPontoDeInsercao(): HTMLElement | null {
   return alvo;
 }
 
-function Faixa({ slug }: { slug: string }) {
+function Faixa() {
   const [alvo, setAlvo] = useState<HTMLElement | null>(null);
+  const [larga, setLarga] = useState(true);
 
   useEffect(() => {
-    // Espera o conteúdo pintar para medir a dobra com a altura real.
+    const medir = () => setLarga(window.innerWidth >= 768);
+    medir();
+    window.addEventListener("resize", medir);
     const t = window.setTimeout(() => setAlvo(criarPontoDeInsercao()), 600);
     return () => {
+      window.removeEventListener("resize", medir);
       window.clearTimeout(t);
       document.querySelectorAll(`[${MARCA}]`).forEach((n) => n.remove());
     };
-  }, [slug]);
+  }, []);
 
   if (!alvo) return null;
+
+  const arte = larga
+    ? `${ART_BASE}/blackbox/01-revelacao-desktop.webp`
+    : `${ART_BASE}/blackbox/01-revelacao-mobile.webp`;
+
   return createPortal(
     <div className="mx-auto w-full max-w-3xl px-4 py-8">
-      <BlackBoxBlock slug={slug} variant="desconto" />
+      <a
+        href={LINK_DA_CAMPANHA}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={ART_ALT}
+        className="block overflow-hidden rounded-2xl"
+        style={{ backgroundColor: "#0E0904", boxShadow: "0 0 0 2px #F08A6C, 0 24px 60px -24px rgba(0,0,0,0.9)" }}
+      >
+        {/* <img> simples de propósito: ver a nota 1 no topo do arquivo */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={arte}
+          alt={ART_ALT}
+          width={larga ? 1600 : 1080}
+          height={larga ? 600 : 1350}
+          className="block h-auto w-full"
+        />
+      </a>
     </div>,
     alvo
   );
@@ -87,8 +137,6 @@ function Faixa({ slug }: { slug: string }) {
 export function BlackBoxAuto() {
   const pathname = usePathname() || "";
 
-  // A decisão depende da hora atual, então é tomada no cliente: no servidor devolve
-  // false, o que evita divergência de hidratação e impede que o build congele a resposta.
   const podeMostrar = useSyncExternalStore(
     () => () => {},
     () => campanhaNoAr(),
@@ -97,13 +145,10 @@ export function BlackBoxAuto() {
 
   if (!podeMostrar || !rotaRecebeCampanha(pathname)) return null;
 
-  const slug = slugDaRota(pathname);
-
-  // O key com o pathname é o que faz o pop-up reaparecer a cada página.
   return (
     <div key={pathname}>
-      <BlackBoxPromos slug={slug} delayMs={SEGUNDOS_ATE_O_POPUP} />
-      <Faixa slug={slug} />
+      <BlackBoxPromos slug={slugDaRota(pathname)} delayMs={SEGUNDOS_ATE_O_POPUP} somenteTempo />
+      <Faixa />
     </div>
   );
 }
