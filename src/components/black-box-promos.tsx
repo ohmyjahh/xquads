@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ArrowRight, X } from "lucide-react";
+import { LINK_DA_CAMPANHA } from "@/lib/blackbox-campanha";
 
 const DEADLINE = new Date("2026-11-27T00:00:00-03:00").getTime();
 
@@ -19,9 +20,19 @@ const TAG_TEXT = "BLACK BOX IA · SEXTA, 27/11";
 const FOCUS_RING =
   "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#F08A6C]";
 
-export function blackBoxUrl(slug: string) {
-  return `https://rafagrandi.com.br/blackbox-cadastro?utm_source=instagram&utm_medium=isca&utm_campaign=blackbox&utm_content=${slug}`;
-}
+/**
+ * NOTA SOBRE O `slug`: os componentes públicos ainda recebem `slug`, mas ele não entra
+ * mais na URL — a marcação da campanha é fixa. Ele permanece na assinatura de propósito:
+ * é o ponto por onde se volta a rastrear a página de origem, se o dono quiser recuperar
+ * essa informação (hoje o utm_content é "INSTAGRAM" para todas). Remover agora mexeria
+ * nas 9 páginas -bf já publicadas sem ganho nenhum.
+ */
+
+/**
+ * Destino do clique: LINK_DA_CAMPANHA, em src/lib/blackbox-campanha.ts.
+ * Os UTMs são fixos para toda a campanha (definidos pelo dono em 23/11/2026),
+ * por isso o link não varia mais por página.
+ */
 
 type CountdownLeft = { days: string; hours: string; minutes: string; seconds: string };
 type Left = CountdownLeft | null;
@@ -100,14 +111,12 @@ function Countdown({ variant, size = "md" }: { variant: "onDark" | "boxes"; size
 }
 
 function Cta({
-  slug,
   label,
   size = "md",
   tone = "ink",
   full = false,
   className = "",
 }: {
-  slug: string;
   label: string;
   size?: "sm" | "md";
   tone?: "ink" | "cream";
@@ -119,7 +128,7 @@ function Cta({
   const fg = tone === "ink" ? CREAM : INK;
   return (
     <a
-      href={blackBoxUrl(slug)}
+      href={LINK_DA_CAMPANHA}
       target="_blank"
       rel="noopener noreferrer"
       className={`inline-flex items-center justify-center gap-2 rounded-lg text-center font-extrabold transition-colors ${FOCUS_RING} ${
@@ -140,19 +149,17 @@ const ART_BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
 /** Arte "Revelação" inteira clicável. 1080x1350 no mobile, 1600x600 no desktop; caixa com proporção fixa (sem salto de layout). */
 function RevelacaoArt({
-  slug,
   lazy = true,
   desktopWide = true,
   className = "",
 }: {
-  slug: string;
   lazy?: boolean;
   desktopWide?: boolean;
   className?: string;
 }) {
   return (
     <a
-      href={blackBoxUrl(slug)}
+      href={LINK_DA_CAMPANHA}
       target="_blank"
       rel="noopener noreferrer"
       aria-label={ART_ALT}
@@ -241,7 +248,7 @@ function PromoModal({
         style={{ maxWidth: "min(26rem, calc((100vh - 2rem) * 0.8))" }}
         onClick={(e) => e.stopPropagation()}
       >
-        <RevelacaoArt slug={slug} lazy={false} desktopWide={false} />
+        <RevelacaoArt lazy={false} desktopWide={false} />
         <button
           type="button"
           onClick={onClose}
@@ -256,7 +263,7 @@ function PromoModal({
   );
 }
 
-export function BlackBoxPromos({ slug }: { slug: string }) {
+export function BlackBoxPromos({ slug, delayMs = 6000 }: { slug: string; delayMs?: number }) {
   const [modal, setModal] = useState<"time" | "scroll" | "exit" | null>(null);
   const [corner, setCorner] = useState(false);
   const cornerDismissed = useRef(false);
@@ -274,9 +281,9 @@ export function BlackBoxPromos({ slug }: { slug: string }) {
       if (seen.current.time || isOpen.current) return;
       seen.current.time = true;
       setModal("time");
-    }, 6000);
+    }, delayMs);
     return () => window.clearTimeout(timer);
-  }, []);
+  }, [delayMs]);
 
   useEffect(() => {
     const onScroll = () => {
@@ -333,7 +340,7 @@ export function BlackBoxPromos({ slug }: { slug: string }) {
                 O maior desconto já feito, só no Grupo Secreto.
               </p>
               <div className="mt-2">
-                <Cta slug={slug} label="QUERO PARTICIPAR" size="sm" />
+                <Cta label="QUERO PARTICIPAR" size="sm" />
               </div>
             </div>
             <button
@@ -369,7 +376,7 @@ export function BlackBoxTopBar({ slug }: { slug: string }) {
         <div className="hidden sm:block">
           <Countdown variant="onDark" />
         </div>
-        <Cta slug={slug} label="QUERO PARTICIPAR" size="sm" tone="cream" />
+        <Cta label="QUERO PARTICIPAR" size="sm" tone="cream" />
       </div>
     </div>
   );
@@ -381,7 +388,7 @@ export type BlackBoxBlockVariant = "grupo" | "desconto" | "contagem";
 export function BlackBoxBlock({ slug, variant = "desconto" }: { slug: string; variant?: BlackBoxBlockVariant }) {
   return (
     <section aria-label="Black Box IA" data-bb-card={variant}>
-      <RevelacaoArt slug={slug} />
+      <RevelacaoArt />
     </section>
   );
 }

@@ -4,6 +4,7 @@ import { Geist_Mono } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import { AppShell } from "@/components/layout/app-shell";
+import { BlackBoxAuto } from "@/components/black-box-auto";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -31,6 +32,10 @@ export default function RootLayout({
         className={`${inter.variable} ${geistMono.variable} antialiased bg-[#121214] text-[#FAFAFA] font-sans`}
       >
         <AppShell>{children}</AppShell>
+
+        {/* Campanha Black Box: pop-up + faixa na dobra, em todas as páginas.
+            Liga, desliga e vence sozinha em src/lib/blackbox-campanha.ts */}
+        <BlackBoxAuto />
 
         {/* Meta Pixel */}
         <Script id="meta-pixel" strategy="afterInteractive">
