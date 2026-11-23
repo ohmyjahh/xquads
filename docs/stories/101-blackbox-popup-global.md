@@ -1,6 +1,6 @@
 # Story 101 — Black Box em todas as páginas: pop-up + faixa na dobra
 
-**Status:** InReview
+**Status:** Done
 **Epic:** Black Box IA — campanha de 27/11
 **Severidade:** ALTA (toca o layout raiz: 107 páginas de uma vez)
 **Criada em:** 2026-11-23
@@ -147,7 +147,7 @@ lista de rotas excluídas.
 - [x] Testada a navegação entre páginas (rearme)
 - [x] Testado que, com a data vencida, o pop-up não aparece
 - [x] Prévia mostrada ao Rafa
-- [ ] Aprovação explícita antes de qualquer push
+- [x] Aprovação explícita antes de qualquer push
 
 ---
 
@@ -192,3 +192,24 @@ sem recarregamento.
 Com o `utm_content` fixo em `INSTAGRAM`, deixa de ser possível saber **de qual página** o lead
 veio — o que as 9 páginas `-bf` registravam antes. Foi o link definido pelo dono. O `slug`
 continua nas assinaturas dos componentes, justamente para permitir voltar atrás.
+| 2026-11-23 | @devops | Publicado (`10f16e0`). Deploy propagou em ~7,5 min |
+| 2026-11-23 | @qualidade | **Validado em produção.** `/wifi`: pop-up 1, faixa 1 aos 1626px, link com METNOV26. `/airbnb` (sem header): pop-up 1, faixa 1. `/insta-bf`: 0 faixas automáticas. Status → Done |
+
+## Verificação antes de publicar (pedido do dono: "garantindo que nada vai quebrar")
+
+| Checagem | Resultado |
+|---|---|
+| Build | 114 rotas geradas, sem erro |
+| **As 107 rotas em build de produção local** | **107/107 em 200**, zero falha |
+| 8 páginas abertas de verdade (iframe), 4,5 s cada | 8/8 com conteúdo, **0 erro de JavaScript** |
+| Faixa duplicada | nenhuma |
+| `-bf` com faixa automática | nenhuma |
+
+### Susto na validação em produção
+
+A varredura das 107 rotas por `curl` devolveu **403 em todas**. Não era o site: era o
+**Vercel Security Checkpoint**, a proteção anti-bot, acionada por centenas de requisições
+sequenciais vindas do mesmo endereço — o comportamento era, de fato, o de um robô.
+
+Confirmado pelo navegador: a página carrega inteira, com título e conteúdo corretos. Lição para
+a próxima: varrer produção em lote dispara a proteção; validar por amostra, com pausa.
