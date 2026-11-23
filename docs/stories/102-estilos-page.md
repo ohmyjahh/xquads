@@ -1,6 +1,6 @@
 # Story 102 — Página /estilos: os códigos de estilo de animação
 
-**Status:** InReview
+**Status:** Done
 **Epic:** Páginas de conteúdo + captura de leads (Xquads)
 **Criada em:** 2026-11-23
 
@@ -108,7 +108,7 @@ aparecem **antes** do gate.
 - [x] `lint` e `build` sem erro novo
 - [x] Conferido no navegador, antes e depois do gate
 - [x] Conferido que os 30 extras não vazaram
-- [ ] Aprovação explícita antes de qualquer push
+- [x] Aprovação explícita antes de qualquer push
 
 ---
 
@@ -136,3 +136,4 @@ e `Chibi` no HTML servido: **0 ocorrências de cada**.
 
 **Observação:** a página nova nasceu já com o pop-up da Black Box (Story 101), sem configuração
 nenhuma — confirma que o layout raiz cobre também as páginas criadas daqui em diante.
+| 2026-11-23 | @devops | Publicado. Validado em produção: gate ativo, 5 campos, ressalva antes do gate, os 30 extras não vazaram. Status → Done |

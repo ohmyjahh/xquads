@@ -1,6 +1,6 @@
 # Story 103 — Black Box: imagem quebrada, pop-up repetido e posição da faixa
 
-**Status:** Ready
+**Status:** Done
 **Tipo:** Correção — produção
 **Severidade:** ALTA (a imagem quebrada está no ar nas 107 páginas)
 **Criada em:** 2026-11-23
@@ -105,11 +105,11 @@ inteira e movendo o cursor para fora da janela.
 
 ## Definition of Done
 
-- [ ] Os 8 ACs conferidos
-- [ ] Imagem medida por `naturalWidth` em tela larga e estreita
-- [ ] Pop-up testado com rolagem completa + saída do cursor
-- [ ] `lint` e `build` sem erro novo
-- [ ] Publicado e validado em produção pelo navegador
+- [x] Os 8 ACs conferidos
+- [x] Imagem medida por `naturalWidth` em tela larga e estreita
+- [x] Pop-up testado com rolagem completa + saída do cursor
+- [x] `lint` e `build` sem erro novo
+- [x] Publicado e validado em produção pelo navegador
 
 ---
 
@@ -118,3 +118,15 @@ inteira e movendo o cursor para fora da janela.
 | Data | Autor | Alteração |
 |---|---|---|
 | 2026-11-23 | @mestre | Story criada: 2 bugs encontrados em produção + 1 mudança de posição |
+| 2026-11-23 | @devops | Publicado (`f49f57c`) |
+| 2026-11-23 | @qualidade | **Validado em produção** |
+
+## Validação em produção
+
+| Correção | Antes | Depois |
+|---|---|---|
+| Artes das páginas `-bf` | **1 de 4 carregando** | **4 de 4** (1600px e 1080px) |
+| Imagem da faixa | `naturalWidth` 0 | **1600px**, arte desktop |
+| Faixa × formulário | antes do formulário | **depois** ✅ |
+| Pop-up | voltava ao rolar e ao sair o cursor | **uma vez só** — testado rolando tudo e simulando saída |
+| Faixas por página | — | 1 |
