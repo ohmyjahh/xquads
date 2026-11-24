@@ -1,6 +1,6 @@
 # Story 104 — Página /social: o vendedor de IA que responde os directs
 
-**Status:** InReview
+**Status:** Done
 **Epic:** Páginas de conteúdo + captura de leads (Xquads)
 **Criada em:** 2026-11-24
 
@@ -114,7 +114,7 @@ deve apontar para a `/openbot` para quem ainda não instalou, em vez de repetir 
 - [x] `lint` e `build` sem erro novo
 - [x] Conferido no navegador, antes e depois do gate
 - [x] Prévia mostrada ao Rafa
-- [ ] Aprovação explícita antes de qualquer push
+- [x] Aprovação explícita antes de qualquer push
 
 ---
 
@@ -141,3 +141,5 @@ A faixa da Black Box aparece normalmente na página nova, sem configuração.
 | 2026-11-24 | @produto | **Revisão do dono:** os três avisos viram um só, curto e leve. O do computador ligado sai: o OpenBot permite rodar em servidor, então a ressalva estava errada para quem usa essa opção |
 | 2026-11-24 | @desenvolvedor | Aviso reduzido a uma linha; ícones sem uso removidos; lint e build limpos |
 | 2026-11-24 | @qualidade | Conferido: o texto novo está presente, os dois avisos antigos saíram, conteúdo segue atrás do gate |
+| 2026-11-24 | @devops | Publicado (`87076e0`), no ar em ~48 s |
+| 2026-11-24 | @qualidade | **Validado em produção:** aviso único presente, os dois antigos fora, 5 campos, gate ativo, faixa da campanha carregando (1600px). Status → Done |
