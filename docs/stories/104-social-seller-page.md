@@ -59,7 +59,7 @@ deve apontar para a `/openbot` para quem ainda não instalou, em vez de repetir 
 
 **AC2** — O passo a passo cobre as 7 etapas do vídeo, na ordem.
 
-**AC3** — Os três avisos (termos da Meta, volume, computador ligado) aparecem **antes** do gate.
+**AC3** — Um aviso curto (termos da Meta + volume) aparece **antes** do gate, em uma linha.
 
 **AC4** — O molde de treinamento do vendedor é entregue pronto para copiar, com botão de copiar
 (`try/catch` + aviso em falha).
@@ -138,3 +138,6 @@ deve apontar para a `/openbot` para quem ainda não instalou, em vez de repetir 
 para mim" ✅, régua 2-5-9-15-30 ✅, 2 links para a `/openbot` ✅, botão de copiar ✅.
 
 A faixa da Black Box aparece normalmente na página nova, sem configuração.
+| 2026-11-24 | @produto | **Revisão do dono:** os três avisos viram um só, curto e leve. O do computador ligado sai: o OpenBot permite rodar em servidor, então a ressalva estava errada para quem usa essa opção |
+| 2026-11-24 | @desenvolvedor | Aviso reduzido a uma linha; ícones sem uso removidos; lint e build limpos |
+| 2026-11-24 | @qualidade | Conferido: o texto novo está presente, os dois avisos antigos saíram, conteúdo segue atrás do gate |

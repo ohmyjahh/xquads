@@ -12,8 +12,6 @@ import {
   Clock,
   Repeat,
   AlertTriangle,
-  Gauge,
-  PowerOff,
   ArrowUpRight,
 } from "lucide-react";
 import { LeadGate } from "@/components/lead-gate";
@@ -100,26 +98,8 @@ const PASSOS = [
   },
 ];
 
-const AVISOS = [
-  {
-    icone: AlertTriangle,
-    nome: "Isso vai contra os termos do Instagram",
-    texto:
-      "A Meta não permite automatizar direct. Sua conta pode ser restringida ou bloqueada, e não existe recurso garantido. Quem faz, faz sabendo disso — e de preferência não na conta que é o seu negócio inteiro.",
-  },
-  {
-    icone: Gauge,
-    nome: "Volume é o que derruba conta",
-    texto:
-      "O que a plataforma detecta é rajada: muita mensagem em pouco tempo, texto igual para todo mundo. Comece com pouquíssimas conversas por dia e aumente devagar ao longo de semanas.",
-  },
-  {
-    icone: PowerOff,
-    nome: "O computador precisa estar ligado",
-    texto:
-      "As rotinas rodam na sua máquina, não na nuvem. Computador desligado às 9h significa nenhuma conversa às 9h. Quem leva a sério deixa numa máquina que fica ligada.",
-  },
-];
+const AVISO =
+  "Automatizar direct vai contra os termos da Meta, então não trabalhe um volume muito grande por dia. Comece devagar e vá aumentando.";
 
 function CopyButton({ text }: { text: string }) {
   const [estado, setEstado] = useState<"parado" | "copiado" | "erro">("parado");
@@ -199,19 +179,11 @@ export default function SocialPage() {
         </p>
       </header>
 
-      <section className="space-y-3">
-        <h2 className="text-2xl font-bold tracking-tight">Leia antes de montar</h2>
-        <div className="space-y-3">
-          {AVISOS.map((a) => (
-            <article key={a.nome} className="rounded-xl border border-[#2a2a2e] bg-[#1a1a1d] p-4">
-              <h3 className="flex items-center gap-2 font-semibold">
-                <a.icone className="h-4 w-4 shrink-0" style={{ color: ACCENT }} />
-                {a.nome}
-              </h3>
-              <p className="mt-1 text-sm leading-relaxed text-[#999]">{a.texto}</p>
-            </article>
-          ))}
-        </div>
+      <section className="rounded-xl border border-[#2a2a2e] bg-[#1a1a1d] px-5 py-4">
+        <p className="flex items-start gap-2.5 text-sm leading-relaxed text-[#999]">
+          <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" style={{ color: ACCENT }} />
+          {AVISO}
+        </p>
       </section>
 
       {!unlocked ? (
