@@ -1,6 +1,6 @@
 # Story 105: Página /videochamada, o tradutor de voz e legenda em videochamada (Cicada)
 
-**Status:** InReview
+**Status:** Done
 **Epic:** Páginas de conteúdo + captura de leads (Xquads)
 **Criada em:** 2026-11-25
 
@@ -217,3 +217,4 @@ AC1 renderiza (build ok, rota listada) · AC2 `LeadGate source="videochamada-pag
 - Fidelidade: nenhuma afirmação sobre idioma, preço, requisito ou nome de arquivo fora do BRIEF. Árabe e russo não prometidos.
 | 2026-11-25 | @raxos (orquestrador) | Conferido em Chrome headless (390 px e 1280 px): status 200, zero erro de console, zero travessão no texto renderizado, gate presente fora do localhost, prévia aberta no localhost, pop-up e faixa da Black Box entrando sozinhos, botão de copiar copiando, sem rolagem lateral. Aguardando o OK do Rafa |
 | 2026-11-25 | @devops | Publicado (76ecf34) |
+| 2026-11-25 | @qualidade | **Validado em produção:** `curl` em https://www.sowsales.com.br/xquads/videochamada devolve 200 (18643 bytes), formulário com nome, e-mail e telefone presente, e `wquguru/cicada` ausente do HTML servido (inclusive do payload RSC), ou seja, conteúdo protegido não vaza antes do cadastro. Somado à evidência do orquestrador em Chrome headless (390 px e 1280 px: gate, pop-up e faixa da Black Box, zero travessão, zero erro de console, sem rolagem lateral). Status → Done |

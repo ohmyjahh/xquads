@@ -1,6 +1,6 @@
 # Story 106: Página /redesocial, o Claude postando um vídeo por dia (skill Motion Video Director)
 
-**Status:** InReview
+**Status:** Done
 **Epic:** Páginas de conteúdo + captura de leads (Xquads)
 **Criada em:** 2026-11-25
 
@@ -242,3 +242,4 @@ AC1 renderiza (build ok) · AC2 `LeadGate source="redesocial-page"` linhas 268-2
 - Fidelidade: requisitos, nome da skill, formatos e caminhos batem com o BRIEF; nenhuma promessa de resultado.
 | 2026-11-25 | @raxos (orquestrador) | Conferido em Chrome headless (390 px e 1280 px): status 200, zero erro de console, zero travessão no texto renderizado, gate presente fora do localhost, prévia aberta no localhost, pop-up e faixa da Black Box entrando sozinhos, botão de copiar copiando, sem rolagem lateral. Aguardando o OK do Rafa |
 | 2026-11-25 | @devops | Publicado (b94e27b) |
+| 2026-11-25 | @qualidade | **Validado em produção:** `curl` em https://www.sowsales.com.br/xquads/redesocial devolve 200 (18645 bytes), formulário com nome, e-mail e telefone presente, e `Instale esta skill` ausente do HTML servido (inclusive do payload RSC), ou seja, conteúdo protegido não vaza antes do cadastro. Somado à evidência do orquestrador em Chrome headless (390 px e 1280 px: gate, pop-up e faixa da Black Box, zero travessão, zero erro de console, sem rolagem lateral). Status → Done |
