@@ -6,12 +6,12 @@ import {
   Copy,
   Clapperboard,
   Download,
+  Play,
   LogIn,
   PenLine,
   Ghost,
   CalendarClock,
   LineChart,
-  Wrench,
   AlertTriangle,
   ShieldAlert,
   ArrowUpRight,
@@ -23,24 +23,35 @@ import { SalesCta } from "@/components/sales-cta";
 const ACCENT = "#F472B6";
 const ACCENT_TEXT = "#2a0a1a";
 
-const REPO = "https://github.com/mattypark/Motion-graphics-skill";
-const SKILL_ID = "mattypark/Motion-graphics-skill";
+const REPO = "https://github.com/yihui-dev/awesome-opus5-5-videos";
+const REPO_TXT = "github.com/yihui-dev/awesome-opus5-5-videos";
+const SKILLRY = "https://skillry.dev/ai-videos/opus-5-5";
 
 const AVISO =
   "Automatizar publicação pode ir contra os termos das plataformas, então comece devagar e revise os primeiros vídeos.";
 
-const PROMPT_INSTALAR = `Instale esta skill: ${REPO}`;
+const PROMPT_CRIAR_SKILL = `Baixe a coleção ${REPO} para uma pasta do meu computador e, com ela, crie uma skill minha chamada video-por-dia.
 
-const CMD_NPX = `npx skills add ${SKILL_ID}`;
+A coleção tem 703 prompts de vídeos feitos com o Claude Opus 5.5, um arquivo .md por vídeo na pasta prompts/. Cada vídeo foi feito escrevendo a animação como código (HTML, Canvas, SVG, Three.js).
 
-const CMD_PLUGIN = `/plugin marketplace add ${SKILL_ID}
-/plugin install motion-video-director@motion-graphics-skill`;
+A skill que você vai criar deve, a cada vídeo que eu pedir:
+1. Buscar na pasta prompts/ os prompts mais parecidos com o tema do vídeo.
+2. Adaptar esses prompts ao meu nicho e ao formato vertical 9:16, usando só a estrutura e a ideia deles, nunca copiando o conteúdo de outro criador.
+3. Gerar a animação num único arquivo HTML.
+4. Gravar a página em MP4.
 
-const PROMPT_PREFLIGHT = `Rode o preflight da skill Motion Video Director e me diga, item por item, o que já está instalado e o que falta (Node.js, ffmpeg, Playwright e os opcionais). Para cada item que falta, me explique para que serve e pergunte se eu quero instalar. Não instale nada sem a minha resposta e não me peça senha nem chave aqui no chat.`;
+Regras:
+- Se algum prompt estiver incompleto ou em outro idioma (como chinês), me avise, traduza o que for preciso e não use um prompt incompleto sem me dizer.
+- Se faltar alguma ferramenta para gravar a página em MP4, me explique para que ela serve e pergunte se eu quero instalar. Não instale nada sem a minha resposta.
+- Não me peça senha nem chave aqui no chat.
+
+Quando terminar, me diga onde a skill ficou salva e como eu a chamo.`;
+
+const PROMPT_TESTE = `Teste a skill video-por-dia com um prompt da coleção. Escolha um prompt da pasta prompts/ que combine com o meu nicho [nicho]. Se ele estiver em outro idioma, traduza antes de usar. Gere a animação num único arquivo HTML em formato vertical 9:16, grave a página em MP4 e me mostre o vídeo pronto antes de seguir para qualquer outra coisa. Se algo falhar ou faltar ferramenta, me explique e pergunte antes de instalar. Não me peça senha nem chave aqui no chat.`;
 
 const PROMPT_LOGIN = `Abra o seu navegador interno na página de login do [Instagram / TikTok / YouTube / LinkedIn]. Eu vou fazer o login na mão, dentro dele. Não vou colar senha, código nem chave aqui no chat, e você não deve me pedir. Quando a janela de login estiver aberta, espere eu terminar e me avise que a sessão ficou ativa.`;
 
-const BRIEFING = `Você produz e publica um vídeo curto por dia para a minha conta, usando a skill Motion Video Director. Siga este briefing.
+const BRIEFING = `Você produz e publica um vídeo curto por dia para a minha conta, usando a skill video-por-dia, criada a partir da coleção de prompts de vídeos. Siga este briefing.
 
 QUEM SOU EU
 - Nicho: [descreva em uma frase o assunto da conta]
@@ -49,7 +60,7 @@ QUEM SOU EU
 
 O QUE PRODUZIR
 - Formato: [9:16, 16:9 ou 1:1] com [duração, por exemplo 20 a 40 segundos]
-- Tipo de vídeo: [só motion e texto / com narração / com vídeo bruto meu]
+- Tipo de vídeo: animação e texto na tela, sem narração
 - Tom: [direto, didático, bem-humorado, técnico]
 - Frequência: [1 vídeo por dia / 3 por semana]
 - Temas que quero cobrir: [3 a 5 temas]
@@ -65,26 +76,33 @@ O QUE VOCÊ NUNCA FAZ
 - Não pede senha no chat.
 
 QUANDO PARAR E ME AVISAR
-Se o login cair, se faltar arquivo, se der erro no render ou se você não tiver certeza de que o conteúdo está correto. É melhor parar do que publicar errado.`;
+Se o login cair, se faltar arquivo, se der erro na gravação do vídeo ou se você não tiver certeza de que o conteúdo está correto. É melhor parar do que publicar errado.`;
 
 const PROMPT_FANTASMA = `Use a conta [@conta-fantasma], que eu já deixei logada no navegador interno. Ela só segue concorrentes meus, então olhe apenas o feed dela. Todo [dia / semana], separe os [5] vídeos com mais engajamento e, para cada um, descreva só a ESTRUTURA: o gancho dos primeiros segundos, o ritmo, o formato, a duração e como termina. Depois proponha como aplicar a mesma estrutura ao meu nicho [nicho], com tema e texto meus. Nunca baixe, copie nem poste o vídeo de outra pessoa. Não curta, não comente e não siga ninguém por conta própria.`;
 
-const PROMPT_ROTINA = `Crie uma tarefa agendada que roda todo dia às [horário]. A cada execução, use a skill Motion Video Director para produzir um vídeo seguindo o briefing de conteúdo que eu te passei e publicar nas redes que conectei.
+const PROMPT_ROTINA = `Crie uma tarefa agendada que roda todo dia às [horário]. A cada execução, use a skill video-por-dia, que você criou a partir da coleção de prompts, para produzir um vídeo seguindo o briefing de conteúdo que eu te passei e publicar nas redes que conectei.
 
 COMBINADOS PARA RODAR SEM ME PERGUNTAR
-- Aprovação: eu aprovo de antemão todo vídeo que seguir o briefing e o formato [9:16 / 16:9 / 1:1]. Pode renderizar sem pedir confirmação a cada vídeo.
-- Narração: use esta saída: [A: faça o vídeo sem narração, só com motion e texto na tela] ou [B: use o MP3 de narração que eu deixar pronto na pasta [caminho da pasta]; se a pasta estiver vazia, não publique e me avise].
+- Aprovação: eu aprovo de antemão todo vídeo que seguir o briefing e o formato [9:16 / 16:9 / 1:1]. Pode gravar o MP4 sem pedir confirmação a cada vídeo.
+- Vídeo: sem narração, só animação e texto na tela.
 - Primeiros dias: nos primeiros [7] dias, NÃO publique. Salve o vídeo pronto em [pasta de revisão] e me avise para eu revisar. Só publique sozinho depois que eu escrever "pode publicar sozinho".
 
 SE ALGO FALHAR
-Se o login cair, se faltar arquivo ou se o render der erro, pare e me avise. Não tente contornar e nunca me peça senha no chat.
+Se o login cair, se faltar arquivo ou se a gravação do vídeo der erro, pare e me avise. Não tente contornar e nunca me peça senha no chat.
 
 REGRA FIXA
-Use só a estrutura dos vídeos de referência. Nunca baixe nem poste vídeo de outra pessoa.`;
+Use só a estrutura dos vídeos de referência e dos prompts da coleção. Nunca baixe nem poste vídeo de outra pessoa.`;
 
 const PROMPT_APRENDER = `Revise os vídeos que você publicou nos últimos [7] dias nas minhas redes. Abra o painel de cada rede no navegador interno (já estou logado) e anote, de cada vídeo, as métricas que estiverem visíveis: [visualizações, retenção, curtidas, comentários, compartilhamentos]. Me diga o que os de melhor desempenho têm em comum (gancho, tema, duração, formato). Com base só nesses números, proponha ajustes para os próximos vídeos e, se eu aprovar, atualize o briefing. Não invente número que você não conseguiu ler e me diga o que ficou sem dado.`;
 
 type Bloco = { rotulo: string; botao: string; texto: string };
+
+const CATEGORIAS = [
+  "Motion graphics",
+  "Explainers (vídeos explicativos)",
+  "Cenas 3D",
+  "Jogos e interativos",
+];
 
 const PASSOS: {
   n: string;
@@ -96,22 +114,18 @@ const PASSOS: {
   {
     n: "1",
     icone: Download,
-    titulo: "Instale a skill",
+    titulo: "Transforme a coleção numa skill sua",
     texto:
-      "No Claude Code, peça para ele instalar a skill e cole o link do repositório. Se preferir outro caminho, as alternativas abaixo fazem a mesma coisa. Todas usam o endereço mattypark/Motion-graphics-skill.",
-    blocos: [
-      { rotulo: "Pedindo ao Claude (o caminho do vídeo)", botao: "Copiar o prompt", texto: PROMPT_INSTALAR },
-      { rotulo: "Pelo terminal", botao: "Copiar o comando", texto: CMD_NPX },
-      { rotulo: "Pelo plugin, dentro do Claude Code", botao: "Copiar os comandos", texto: CMD_PLUGIN },
-    ],
+      "A coleção não é uma skill pronta, é uma pasta de prompts. Este prompt manda o Claude baixá-la e criar uma skill própria, que a cada vídeo escolhe os prompts mais parecidos com o seu tema e grava o resultado em MP4.",
+    blocos: [{ rotulo: "Prompt para criar a sua skill", botao: "Copiar o prompt", texto: PROMPT_CRIAR_SKILL }],
   },
   {
     n: "2",
-    icone: Wrench,
-    titulo: "Deixe o Claude conferir o que falta",
+    icone: Play,
+    titulo: "Teste com um prompt da coleção",
     texto:
-      "A skill tem um preflight: ele confere o que já está na máquina e pergunta item por item o que falta. Você decide o que instalar.",
-    blocos: [{ rotulo: "Prompt do preflight", botao: "Copiar o prompt", texto: PROMPT_PREFLIGHT }],
+      "Antes de ligar a rotina, confira que o fluxo funciona: o Claude pega um prompt da coleção, gera o HTML, grava o MP4 e mostra o vídeo para você.",
+    blocos: [{ rotulo: "Prompt de teste", botao: "Copiar o prompt", texto: PROMPT_TESTE }],
   },
   {
     n: "3",
@@ -142,7 +156,7 @@ const PASSOS: {
     icone: CalendarClock,
     titulo: "Transforme em rotina diária",
     texto:
-      "Para publicar todo dia, é preciso uma tarefa agendada no Claude. O vídeo não detalha esse passo, e é nele que você deixa combinada a aprovação e a narração (veja a seção sobre isso logo abaixo).",
+      "Para publicar todo dia, é preciso uma tarefa agendada no Claude. O vídeo não detalha esse passo. O prompt abaixo deixa combinada a aprovação e a trava de revisão dos primeiros dias.",
     blocos: [{ rotulo: "Prompt da rotina diária", botao: "Copiar o prompt", texto: PROMPT_ROTINA }],
   },
   {
@@ -153,14 +167,6 @@ const PASSOS: {
       "Com o tempo, o Claude pode olhar o desempenho do que já foi publicado e ajustar os próximos vídeos. Antes de liberar o piloto automático, revise você mesmo os primeiros vídeos.",
     blocos: [{ rotulo: "Prompt de revisão dos resultados", botao: "Copiar o prompt", texto: PROMPT_APRENDER }],
   },
-];
-
-const FAZ = [
-  "Motion graphics em código (Canvas, SVG, Three.js, GSAP)",
-  "Edição de vídeo bruto: cortes, zoom, legenda, B-roll e texto atrás da pessoa",
-  "Roteiro de narração para o ElevenLabs",
-  "Design de som",
-  "Render final em MP4 nos formatos 9:16, 16:9 ou 1:1, tudo local, sem After Effects",
 ];
 
 function CopyButton({ text, rotulo }: { text: string; rotulo: string }) {
@@ -251,9 +257,9 @@ export default function RedeSocialPage() {
           <span style={{ color: ACCENT }}>um vídeo por dia</span>
         </h1>
         <p className="mx-auto max-w-xl text-lg text-[#999] leading-relaxed">
-          Com a skill Motion Video Director, o Claude aprende a criar animações e a editar vídeo, e
-          com uma rotina agendada ele pode publicar nas suas redes. Aqui está a instalação certa e
-          um prompt pronto para cada passo.
+          Com uma coleção de 703 prompts de vídeos feitos com o Claude Opus 5.5, você monta uma
+          skill sua que cria animações, e com uma rotina agendada o Claude pode publicar nas suas
+          redes. Aqui está o repositório certo e um prompt pronto para cada passo.
         </p>
       </header>
 
@@ -269,9 +275,9 @@ export default function RedeSocialPage() {
           source="redesocial-page"
           accent={ACCENT}
           buttonTextColor={ACCENT_TEXT}
-          title="Receba a skill e o passo a passo"
-          description="Preencha seus dados para liberar o link da skill, os sete passos e os prompts."
-          contentNote="Você vai liberar: o link da skill com a instalação correta, os sete passos, o molde de briefing e os prompts da rotina diária, prontos para copiar."
+          title="Receba a coleção e o passo a passo"
+          description="Preencha seus dados para liberar o link da coleção, os sete passos e os prompts."
+          contentNote="Você vai liberar: o link da coleção de prompts, o prompt que cria a sua skill, os sete passos, o molde de briefing e os prompts da rotina diária, prontos para copiar."
           buttonLabel="Liberar o passo a passo"
           onUnlock={() => setFormUnlocked(true)}
         />
@@ -280,39 +286,46 @@ export default function RedeSocialPage() {
           <section className="rounded-xl border border-[#2a2a2e] bg-[#1a1a1d] p-5">
             <h2 className="flex items-center gap-2 text-lg font-semibold">
               <Clapperboard className="h-5 w-5 shrink-0" style={{ color: ACCENT }} />
-              A skill Motion Video Director
+              A coleção: Awesome Opus 5.5 Videos
             </h2>
             <p className="mt-2 text-sm leading-relaxed text-[#999]">
-              Ela transforma o agente (Claude Code, Codex, Cursor) numa produtora de vídeo. O que
-              entra:
+              <strong className="text-white">É uma coleção de prompts, não uma skill pronta.</strong>{" "}
+              O repositório <span className="font-mono text-[13px] text-[#ccc]">yihui-dev/awesome-opus5-5-videos</span>{" "}
+              reúne 703 prompts de vídeos virais feitos com o Claude Opus 5.5. Em todos eles, a
+              animação foi escrita como código (HTML, Canvas, SVG, Three.js). O prompt do passo 1 é
+              o que transforma a coleção numa skill sua.
             </p>
             <ul className="mt-2 list-disc space-y-1 pl-5 text-sm leading-relaxed text-[#999]">
-              {FAZ.map((f) => (
-                <li key={f}>{f}</li>
+              {CATEGORIAS.map((c) => (
+                <li key={c}>{c}</li>
               ))}
             </ul>
             <p className="mt-3 text-sm leading-relaxed text-[#999]">
-              <strong className="text-white">O que ela precisa:</strong> Node.js 18 ou mais novo,
-              ffmpeg/ffprobe e Playwright com Chrome headless. São opcionais o Python 3.10 ou mais
-              novo (faster-whisper, rembg, demucs) e as chaves do ElevenLabs, Firecrawl, Freesound,
-              Pexels, Pixabay e LottieFiles. O preflight confere tudo isso por você (passo 2).
+              A licença é MIT, e cada vídeo e cada prompt pertence ao seu criador. Alguns prompts
+              estão incompletos ou em outro idioma, como o chinês, e o prompt do passo 1 já manda o
+              Claude avisar e traduzir.
             </p>
-            <a
-              href={REPO}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-3 inline-flex items-center gap-1.5 break-all text-sm font-semibold underline underline-offset-4"
-              style={{ color: ACCENT }}
-            >
-              github.com/mattypark/Motion-graphics-skill
-              <ArrowUpRight className="h-4 w-4 shrink-0" />
-            </a>
-            <p className="mt-3 text-xs leading-relaxed text-[#777]">
-              O autor creditado no manifesto da skill é Miftahul Islam Efaz. Os comandos de
-              instalação do README apontam para outro endereço, que hoje não existe (erro 404), por
-              isso esta página usa só o endereço acima. O repositório não declara licença: aqui só
-              apontamos o link, sem redistribuir nada.
-            </p>
+            <div className="mt-3 flex flex-col gap-2">
+              <a
+                href={REPO}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 break-all text-sm font-semibold underline underline-offset-4"
+                style={{ color: ACCENT }}
+              >
+                {REPO_TXT}
+                <ArrowUpRight className="h-4 w-4 shrink-0" />
+              </a>
+              <a
+                href={SKILLRY}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 break-all text-sm text-[#999] underline underline-offset-4"
+              >
+                Opcional: ver os vídeos no Skillry (skillry.dev/ai-videos/opus-5-5)
+                <ArrowUpRight className="h-4 w-4 shrink-0" />
+              </a>
+            </div>
           </section>
 
           <section className="space-y-4">
@@ -339,13 +352,6 @@ export default function RedeSocialPage() {
                   {p.blocos?.map((b) => (
                     <BlocoCopiavel key={b.rotulo} {...b} />
                   ))}
-                  {p.n === "1" && (
-                    <p className="text-sm leading-relaxed text-[#999]">
-                      Instalação manual: baixe o ZIP do repositório e copie a pasta{" "}
-                      <span className="font-mono text-[13px] text-[#ccc]">skills/motion-video-director</span>{" "}
-                      para <span className="font-mono text-[13px] text-[#ccc]">~/.claude/skills/</span>.
-                    </p>
-                  )}
                   {p.n === "3" && (
                     <p className="flex items-start gap-2 text-sm leading-relaxed text-[#bbb]">
                       <ShieldAlert className="mt-0.5 h-4 w-4 shrink-0" style={{ color: ACCENT }} />
@@ -372,39 +378,13 @@ export default function RedeSocialPage() {
             ))}
           </section>
 
-          <section
-            className="rounded-xl border p-5"
-            style={{ borderColor: `${ACCENT}66`, backgroundColor: `${ACCENT}0F` }}
-          >
-            <h2 className="font-semibold" style={{ color: ACCENT }}>
-              Sem fazer nada? Quase: deixe a aprovação combinada
-            </h2>
-            <p className="mt-2 text-sm leading-relaxed text-[#bbb]">
-              A skill foi feita com etapas de aprovação. Ela pede a sua aprovação antes de renderizar
-              qualquer vídeo e não monta as cenas antes de receber o MP3 final da narração (gerado
-              por você no ElevenLabs a partir do roteiro), a menos que você peça uma trilha-guia
-              temporária. Para virar rotina, você deixa isso combinado na instrução, e o prompt do
-              passo 6 já faz isso. Você tem duas saídas:
-            </p>
-            <ul className="mt-2 list-disc space-y-1 pl-5 text-sm leading-relaxed text-[#bbb]">
-              <li>
-                <strong className="text-white">Vídeo sem narração:</strong> só motion e texto na
-                tela.
-              </li>
-              <li>
-                <strong className="text-white">Narração pronta numa pasta:</strong> você deixa o MP3
-                lá, e o Claude usa o que encontrar.
-              </li>
-            </ul>
-          </section>
-
           <section className="rounded-xl border border-[#2a2a2e] bg-[#1a1a1d] p-5">
             <h2 className="text-lg font-semibold">Antes de liberar o piloto automático</h2>
             <p className="mt-2 text-sm leading-relaxed text-[#999]">
               Revise os primeiros vídeos você mesmo. O prompt da rotina já manda salvar na pasta de
               revisão nos primeiros dias, sem publicar. Quando o resultado estiver do jeito que você
               quer, aí sim libere a publicação sozinha. A página não promete alcance, seguidores nem
-              vendas: o que a skill entrega depende do seu briefing e da sua revisão.
+              vendas: o que a sua skill entrega depende do seu briefing e da sua revisão.
             </p>
           </section>
 
@@ -415,11 +395,11 @@ export default function RedeSocialPage() {
             className="flex items-center justify-center gap-3 rounded-xl px-6 py-5 text-lg font-bold transition-transform hover:scale-[1.02]"
             style={{ backgroundColor: ACCENT, color: ACCENT_TEXT, boxShadow: `0 10px 36px ${ACCENT}40` }}
           >
-            Abrir a skill no GitHub
+            Abrir a coleção no GitHub
             <ArrowUpRight className="h-5 w-5 shrink-0" />
           </a>
           <p className="-mt-8 text-center text-xs text-[#777]">
-            github.com/mattypark/Motion-graphics-skill · conferido em 25 de novembro de 2026
+            {REPO_TXT} · conferido em 25 de novembro de 2026
           </p>
         </div>
       )}
