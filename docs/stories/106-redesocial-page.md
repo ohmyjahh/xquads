@@ -241,3 +241,4 @@ AC1 renderiza (build ok) · AC2 `LeadGate source="redesocial-page"` linhas 268-2
 - Segurança: nenhum prompt pede senha (linhas 39, 41, 65 e 80 proíbem); instalação só com mattypark; nenhum comando executado.
 - Fidelidade: requisitos, nome da skill, formatos e caminhos batem com o BRIEF; nenhuma promessa de resultado.
 | 2026-11-25 | @raxos (orquestrador) | Conferido em Chrome headless (390 px e 1280 px): status 200, zero erro de console, zero travessão no texto renderizado, gate presente fora do localhost, prévia aberta no localhost, pop-up e faixa da Black Box entrando sozinhos, botão de copiar copiando, sem rolagem lateral. Aguardando o OK do Rafa |
+| 2026-11-25 | @devops | Publicado (b94e27b) |
